@@ -2,14 +2,15 @@ package com.falizsh.finance.user.web;
 
 import com.falizsh.finance.user.model.User;
 import com.falizsh.finance.user.repository.UserRepository;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,6 +21,25 @@ public class UserController {
     @GetMapping
     public List<User> findAllUsers() {
         return repository.findAll();
+    }
+
+    @PostMapping
+    public ResponseEntity<?> addUser(@Valid @RequestBody User user) {
+
+        if (repository.existsByEmail(user.getEmail())) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(Map.of(
+                            "timestamp", LocalDateTime.now(),
+                            "status", HttpStatus.CONFLICT.value(),
+                            "error", HttpStatus.CONFLICT.getReasonPhrase(),
+                            "Message", "Email já cadastrado."
+                    ));
+        }
+
+        User savedUser = repository.save(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+
     }
 
 }
