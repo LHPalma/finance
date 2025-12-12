@@ -24,7 +24,7 @@ public class UserEmailAssembler implements RepresentationModelAssembler<UserEmai
         entity.setType(dto.getType());
         entity.setEmail(dto.getEmail());
         entity.setIsPrimary(dto.getIsPrimary());
-        entity.setEmailStatus(EmailStatus.ACTIVE);
+        entity.setStatus(EmailStatus.ACTIVE);
 
         return entity;
     }

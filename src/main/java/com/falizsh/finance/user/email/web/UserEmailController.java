@@ -5,7 +5,7 @@ import com.falizsh.finance.user.email.dto.UserEmailResponseDTO;
 import com.falizsh.finance.user.email.model.UserEmail;
 import com.falizsh.finance.user.email.repository.UserEmailRepository;
 import com.falizsh.finance.user.email.service.UserEmailService;
-import jakarta.validation .Valid;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,7 +35,6 @@ public class UserEmailController {
         EntityModel<UserEmailResponseDTO> savedUserEmail = service.create(userId, dto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUserEmail);
-
     }
 
 }

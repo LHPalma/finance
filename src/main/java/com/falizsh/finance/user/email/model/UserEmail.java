@@ -50,6 +50,6 @@ public class UserEmail {
     @Enumerated(EnumType.STRING)
     @NotNull
     @Column(nullable = false)
-    private EmailStatus emailStatus = EmailStatus.ACTIVE;
+    private EmailStatus status = EmailStatus.ACTIVE;
 
 }

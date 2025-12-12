@@ -19,7 +19,7 @@ public class UserEmailResponseDTO {
     private Type type;
     private String email;
     private Boolean isPrimary;
-    private EmailStatus emailStatus;
+    private EmailStatus status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -28,7 +28,7 @@ public class UserEmailResponseDTO {
         this.type = userEmail.getType();
         this.email = userEmail.getEmail();
         this.isPrimary = userEmail.getIsPrimary();
-        this.emailStatus = userEmail.getEmailStatus();
+        this.status = userEmail.getStatus();
         this.createdAt = userEmail.getCreatedAt();
         this.updatedAt = userEmail.getUpdatedAt();
     }
