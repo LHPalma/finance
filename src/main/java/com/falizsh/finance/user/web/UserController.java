@@ -4,12 +4,13 @@ import com.falizsh.finance.user.model.User;
 import com.falizsh.finance.user.repository.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -19,12 +20,12 @@ public class UserController {
     private final UserRepository repository;
 
     @GetMapping
-    public List<User> findAllUsers() {
-        return repository.findAll();
+    public Page<User> findAllUsers(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     @PostMapping
-    public ResponseEntity<?> addUser(@Valid @RequestBody User user) {
+    public ResponseEntity<?> saveUser(@Valid @RequestBody User user) {
 
         if (repository.existsByEmail(user.getEmail())) {
             return ResponseEntity
