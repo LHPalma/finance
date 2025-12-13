@@ -1,0 +1,57 @@
+package com.falizsh.finance.email.web;
+
+import com.falizsh.finance.email.assembler.UserEmailAssembler;
+import com.falizsh.finance.email.dto.UserEmailCreateDTO;
+import com.falizsh.finance.email.dto.UserEmailResponseDTO;
+import com.falizsh.finance.email.model.UserEmail;
+import com.falizsh.finance.email.repository.UserEmailRepository;
+import com.falizsh.finance.email.service.UserEmailService;
+import com.falizsh.finance.user.model.User;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("v1/finance/user/email")
+public class UserEmailController {
+
+    private final UserEmailRepository repository;
+    private final UserEmailService service;
+    private final UserEmailAssembler assembler;
+
+    @GetMapping
+    public Page<UserEmail> findAllUsersEmails(Pageable pageable) {
+        return repository.findAll(pageable);
+    }
+
+    @GetMapping("user/{userId}")
+    public PagedModel<EntityModel<UserEmailResponseDTO>> findAllByUserId(
+            @PathVariable Long userId,
+            Pageable pageable,
+            PagedResourcesAssembler<UserEmail> pagedAssembler
+    ) {
+        return pagedAssembler.toModel(service.findAllByUserId(userId, pageable), assembler);
+    }
+
+
+    @PostMapping("user/{userId}")
+    public ResponseEntity<EntityModel<UserEmailResponseDTO>> saveEmailForUser(
+            @PathVariable Long userId,
+            @Valid @RequestBody UserEmailCreateDTO dto
+    ) {
+        EntityModel<UserEmailResponseDTO> savedUserEmail = service.create(userId, dto);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUserEmail);
+    }
+
+
+
+}

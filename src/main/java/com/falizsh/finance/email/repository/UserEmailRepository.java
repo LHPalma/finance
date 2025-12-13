@@ -1,0 +1,25 @@
+package com.falizsh.finance.email.repository;
+
+import com.falizsh.finance.email.model.UserEmail;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public interface UserEmailRepository
+        extends JpaRepository<UserEmail, Long> {
+
+
+    List<UserEmail> findAllByUserId(Long userId);
+    Page<UserEmail> findAllByUserId(Long userId, Pageable pageable);
+
+
+    boolean existsByEmail(String email);
+
+
+    Optional<UserEmail> findByUserIdAndIsPrimaryTrue(Long userId);
+}
