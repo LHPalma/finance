@@ -1,4 +1,4 @@
-package com.falizsh.finance.email.model;
+package com.falizsh.finance.userEmail.model;
 
 import com.falizsh.finance.user.model.User;
 import com.fasterxml.jackson.annotation.JsonProperty;

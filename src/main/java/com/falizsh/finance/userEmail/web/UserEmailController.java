@@ -1,12 +1,11 @@
-package com.falizsh.finance.email.web;
+package com.falizsh.finance.userEmail.web;
 
-import com.falizsh.finance.email.assembler.UserEmailAssembler;
-import com.falizsh.finance.email.dto.UserEmailCreateDTO;
-import com.falizsh.finance.email.dto.UserEmailResponseDTO;
-import com.falizsh.finance.email.model.UserEmail;
-import com.falizsh.finance.email.repository.UserEmailRepository;
-import com.falizsh.finance.email.service.UserEmailService;
-import com.falizsh.finance.user.model.User;
+import com.falizsh.finance.userEmail.assembler.UserEmailAssembler;
+import com.falizsh.finance.userEmail.dto.UserEmailCreateDTO;
+import com.falizsh.finance.userEmail.dto.UserEmailResponseDTO;
+import com.falizsh.finance.userEmail.model.UserEmail;
+import com.falizsh.finance.userEmail.repository.UserEmailRepository;
+import com.falizsh.finance.userEmail.service.UserEmailService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

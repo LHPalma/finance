@@ -1,6 +1,6 @@
-package com.falizsh.finance.email.dto;
+package com.falizsh.finance.userEmail.dto;
 
-import com.falizsh.finance.email.model.Type;
+import com.falizsh.finance.userEmail.model.Type;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

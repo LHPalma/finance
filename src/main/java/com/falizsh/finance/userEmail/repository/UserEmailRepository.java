@@ -1,6 +1,6 @@
-package com.falizsh.finance.email.repository;
+package com.falizsh.finance.userEmail.repository;
 
-import com.falizsh.finance.email.model.UserEmail;
+import com.falizsh.finance.userEmail.model.UserEmail;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

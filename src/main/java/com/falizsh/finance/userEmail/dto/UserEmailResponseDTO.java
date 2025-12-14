@@ -1,9 +1,9 @@
-package com.falizsh.finance.email.dto;
+package com.falizsh.finance.userEmail.dto;
 
 
-import com.falizsh.finance.email.model.EmailStatus;
-import com.falizsh.finance.email.model.Type;
-import com.falizsh.finance.email.model.UserEmail;
+import com.falizsh.finance.userEmail.model.EmailStatus;
+import com.falizsh.finance.userEmail.model.Type;
+import com.falizsh.finance.userEmail.model.UserEmail;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

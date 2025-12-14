@@ -1,4 +1,4 @@
-package com.falizsh.finance.email.model;
+package com.falizsh.finance.userEmail.model;
 
 public enum EmailStatus {
 

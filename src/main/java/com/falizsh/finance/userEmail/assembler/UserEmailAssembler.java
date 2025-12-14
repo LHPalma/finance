@@ -1,9 +1,9 @@
-package com.falizsh.finance.email.assembler;
+package com.falizsh.finance.userEmail.assembler;
 
-import com.falizsh.finance.email.dto.UserEmailCreateDTO;
-import com.falizsh.finance.email.dto.UserEmailResponseDTO;
-import com.falizsh.finance.email.model.EmailStatus;
-import com.falizsh.finance.email.model.UserEmail;
+import com.falizsh.finance.userEmail.dto.UserEmailCreateDTO;
+import com.falizsh.finance.userEmail.dto.UserEmailResponseDTO;
+import com.falizsh.finance.userEmail.model.EmailStatus;
+import com.falizsh.finance.userEmail.model.UserEmail;
 import com.falizsh.finance.user.model.User;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
