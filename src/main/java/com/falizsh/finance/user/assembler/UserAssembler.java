@@ -1,6 +1,6 @@
 package com.falizsh.finance.user.assembler;
 
-import com.falizsh.finance.email.web.UserEmailController;
+import com.falizsh.finance.userEmail.web.UserEmailController;
 import com.falizsh.finance.user.model.User;
 import com.falizsh.finance.user.web.UserController;
 import org.springframework.hateoas.EntityModel;
