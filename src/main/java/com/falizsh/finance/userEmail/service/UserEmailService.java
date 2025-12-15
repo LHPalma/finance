@@ -1,12 +1,12 @@
 package com.falizsh.finance.userEmail.service;
 
+import com.falizsh.finance.user.model.User;
+import com.falizsh.finance.user.repository.UserRepository;
 import com.falizsh.finance.userEmail.assembler.UserEmailAssembler;
 import com.falizsh.finance.userEmail.dto.UserEmailCreateDTO;
 import com.falizsh.finance.userEmail.dto.UserEmailResponseDTO;
 import com.falizsh.finance.userEmail.model.UserEmail;
 import com.falizsh.finance.userEmail.repository.UserEmailRepository;
-import com.falizsh.finance.user.model.User;
-import com.falizsh.finance.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,31 +14,20 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 
 @Service
 @RequiredArgsConstructor
 public class UserEmailService {
 
-    private final UserEmailRepository emailRepository;
     private final UserRepository userRepository;
     private final UserEmailAssembler assembler;
 
+    @Deprecated // TODO: Apagar ao final da refatoração
+    private final UserEmailRepository emailRepository;
 
-    public Page<UserEmail> findAll(Pageable pageable) {
-        return emailRepository.findAll(pageable);
+    public Page<UserEmail> findAllByUserId(Long userId, Pageable pageable) {
+        return emailRepository.findAllByUserId(userId, pageable);
     }
-
-
-    public List<UserEmail> findAllByUserId(Long userId) {
-        return emailRepository.findAllByUserId(userId);
-    }
-
-    public Page<UserEmail> findAllByUserId(Long userId, Pageable pageable){
-        return emailRepository.findAllByUserId(userId, pageable );
-    }
-
 
 
     @Transactional
@@ -47,21 +36,14 @@ public class UserEmailService {
         User user = userRepository.findById(userId).
                 orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
 
-        if (emailRepository.existsByEmail(dto.getEmail())) {
-            throw new IllegalArgumentException("Email já cadastrado");
-        }
+        user.addEmail(dto.getEmail(), dto.getType(), dto.getIsPrimary());
 
-        if (dto.getIsPrimary()) {
-            emailRepository.findByUserIdAndIsPrimaryTrue(userId)
-                    .ifPresent(email -> {
-                        email.setIsPrimary(false);
-                        emailRepository.save(email);
-                    });
-        }
+        userRepository.save(user);
 
-        UserEmail userEmail = assembler.toEntity(dto, user);
-
-        UserEmail savedEmail = emailRepository.save(userEmail);
+        UserEmail savedEmail = user.getEmails().stream()
+                .filter(e -> e.getEmail().equals(dto.getEmail()))
+                .findFirst()
+                .orElseThrow();
 
         return assembler.toModel(savedEmail);
     }

@@ -1,6 +1,6 @@
 package com.falizsh.finance.userEmail.model;
 
-public enum Type {
+public enum UserEmailType {
 
     PERSONAL,
     PROFESSIONAL,

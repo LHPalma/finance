@@ -2,7 +2,6 @@ package com.falizsh.finance.userEmail.assembler;
 
 import com.falizsh.finance.userEmail.dto.UserEmailCreateDTO;
 import com.falizsh.finance.userEmail.dto.UserEmailResponseDTO;
-import com.falizsh.finance.userEmail.model.EmailStatus;
 import com.falizsh.finance.userEmail.model.UserEmail;
 import com.falizsh.finance.user.model.User;
 import org.springframework.hateoas.EntityModel;
@@ -18,15 +17,14 @@ public class UserEmailAssembler implements RepresentationModelAssembler<UserEmai
         return EntityModel.of(dto);
     }
 
+    @Deprecated // TODO: Apagar ao fim da refatoração
     public UserEmail toEntity(UserEmailCreateDTO dto, User user) {
-        UserEmail entity = new UserEmail();
-        entity.setUser(user);
-        entity.setType(dto.getType());
-        entity.setEmail(dto.getEmail());
-        entity.setIsPrimary(dto.getIsPrimary());
-        entity.setStatus(EmailStatus.ACTIVE);
-
-        return entity;
+        return new UserEmail(
+                user,
+                dto.getEmail(),
+                dto.getType(),
+                dto.getIsPrimary()
+        );
     }
 
 }

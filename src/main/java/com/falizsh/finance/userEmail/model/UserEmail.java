@@ -6,13 +6,14 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
-@Data
+@Getter
 @Entity(name = "UserEmail")
 @Table(name = "user_email")
 public class UserEmail {
@@ -29,7 +30,7 @@ public class UserEmail {
     @Enumerated(EnumType.STRING)
     @NotNull(message = "Tipo de email obrigatório")
     @Column(nullable = false)
-    private Type type = Type.PERSONAL;
+    private UserEmailType type = UserEmailType.PERSONAL;
 
     @NotBlank(message = "Email é obrigatório")
     @Email(message = "Email inválido")
@@ -52,4 +53,17 @@ public class UserEmail {
     @Column(nullable = false)
     private EmailStatus status = EmailStatus.ACTIVE;
 
+    public UserEmail(User user, String email, UserEmailType type, boolean isPrimary) {
+        this.user = Objects.requireNonNull(user, "User não pode ser nulo");
+        this.type = Objects.requireNonNull(type, "User não pode ser nulo");
+        if (email == null || email.isBlank())
+            throw new IllegalArgumentException("Email vazio");
+        this.email = email;
+        this.isPrimary = isPrimary;
+        this.status = EmailStatus.ACTIVE;
+    }
+
+    public void removePrimary() {
+        this.isPrimary = false;
+    }
 }

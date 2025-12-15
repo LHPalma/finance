@@ -1,6 +1,6 @@
 package com.falizsh.finance.userEmail.dto;
 
-import com.falizsh.finance.userEmail.model.Type;
+import com.falizsh.finance.userEmail.model.UserEmailType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class UserEmailCreateDTO {
 
     @NotNull(message = "Tipo do email é obrigatório")
-    private Type type;
+    private UserEmailType type;
 
     @NotBlank(message = "Email é obrigatório")
     @Email(message = "Email é obrigatório")

@@ -2,7 +2,7 @@ package com.falizsh.finance.userEmail.dto;
 
 
 import com.falizsh.finance.userEmail.model.EmailStatus;
-import com.falizsh.finance.userEmail.model.Type;
+import com.falizsh.finance.userEmail.model.UserEmailType;
 import com.falizsh.finance.userEmail.model.UserEmail;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class UserEmailResponseDTO {
 
     private Long id;
-    private Type type;
+    private UserEmailType userEmailType;
     private String email;
     private Boolean isPrimary;
     private EmailStatus status;
@@ -25,7 +25,7 @@ public class UserEmailResponseDTO {
 
     public UserEmailResponseDTO(UserEmail userEmail) {
         this.id = userEmail.getId();
-        this.type = userEmail.getType();
+        this.userEmailType = userEmail.getType();
         this.email = userEmail.getEmail();
         this.isPrimary = userEmail.getIsPrimary();
         this.status = userEmail.getStatus();
