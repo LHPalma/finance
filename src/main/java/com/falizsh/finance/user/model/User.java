@@ -1,5 +1,6 @@
 package com.falizsh.finance.user.model;
 
+import com.falizsh.finance.userAddress.model.UserAddress;
 import com.falizsh.finance.userEmail.model.UserEmail;
 import com.falizsh.finance.userEmail.model.UserEmailType;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -55,7 +56,7 @@ public class User {
     @NotNull
     private Status status = Status.ACTIVE;
 
-    // #region UserEmail
+    //region UserEmail aggregate
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserEmail> emails = new ArrayList<>();
 
@@ -85,5 +86,12 @@ public class User {
         return Collections.unmodifiableCollection(emails);
     }
     // #endregion UserEmail
+    //endregion UserEmail aggregate
+
+    //region UserAddress aggregate
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserAddress> addresses = new ArrayList<>();
+
+    //endregion UserAddress aggregate
 
 }
