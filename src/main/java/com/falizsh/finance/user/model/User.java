@@ -1,6 +1,8 @@
 package com.falizsh.finance.user.model;
 
+import com.falizsh.finance.shared.valueObject.CEP;
 import com.falizsh.finance.userAddress.model.UserAddress;
+import com.falizsh.finance.userAddress.model.UserAddressType;
 import com.falizsh.finance.userEmail.model.UserEmail;
 import com.falizsh.finance.userEmail.model.UserEmailType;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -60,6 +62,10 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserEmail> emails = new ArrayList<>();
 
+    public Collection<UserEmail> getEmails() {
+        return Collections.unmodifiableCollection(emails);
+    }
+
     public void addEmail(String email, UserEmailType type, boolean isPrimary) {
         boolean alreadyExists = this.emails.stream()
                 .anyMatch(e -> e.getEmail().equalsIgnoreCase(email));
@@ -82,15 +88,55 @@ public class User {
 
     }
 
-    public Collection<UserEmail> getEmails() {
-        return Collections.unmodifiableCollection(emails);
-    }
-    // #endregion UserEmail
     //endregion UserEmail aggregate
+
 
     //region UserAddress aggregate
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserAddress> addresses = new ArrayList<>();
+
+    public Collection<UserAddress> getAddresses() {
+        return Collections.unmodifiableCollection(addresses);
+    }
+
+    public void addAddress(
+            UserAddressType type,
+            String street,
+            String number,
+            String complement,
+            String neighborhood,
+            String city,
+            String state,
+            CEP zipCode,
+            String country,
+            Boolean isPrimary
+    ) {
+        if (isPrimary) {
+            this.addresses.forEach(UserAddress::removePrimary);
+        } else {
+
+            if (this.addresses.isEmpty()) {
+                isPrimary = true;
+            }
+
+        }
+
+        UserAddress newAddress = new UserAddress(
+                this,
+                type,
+                street,
+                number,
+                complement,
+                neighborhood,
+                city,
+                state,
+                zipCode,
+                country,
+                isPrimary
+        );
+
+        this.addresses.add(newAddress);
+    }
 
     //endregion UserAddress aggregate
 
