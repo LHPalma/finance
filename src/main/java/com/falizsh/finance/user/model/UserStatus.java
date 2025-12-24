@@ -1,6 +1,6 @@
 package com.falizsh.finance.user.model;
 
-public enum Status {
+public enum UserStatus {
 
     ACTIVE,
     INACTIVE,

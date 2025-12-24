@@ -1,7 +1,9 @@
 package com.falizsh.finance.user.web;
 
 import com.falizsh.finance.user.assembler.UserAssembler;
+import com.falizsh.finance.user.dto.UserCreateDTO;
 import com.falizsh.finance.user.model.User;
+import com.falizsh.finance.user.repository.UserCommand;
 import com.falizsh.finance.user.repository.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,15 +15,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.Map;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("v1/finance/user")
 public class UserController {
+
     private final UserRepository repository;
     private final UserAssembler assembler;
+    private final UserCommand command;
 
 
     @GetMapping
@@ -43,21 +44,13 @@ public class UserController {
 
 
     @PostMapping
-    public ResponseEntity<?> saveUser(@Valid @RequestBody User user) {
+    public ResponseEntity<EntityModel<User>> saveUser(@Valid @RequestBody UserCreateDTO data) {
 
-        if (repository.existsByEmail(user.getEmail())) {
-            return ResponseEntity
-                    .status(HttpStatus.CONFLICT)
-                    .body(Map.of(
-                            "timestamp", LocalDateTime.now(),
-                            "status", HttpStatus.CONFLICT.value(),
-                            "error", HttpStatus.CONFLICT.getReasonPhrase(),
-                            "Message", "Email já cadastrado."
-                    ));
-        }
+        User savedUser = command.create(data);
 
-        User savedUser = repository.save(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(assembler.toModel(savedUser));
 
     }
 

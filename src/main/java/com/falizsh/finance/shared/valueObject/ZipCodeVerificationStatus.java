@@ -22,7 +22,7 @@ public enum ZipCodeVerificationStatus {
                 return status;
             }
         }
-        throw new IllegalArgumentException("invalid.zipCodeVerification.status");
+        throw new IllegalArgumentException("invalid.zipCodeVerification.userStatus");
     }
 
 }

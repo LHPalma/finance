@@ -1,6 +1,7 @@
 package com.falizsh.finance.user.model;
 
 import com.falizsh.finance.shared.valueObject.CEP;
+import com.falizsh.finance.user.dto.UserCreateDTO;
 import com.falizsh.finance.userAddress.model.UserAddress;
 import com.falizsh.finance.userAddress.model.UserAddressType;
 import com.falizsh.finance.userEmail.model.UserEmail;
@@ -11,6 +12,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -25,6 +27,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Builder(builderClassName = "UserBuilder", toBuilder = true)
 @Entity(name = "User")
 @Table(name = "user")
 public class User {
@@ -56,7 +59,22 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @NotNull
-    private Status status = Status.ACTIVE;
+    private UserStatus status = UserStatus.ACTIVE;
+
+
+    public static User to(UserCreateDTO data, String password, String salt) {
+        User user = User.builder()
+                .name(data.name())
+                .email(data.email())
+                .password(password)
+                .salt(salt)
+                .status(UserStatus.ACTIVE)
+                .emails(new ArrayList<>())
+                .addresses(new ArrayList<>())
+                .build();
+        return user;
+    }
+
 
     //region UserEmail aggregate
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)

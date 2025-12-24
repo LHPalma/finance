@@ -19,6 +19,6 @@ public enum UserAddressStatus {
                 return status;
             }
         }
-        throw new IllegalArgumentException("invalid.user.address.status");
+        throw new IllegalArgumentException("invalid.user.address.userStatus");
     }
 }
