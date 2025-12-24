@@ -4,7 +4,7 @@ import com.falizsh.finance.user.assembler.UserAssembler;
 import com.falizsh.finance.user.dto.UserCreateDTO;
 import com.falizsh.finance.user.model.User;
 import com.falizsh.finance.user.repository.UserCommand;
-import com.falizsh.finance.user.repository.UserRepository;
+import com.falizsh.finance.user.repository.UserQuery;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("v1/finance/user")
 public class UserController {
 
-    private final UserRepository repository;
     private final UserAssembler assembler;
+    private final UserQuery query;
     private final UserCommand command;
 
 
@@ -30,16 +30,17 @@ public class UserController {
             Pageable pageable,
             PagedResourcesAssembler<User> pagedAssembler
     ) {
-        return pagedAssembler.toModel(repository.findAll(pageable), assembler);
+        return pagedAssembler.toModel(query.findAll(pageable), assembler);
     }
 
 
     @GetMapping("id/{id}")
     public ResponseEntity<EntityModel<User>> findById(@PathVariable Long id) {
-        return repository.findById(id)
-                .map(assembler::toModel)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        return ResponseEntity.ok(
+                assembler.toModel(
+                        query.findById(id)
+                )
+        );
     }
 
 
