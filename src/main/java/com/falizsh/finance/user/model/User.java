@@ -129,7 +129,7 @@ public class User {
             String country,
             Boolean isPrimary
     ) {
-        if (isPrimary) {
+        if (Boolean.TRUE.equals(isPrimary)) {
             this.addresses.forEach(UserAddress::removePrimary);
         } else {
 
@@ -139,19 +139,20 @@ public class User {
 
         }
 
-        UserAddress newAddress = new UserAddress(
-                this,
-                type,
-                street,
-                number,
-                complement,
-                neighborhood,
-                city,
-                state,
-                zipCode,
-                country,
-                isPrimary
-        );
+        UserAddress newAddress = UserAddress.builder()
+                .user(this)
+                .type(type)
+                .street(street)
+                .number(number)
+                .complement(complement)
+                .neighborhood(neighborhood)
+                .city(city)
+                .state(state)
+                .zipCode(zipCode)
+                .country( country == null || country.isBlank() ? UserAddress.DEFAULT_COUNTRY : country )
+                .isPrimary(isPrimary)
+                .build();
+
 
         this.addresses.add(newAddress);
     }
