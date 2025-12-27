@@ -13,6 +13,11 @@ public class UserTelephoneQueryImpl implements UserTelephoneQuery {
     private final UserTelephoneRepository repositoy;
 
     @Override
+    public Page<UserTelephone> findAll(Pageable pageable) {
+        return repositoy.findAll(pageable);
+    }
+
+    @Override
     public Page<UserTelephone> findByUserId(Long userId, Pageable pageable) {
         return repositoy.findByUserId(userId, pageable);
     }
@@ -21,5 +26,5 @@ public class UserTelephoneQueryImpl implements UserTelephoneQuery {
     public Page<UserTelephone> findByAreaCode(String areaCode, Pageable pageable) {
         return repositoy.findByAreaCode(areaCode, pageable);
     }
-    
+
 }

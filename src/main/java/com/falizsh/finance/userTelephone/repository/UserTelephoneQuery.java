@@ -6,7 +6,10 @@ import org.springframework.data.domain.Pageable;
 
 public interface UserTelephoneQuery {
 
+    Page<UserTelephone> findAll(Pageable pageable);
+
     Page<UserTelephone> findByUserId(Long userId, Pageable pageable);
 
     Page<UserTelephone> findByAreaCode(String areaCode, Pageable pageable);
+
 }
