@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "UserTelephone")
-@Table(name = "user_telephones")
+@Table(name = "user_telephone")
 public class UserTelephone {
 
     public final static TelephoneType DEFAULT_TYPE = TelephoneType.PERSONAL;

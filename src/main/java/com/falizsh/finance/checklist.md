@@ -67,7 +67,7 @@
 > Baseado na tabela `user_telephones`
 - [x] **Migration**: `V4__create_table_user_telephones.sql`
 - [x] **Modelo**: `UserTelephone`
-- [ ] **Repositório**: `UserTelephoneRepository`
+- [x] **Repositório**: `UserTelephoneRepository`
 - [ ] **Service/Arquitetura**:
     - [ ] `UserTelephoneQuery`
     - [ ] `UserTelephoneCommand`
