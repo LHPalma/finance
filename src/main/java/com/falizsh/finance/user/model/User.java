@@ -6,6 +6,8 @@ import com.falizsh.finance.userAddress.model.UserAddress;
 import com.falizsh.finance.userAddress.model.UserAddressType;
 import com.falizsh.finance.userEmail.model.UserEmail;
 import com.falizsh.finance.userEmail.model.UserEmailType;
+import com.falizsh.finance.userTelephone.model.TelephoneType;
+import com.falizsh.finance.userTelephone.model.UserTelephone;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -149,7 +151,7 @@ public class User {
                 .city(city)
                 .state(state)
                 .zipCode(zipCode)
-                .country( country == null || country.isBlank() ? UserAddress.DEFAULT_COUNTRY : country )
+                .country(country == null || country.isBlank() ? UserAddress.DEFAULT_COUNTRY : country)
                 .isPrimary(isPrimary)
                 .build();
 
@@ -158,5 +160,42 @@ public class User {
     }
 
     //endregion UserAddress aggregate
+
+    //region UserTelephone aggregate
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserTelephone> telephones = new ArrayList<>();
+
+    public Collection<UserTelephone> getTelephones() {
+        return Collections.unmodifiableCollection(telephones);
+    }
+
+    public void addTelephone(
+            TelephoneType type,
+            String areaCode,
+            String telephone,
+            Boolean isPrimary
+    ) {
+
+        if (Boolean.TRUE.equals(isPrimary)) {
+            this.telephones.forEach(UserTelephone::removePrimary);
+        } else {
+
+            if (this.telephones.isEmpty()) {
+                isPrimary = true;
+            }
+
+        }
+
+        UserTelephone newTelephone = UserTelephone.builder()
+                .user(this)
+                .type(type)
+                .areaCode(areaCode)
+                .telephone(telephone)
+                .isPrimary(isPrimary)
+                .build();
+
+        this.telephones.add(newTelephone);
+    }
+    //endregion UserTelephone aggregate
 
 }
