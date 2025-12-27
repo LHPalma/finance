@@ -65,8 +65,8 @@
 
 ### 📱 Domínio: UserTelephones (Telefone)
 > Baseado na tabela `user_telephones`
-- [ ] **Migration**: `V4__create_table_user_telephones.sql`
-- [ ] **Modelo**: `UserTelephone` (Campos: `area_code`, `telephone`)
+- [x] **Migration**: `V4__create_table_user_telephones.sql`
+- [x] **Modelo**: `UserTelephone`
 - [ ] **Repositório**: `UserTelephoneRepository`
 - [ ] **Service/Arquitetura**:
     - [ ] `UserTelephoneQuery`
