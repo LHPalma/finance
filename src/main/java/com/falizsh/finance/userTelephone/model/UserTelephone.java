@@ -1,6 +1,8 @@
 package com.falizsh.finance.userTelephone.model;
 
 import com.falizsh.finance.user.model.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -30,6 +32,7 @@ public class UserTelephone {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -48,7 +51,7 @@ public class UserTelephone {
 
     @NotBlank
     @Size(max = 10)
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 15)
     private String telephone;
 
     @NotNull
@@ -69,5 +72,10 @@ public class UserTelephone {
     @Column(nullable = false)
     @Builder.Default
     private UserTelephoneStatus status = DEFAULT_STATUS;
+
+
+    public void removePrimary(){
+        this.isPrimary = false;
+    }
 
 }
