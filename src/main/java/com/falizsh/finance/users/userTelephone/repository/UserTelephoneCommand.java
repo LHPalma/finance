@@ -1,0 +1,50 @@
+package com.falizsh.finance.users.userTelephone.repository;
+
+import com.falizsh.finance.users.user.model.User;
+import com.falizsh.finance.users.user.repository.UserRepository;
+import com.falizsh.finance.users.userTelephone.dto.UserTelephoneCreateRequest;
+import com.falizsh.finance.users.userTelephone.model.UserTelephone;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@RequiredArgsConstructor
+@Service
+public class UserTelephoneCommand {
+
+    private final UserRepository userRepository;
+
+    @Transactional
+    public UserTelephone create(UserTelephoneCreateRequest data, Long userId) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("user.not.found"));
+
+        user.addTelephone(
+                data.type(),
+                data.areaCode(),
+                data.telephone(),
+                data.isPrimary()
+        );
+
+        userRepository.save(user);
+
+        return user.getTelephones().stream()
+                .filter(tel -> tel.getAreaCode().equals(data.areaCode()) && tel.getTelephone().equals(data.telephone()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Erro ao recuperar último telefone salvo"));
+
+    }
+
+    @Transactional
+    public void setAsPrimary(Long userId, Long telephoneId) {
+        User user= userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("user.not.found"));
+
+        user.setPrimaryTelephone(telephoneId);
+
+        userRepository.save(user);
+    }
+
+}
