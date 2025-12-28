@@ -17,14 +17,5 @@ public class UserEmailAssembler implements RepresentationModelAssembler<UserEmai
         return EntityModel.of(dto);
     }
 
-    @Deprecated // TODO: Apagar ao fim da refatoração
-    public UserEmail toEntity(UserEmailCreateDTO dto, User user) {
-        return new UserEmail(
-                user,
-                dto.getEmail(),
-                dto.getType(),
-                dto.getIsPrimary()
-        );
-    }
 
 }

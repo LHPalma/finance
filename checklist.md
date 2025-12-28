@@ -48,11 +48,11 @@
 - [x] **Repositório**: `UserAddressRepository`
 - [x] **Service/Arquitetura**:
     - [x] `UserAddressQuery`
-    - [ ] `UserAddressCommand` (Lógica de Create/Update/Delete)
+    - [x] `UserAddressCommand`
 - [x] **DTOs**:
     - [x] `UserAddressCreateDTO`
     - [ ] `UserAddressUpdateDTO`
-- [x] **Controller**: `UserAddressController` (Falta POST/PUT/DELETE)
+- [x] **Controller**: `UserAddressController`
 - [x] **Assembler**: `UserAddressAssemblerSuport`
 - [x] **Value Objects**:
     - [x] `CEP`
@@ -69,16 +69,16 @@
 - [x] **Modelo**: `UserTelephone`
 - [x] **Repositório**: `UserTelephoneRepository`
 - [ ] **Service/Arquitetura**:
-    - [ ] `UserTelephoneQuery`
-    - [ ] `UserTelephoneCommand`
+    - [x] `UserTelephoneQuery`
+    - [x] `UserTelephoneCommand`
 - [ ] **DTOs**:
-    - [ ] `UserTelephoneCreateDTO`
+    - [x] `UserTelephoneCreateDTO`
     - [ ] `UserTelephoneUpdateDTO`
-- [ ] **Controller**: `UserTelephoneController`
-- [ ] **Assembler**: `UserTelephoneAssembler`
-- [ ] **Enums**:
-    - [ ] `TelephoneType` (`personal`, `professional`, `commercial`, `residential`)
-    - [ ] `TelephoneStatus` (`active`, `inactive`, `unverified`, etc.)
+- [x] **Controller**: `UserTelephoneController`
+- [x] **Assembler**: `UserTelephoneAssembler`
+- [x] **Enums**:
+    - [x] `TelephoneType` 
+    - [x] `TelephoneStatus`
 
 ---
 
@@ -182,8 +182,8 @@
 ---
 
 ### 🚧 Débitos Técnicos Atuais
-- [ ] **Padronização**: Migrar `UserEmailService` para o padrão Query/Command.
-- [ ] **Limpeza**: Remover código `@Deprecated` em `UserEmailService` e `UserEmailAssembler`.
+- [x] **Padronização**: Migrar `UserEmailService` para o padrão Query/Command.
+- [x] **Limpeza**: Remover código `@Deprecated` em `UserEmailService` e `UserEmailAssembler`.
 - [ ] **Segurança**: Implementar criptografia real de senha (substituir "salt" hardcoded).
 - [ ] **Correção**: Corrigir typo no nome da classe `UserAddressAssemblerSuport` (para `Support`).
 - [ ] **Feature**: Implementar validação real de CPF em `UserCommand` (Requisito mencionado no TODO).

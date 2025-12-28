@@ -4,8 +4,8 @@ import com.falizsh.finance.userEmail.assembler.UserEmailAssembler;
 import com.falizsh.finance.userEmail.dto.UserEmailCreateDTO;
 import com.falizsh.finance.userEmail.dto.UserEmailResponseDTO;
 import com.falizsh.finance.userEmail.model.UserEmail;
-import com.falizsh.finance.userEmail.repository.UserEmailRepository;
-import com.falizsh.finance.userEmail.service.UserEmailService;
+import com.falizsh.finance.userEmail.repository.UserEmailCommand;
+import com.falizsh.finance.userEmail.repository.UserEmailQuery;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,13 +22,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("v1/finance/user/email")
 public class UserEmailController {
 
-    private final UserEmailRepository repository;
-    private final UserEmailService service;
+    private final UserEmailQuery query;
+    private final UserEmailCommand command;
     private final UserEmailAssembler assembler;
 
     @GetMapping
     public Page<UserEmail> findAllUsersEmails(Pageable pageable) {
-        return repository.findAll(pageable);
+        return query.findAll(pageable);
     }
 
     @GetMapping("user/{userId}")
@@ -37,20 +37,17 @@ public class UserEmailController {
             Pageable pageable,
             PagedResourcesAssembler<UserEmail> pagedAssembler
     ) {
-        return pagedAssembler.toModel(service.findAllByUserId(userId, pageable), assembler);
+        return pagedAssembler.toModel(query.findAllByUserId(userId, pageable), assembler);
     }
-
 
     @PostMapping("user/{userId}")
     public ResponseEntity<EntityModel<UserEmailResponseDTO>> saveEmailForUser(
             @PathVariable Long userId,
             @Valid @RequestBody UserEmailCreateDTO dto
     ) {
-        EntityModel<UserEmailResponseDTO> savedUserEmail = service.create(userId, dto);
+        UserEmail savedUserEmail = command.create(userId, dto);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedUserEmail);
+        return ResponseEntity.status(HttpStatus.CREATED).body(assembler.toModel(savedUserEmail));
     }
-
-
 
 }
