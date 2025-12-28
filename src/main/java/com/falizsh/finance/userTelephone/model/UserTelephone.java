@@ -78,4 +78,8 @@ public class UserTelephone {
         this.isPrimary = false;
     }
 
+    public void setPrimary() {
+        this.isPrimary = true;
+    }
+
 }

@@ -196,6 +196,18 @@ public class User {
 
         this.telephones.add(newTelephone);
     }
+
+    public void setPrimaryTelephone(Long telephoneId) {
+        UserTelephone targetTelephone = this.telephones.stream()
+                .filter(tel -> tel.getId().equals(telephoneId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("telephone.not.found"));
+
+                this.telephones.forEach(UserTelephone::removePrimary);
+
+        targetTelephone.setPrimary();
+    }
+
     //endregion UserTelephone aggregate
 
 }

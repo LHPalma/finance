@@ -4,6 +4,7 @@ import com.falizsh.finance.user.model.User;
 import com.falizsh.finance.user.repository.UserRepository;
 import com.falizsh.finance.userTelephone.dto.UserTelephoneCreateRequest;
 import com.falizsh.finance.userTelephone.model.UserTelephone;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +35,16 @@ public class UserTelephoneCommand {
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("Erro ao recuperar último telefone salvo"));
 
+    }
+
+    @Transactional
+    public void setAsPrimary(Long userId, Long telephoneId) {
+        User user= userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("user.not.found"));
+
+        user.setPrimaryTelephone(telephoneId);
+
+        userRepository.save(user);
     }
 
 }

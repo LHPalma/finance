@@ -44,4 +44,13 @@ public class UserTelephoneController {
                 .body(assembler.toModel(command.create(request, userId)));
     }
 
+    @PatchMapping("{telephoneId}/primary")
+    public ResponseEntity<Void> setPrimary(
+            @PathVariable Long userId,
+            @PathVariable Long telephoneId
+    ) {
+        command.setAsPrimary(userId, telephoneId);
+        return ResponseEntity.noContent().build();
+    }
+
 }
