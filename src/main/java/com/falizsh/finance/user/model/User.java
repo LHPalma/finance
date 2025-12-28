@@ -169,6 +169,10 @@ public class User {
         return Collections.unmodifiableCollection(telephones);
     }
 
+    private void unsetAllPrimaryTelephones() {
+        this.telephones.forEach(UserTelephone::removePrimary);
+    }
+
     public void addTelephone(
             TelephoneType type,
             String areaCode,
@@ -177,7 +181,7 @@ public class User {
     ) {
 
         if (Boolean.TRUE.equals(isPrimary)) {
-            this.telephones.forEach(UserTelephone::removePrimary);
+            unsetAllPrimaryTelephones();
         } else {
 
             if (this.telephones.isEmpty()) {
@@ -203,7 +207,7 @@ public class User {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("telephone.not.found"));
 
-                this.telephones.forEach(UserTelephone::removePrimary);
+                unsetAllPrimaryTelephones();
 
         targetTelephone.setPrimary();
     }
