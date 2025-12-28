@@ -68,7 +68,7 @@
 - [x] **Migration**: `V4__create_table_user_telephones.sql`
 - [x] **Modelo**: `UserTelephone`
 - [x] **Repositório**: `UserTelephoneRepository`
-- [ ] **Service/Arquitetura**:
+- [x] **Service/Arquitetura**:
     - [x] `UserTelephoneQuery`
     - [x] `UserTelephoneCommand`
 - [ ] **DTOs**:
