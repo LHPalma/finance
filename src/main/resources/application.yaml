@@ -13,3 +13,7 @@ spring:
       baseline-on-migrate: true
       baseline-version: 2
       repair-on-migrate: true
+
+brapi:
+  url: https://brapi.dev/api
+  token: ${BRAPI_TOKEN}
