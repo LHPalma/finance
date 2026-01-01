@@ -1,4 +1,4 @@
-package com.falizsh.finance.shared.brapiAPIAdapter.dto;
+package com.falizsh.finance.shared.stock.adapter.dto;
 
 import java.math.BigDecimal;
 

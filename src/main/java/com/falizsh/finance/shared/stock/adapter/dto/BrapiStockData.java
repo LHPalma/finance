@@ -1,4 +1,4 @@
-package com.falizsh.finance.shared.brapiAPIAdapter.dto;
+package com.falizsh.finance.shared.stock.adapter.dto;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

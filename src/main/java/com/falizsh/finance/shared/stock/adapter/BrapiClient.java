@@ -1,8 +1,8 @@
-package com.falizsh.finance.shared.brapiAPIAdapter;
+package com.falizsh.finance.shared.stock.adapter;
 
 
-import com.falizsh.finance.shared.brapiAPIAdapter.dto.BrapiQuoteResponse;
-import com.falizsh.finance.shared.brapiAPIAdapter.dto.BrapiResponse;
+import com.falizsh.finance.shared.stock.adapter.dto.BrapiQuoteResponse;
+import com.falizsh.finance.shared.stock.adapter.dto.BrapiResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -1,9 +1,9 @@
-package com.falizsh.finance.shared.brapiAPIAdapter.impl;
+package com.falizsh.finance.shared.stock.adapter.impl;
 
-import com.falizsh.finance.shared.brapiAPIAdapter.BrapiClient;
-import com.falizsh.finance.shared.brapiAPIAdapter.StockLookupService;
-import com.falizsh.finance.shared.brapiAPIAdapter.dto.BrapiQuoteResponse;
-import com.falizsh.finance.shared.brapiAPIAdapter.dto.StockInfoDTO;
+import com.falizsh.finance.shared.stock.adapter.BrapiClient;
+import com.falizsh.finance.shared.stock.adapter.StockLookupService;
+import com.falizsh.finance.shared.stock.adapter.dto.BrapiQuoteResponse;
+import com.falizsh.finance.shared.stock.adapter.dto.StockInfoDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @RequiredArgsConstructor
-@Service
+@Service("brapiStockProvider")
 public class BrapiStockProvider implements StockLookupService {
 
     private final BrapiClient client;
