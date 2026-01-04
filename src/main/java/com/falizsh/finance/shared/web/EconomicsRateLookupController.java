@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
+
 @RestController
 @RequestMapping("v1/finance/utils/")
 @RequiredArgsConstructor
@@ -25,8 +27,10 @@ public class EconomicsRateLookupController {
 
     private final CdiAssembler cdiAssembler;
 
+    private final CopomMeetingAssembler copomMeetingAssembler;
+    private final CopomMeetingRepository copomMeetingRepository;
+
     @GetMapping("/di-rate/current")
-    public ResponseEntity<CdiRateInfoDTO> getCurrentCdiRate() {
     public ResponseEntity<EntityModel<CdiRateInfoDTO>> getCurrentCdiRate() {
         CdiRateInfoDTO rate = cdiService.findLatestDailyRate();
 
@@ -34,11 +38,9 @@ public class EconomicsRateLookupController {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(rate);
         return ResponseEntity.ok(cdiAssembler.toModel(rate));
     }
 
-    @GetMapping("selic-rate/current")
     @GetMapping("/selic-rate/current")
     public ResponseEntity<SelicRateInfoDTO> getCurrentSelicRate() {
         SelicRateInfoDTO rate = selicService.findLatestDailyRate();
@@ -48,5 +50,11 @@ public class EconomicsRateLookupController {
         }
 
         return ResponseEntity.ok(rate);
+    }
+
+    @GetMapping("/copom/next-meeting")
+    public ResponseEntity<EntityModel<CopomMeeting>> getNextCopomMeeting() {
+
+        return ResponseEntity.ok(copomMeetingAssembler.toModel(copomMeetingRepository.findNextMeeting(LocalDate.now()).orElseThrow()));
     }
 }
