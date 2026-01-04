@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import static com.falizsh.finance.economics.repository.CopomMeetingQueries.FIND_LAST_MEETING_QUERT;
+import static com.falizsh.finance.economics.repository.CopomMeetingQueries.FIND_LAST_MEETING_QUERY;
 import static com.falizsh.finance.economics.repository.CopomMeetingQueries.FIND_NEXT_MEETING_QUERY;
 
 public interface CopomMeetingRepository extends JpaRepository<CopomMeeting, Long> {
@@ -15,7 +15,7 @@ public interface CopomMeetingRepository extends JpaRepository<CopomMeeting, Long
     @Query(value = FIND_NEXT_MEETING_QUERY, nativeQuery = true)
     Optional<CopomMeeting> findNextMeeting(LocalDate date);
 
-    @Query(value = FIND_LAST_MEETING_QUERT, nativeQuery = true)
+    @Query(value = FIND_LAST_MEETING_QUERY, nativeQuery = true)
     Optional<CopomMeeting> findLastCopomMeeting(LocalDate date);
 
 }

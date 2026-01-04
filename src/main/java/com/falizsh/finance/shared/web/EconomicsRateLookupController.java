@@ -1,6 +1,7 @@
 package com.falizsh.finance.shared.web;
 
 import com.falizsh.finance.economics.model.CopomMeeting;
+import com.falizsh.finance.economics.model.CopomMeetingUploader;
 import com.falizsh.finance.economics.repository.CopomMeetingRepository;
 import com.falizsh.finance.shared.bcb.adapter.CdiRateLookupService;
 import com.falizsh.finance.shared.bcb.adapter.SelicRateLookupService;
@@ -11,9 +12,8 @@ import com.falizsh.finance.shared.web.assembler.CopomMeetingAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -29,6 +29,7 @@ public class EconomicsRateLookupController {
 
     private final CopomMeetingAssembler copomMeetingAssembler;
     private final CopomMeetingRepository copomMeetingRepository;
+    private final CopomMeetingUploader copomMeetingUploader;
 
     @GetMapping("/di-rate/current")
     public ResponseEntity<EntityModel<CdiRateInfoDTO>> getCurrentCdiRate() {
@@ -56,5 +57,14 @@ public class EconomicsRateLookupController {
     public ResponseEntity<EntityModel<CopomMeeting>> getNextCopomMeeting() {
 
         return ResponseEntity.ok(copomMeetingAssembler.toModel(copomMeetingRepository.findNextMeeting(LocalDate.now()).orElseThrow()));
+    }
+
+    @PostMapping("/copom/import")
+    public ResponseEntity<Void> uploadCopomMeetings(
+            @RequestParam("file") MultipartFile file
+    ) {
+        copomMeetingUploader.upload(file);
+
+        return ResponseEntity.accepted().build();
     }
 }
