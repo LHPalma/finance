@@ -56,5 +56,22 @@ public class CopomMeeting {
         return selicTarget.subtract(previousSelicTarget);
     }
 
+    public CompomMeetingDecision getDecision() {
+        if (selicTarget == null || previousSelicTarget == null) {
+            return CompomMeetingDecision.UNAVAILABLE;
+        }
+
+        int comparison = selicTarget.compareTo(previousSelicTarget);
+
+        if (comparison > 0) {
+            return CompomMeetingDecision.Hike;
+        } else if (comparison < 0) {
+            return CompomMeetingDecision.CUT;
+        } else {
+            return CompomMeetingDecision.MAINTAIN;
+        }
+
+    }
+
 
 }
