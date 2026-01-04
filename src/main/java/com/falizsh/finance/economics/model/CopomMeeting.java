@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "CompomMeeting")
+@Entity(name = "CopomMeeting")
 @Table(name = "copom_meeting")
 public class CopomMeeting {
 
