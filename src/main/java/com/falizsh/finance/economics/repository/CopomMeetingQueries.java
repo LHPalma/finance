@@ -25,7 +25,7 @@ public class CopomMeetingQueries {
             
             """;
 
-    public static final String FIND_LAST_MEETING_QUERT = """
+    public static final String FIND_LAST_MEETING_QUERY = """
             SELECT
                 id,
                 meeting_date,
