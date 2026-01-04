@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface YahooClient {
 
     @GetMapping(value = "/v8/finance/chart/{ticker}", headers = {
-            // User-Agent completo de um Chrome no Windows para evitar bloqueio 429/403
             "User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
             "Accept=*/*",
             "Connection=keep-alive"
