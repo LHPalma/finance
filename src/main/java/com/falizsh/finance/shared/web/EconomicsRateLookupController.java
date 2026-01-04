@@ -1,7 +1,9 @@
 package com.falizsh.finance.shared.web;
 
 import com.falizsh.finance.shared.bcb.adapter.CdiRateLookupService;
+import com.falizsh.finance.shared.bcb.adapter.SelicRateLookupService;
 import com.falizsh.finance.shared.bcb.adapter.dto.CdiRateInfoDTO;
+import com.falizsh.finance.shared.bcb.adapter.dto.SelicRateInfoDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,11 +16,23 @@ import org.springframework.web.bind.annotation.RestController;
 public class EconomicsRateLookupController {
 
     private final CdiRateLookupService cdiService;
+    private final SelicRateLookupService selicService;
 
 
     @GetMapping("/di-rate/current")
     public ResponseEntity<CdiRateInfoDTO> getCurrentCdiRate() {
         CdiRateInfoDTO rate = cdiService.findLatestDailyRate();
+
+        if (rate == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(rate);
+    }
+
+    @GetMapping("selic-rate/current")
+    public ResponseEntity<SelicRateInfoDTO> getCurrentSelicRate() {
+        SelicRateInfoDTO rate = selicService.findLatestDailyRate();
 
         if (rate == null) {
             return ResponseEntity.notFound().build();
