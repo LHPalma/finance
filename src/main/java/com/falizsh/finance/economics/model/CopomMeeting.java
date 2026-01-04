@@ -56,19 +56,19 @@ public class CopomMeeting {
         return selicTarget.subtract(previousSelicTarget);
     }
 
-    public CompomMeetingDecision getDecision() {
+    public CopomMeetingDecision getDecision() {
         if (selicTarget == null || previousSelicTarget == null) {
-            return CompomMeetingDecision.UNAVAILABLE;
+            return CopomMeetingDecision.UNAVAILABLE;
         }
 
         int comparison = selicTarget.compareTo(previousSelicTarget);
 
         if (comparison > 0) {
-            return CompomMeetingDecision.Hike;
+            return CopomMeetingDecision.Hike;
         } else if (comparison < 0) {
-            return CompomMeetingDecision.CUT;
+            return CopomMeetingDecision.CUT;
         } else {
-            return CompomMeetingDecision.MAINTAIN;
+            return CopomMeetingDecision.MAINTAIN;
         }
 
     }

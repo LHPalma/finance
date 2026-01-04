@@ -1,6 +1,6 @@
 package com.falizsh.finance.economics.model;
 
-public enum CompomMeetingDecision {
+public enum CopomMeetingDecision {
     Hike("Aumento"),
     CUT("Redução"),
     MAINTAIN("Manutenção"),
@@ -8,7 +8,7 @@ public enum CompomMeetingDecision {
 
     private final String displayName;
 
-    CompomMeetingDecision(String name) {
+    CopomMeetingDecision(String name) {
         this.displayName = name;
     }
 

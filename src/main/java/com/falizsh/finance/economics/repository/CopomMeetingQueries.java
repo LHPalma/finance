@@ -1,6 +1,6 @@
 package com.falizsh.finance.economics.repository;
 
-public class CompomMeetingQueries {
+public class CopomMeetingQueries {
 
     public static final String FIND_NEXT_MEETING_QUERY = """
             SELECT
