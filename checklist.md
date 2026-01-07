@@ -187,3 +187,4 @@
 - [ ] **Segurança**: Implementar criptografia real de senha (substituir "salt" hardcoded).
 - [ ] **Correção**: Corrigir typo no nome da classe `UserAddressAssemblerSuport` (para `Support`).
 - [ ] **Feature**: Implementar validação real de CPF em `UserCommand` (Requisito mencionado no TODO).
+- [ ] **GlobalExceptionHandler**: principalmente para lidar com os tipos de arquivos válidos para upload. 
