@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
-public class CopomMeetingCsvDTO {
+public class CopomMeetingCsv {
 
     @CsvCustomBindByName(column = "DATA", required = true, converter = CsvLocalDateConverter.class)
     private LocalDate meetingDate;

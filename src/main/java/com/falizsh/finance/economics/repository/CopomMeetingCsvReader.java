@@ -1,7 +1,7 @@
 package com.falizsh.finance.economics.repository;
 
 
-import com.falizsh.finance.economics.csv.CopomMeetingCsvDTO;
+import com.falizsh.finance.economics.csv.CopomMeetingCsv;
 import com.falizsh.finance.economics.model.CopomMeeting;
 import com.falizsh.finance.infra.file.FileStorageService;
 import com.opencsv.bean.CsvToBean;
@@ -33,13 +33,13 @@ public class CopomMeetingCsvReader {
 
         try (Reader reader = Files.newBufferedReader(path, StandardCharsets.ISO_8859_1)) {
 
-            CsvToBean<CopomMeetingCsvDTO> csvToBean = new CsvToBeanBuilder<CopomMeetingCsvDTO>(reader)
-                    .withType(CopomMeetingCsvDTO.class)
+            CsvToBean<CopomMeetingCsv> csvToBean = new CsvToBeanBuilder<CopomMeetingCsv>(reader)
+                    .withType(CopomMeetingCsv.class)
                     .withIgnoreLeadingWhiteSpace(true)
                     .withSeparator(';')
                     .build();
 
-            List<CopomMeetingCsvDTO> lines = csvToBean.parse();
+            List<CopomMeetingCsv> lines = csvToBean.parse();
 
             lines.forEach(dto -> {
                 CopomMeeting entity = CopomMeeting.builder()
