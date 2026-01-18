@@ -18,6 +18,13 @@ brapi:
   url: https://brapi.dev/api
   token: ${BRAPI_TOKEN}
 
+cloudconvert:
+  url: https://api.cloudconvert.com
+  token: ${CLOUDCONVERT_TOKEN}
+
+anbima:
+  url: https://www.anbima.com.br/feriados/arqs/feriados_nacionais.xls
+
 resilience4j:
   circuitbreaker:
     instances:
