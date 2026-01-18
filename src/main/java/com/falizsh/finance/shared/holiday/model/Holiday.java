@@ -35,7 +35,6 @@ public class Holiday {
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Size(max = 2)
     @NotNull
     @Column(name = "country_code", nullable = false, length = 2)
     private CountryCode countryCode;
