@@ -37,3 +37,7 @@ resilience4j:
         waitDurationInOpenState: 10s
         permittedNumberOfCallsInHalfOpenState: 3
         automaticTransitionFromOpenToHalfOpenEnabled: true
+
+storage:
+  local:
+    location: "./local-bucket"
