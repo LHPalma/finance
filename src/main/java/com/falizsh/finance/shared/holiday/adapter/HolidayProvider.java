@@ -1,11 +1,14 @@
 package com.falizsh.finance.shared.holiday.adapter;
 
 import com.falizsh.finance.shared.holiday.model.Holiday;
+import com.falizsh.finance.shared.holiday.model.HolidayProviderResponse;
 
 import java.util.List;
 
 public interface HolidayProvider {
 
-    List<Holiday> fetchHolidays();
+    HolidayProviderResponse fetchHolidays();
+
+    String getProviderName();
 
 }

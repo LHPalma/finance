@@ -1,11 +1,11 @@
 package com.falizsh.finance.shared.holiday.adapter.impl;
 
-import com.falizsh.finance.infra.storage.FileStorageProvider;
 import com.falizsh.finance.shared.holiday.adapter.CloudConvertClient;
 import com.falizsh.finance.shared.holiday.adapter.HolidayProvider;
 import com.falizsh.finance.shared.holiday.adapter.dto.CloudConvertJobRequest;
 import com.falizsh.finance.shared.holiday.model.CountryCode;
 import com.falizsh.finance.shared.holiday.model.Holiday;
+import com.falizsh.finance.shared.holiday.model.HolidayProviderResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,7 +25,6 @@ import java.util.List;
 public class AnbimaHolidayProvider implements HolidayProvider {
 
     private final CloudConvertClient cloudConvertClient;
-    private final FileStorageProvider fileStorageProvider;
 
     @Value("${cloudconvert.token}")
     private String token;
@@ -36,7 +35,7 @@ public class AnbimaHolidayProvider implements HolidayProvider {
     private static final LocalDate EXCEL_EPOCH = LocalDate.of(1899, 12, 30);
 
     @Override
-    public List<Holiday> fetchHolidays() {
+    public HolidayProviderResponse fetchHolidays() {
         try {
             log.info("Iniciando busca de feriados na ANBIMA via CloudConvert...");
 
@@ -51,16 +50,26 @@ public class AnbimaHolidayProvider implements HolidayProvider {
 
             byte[] csvBytes = cloudConvertClient.downloadFile(URI.create(downloadUrl));
 
-            fileStorageProvider.storageFile("anbima_feriados_raw.csv", csvBytes);
-
             String csvContent = new String(csvBytes, StandardCharsets.ISO_8859_1);
 
-            return parseCsv(csvContent);
+            List<Holiday> holidays = parseCsv(csvContent);
+
+            return new HolidayProviderResponse(
+                    csvBytes,
+                    "anbima_holidays_raw.csv",
+                    "text/csv",
+                    holidays
+            );
 
         } catch (Exception e) {
             log.error("Falha na integração de feriados", e);
-            return Collections.emptyList();
+            return new HolidayProviderResponse(new byte[0], "", "", Collections.emptyList());
         }
+    }
+
+    @Override
+    public String getProviderName() {
+        return "Anbima";
     }
 
     private String waitForCompletion(String jobId, String bearerToken) throws InterruptedException {
