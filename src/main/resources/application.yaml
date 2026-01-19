@@ -23,6 +23,7 @@ cloudconvert:
   token: ${CLOUDCONVERT_TOKEN}
 
 anbima:
+  base-url: https://www.anbima.com.br
   url: https://www.anbima.com.br/feriados/arqs/feriados_nacionais.xls
 
 resilience4j:
