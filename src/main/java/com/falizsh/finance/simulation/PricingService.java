@@ -24,8 +24,8 @@ public class PricingService {
      * Calcula o preço da NTN-B (IPCA+) considerando a contagem exata de dias úteis.
      *
      * @param vna         Valor Nominal Atualizado
-     * @param annualYield Taxa de rendimento (ex: 0.06 para 6%)
-     * @param dataCalculo Data de referência (geralmente liquidação)
+     * @param annualYield Taxa de rendimento
+     * @param dataCalculo Data de referência
      * @param dueDate     Data de vencimento do título
      * @return Preço Unitário (PU)
      */
