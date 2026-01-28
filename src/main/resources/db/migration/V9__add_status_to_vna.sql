@@ -1,0 +1,1 @@
+ALTER TABLE vna ADD COLUMN status ENUM('P', 'F', 'NI') DEFAULT 'F' COMMENT 'P: Projetado - Projeção do Comitê de Acompanhamento Macroeconômico; F: Fechado - Índice Fechado; NI: Não Informado' AFTER index_value;

@@ -32,6 +32,8 @@ import java.time.LocalDate;
         })
 public class Vna {
 
+    public static final VnaStatus DEFAULT_STATUS = VnaStatus.F;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -57,6 +59,10 @@ public class Vna {
 
     @Column(name = "index_value", precision = 25, scale = 8)
     private BigDecimal indexValue;
+
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private VnaStatus status = DEFAULT_STATUS;
 
     @CreationTimestamp
     @ColumnDefault("CURRENT_TIMESTAMP")

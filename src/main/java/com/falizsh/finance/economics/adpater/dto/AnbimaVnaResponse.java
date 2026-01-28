@@ -1,11 +1,15 @@
 package com.falizsh.finance.economics.adpater.dto;
 
+import com.falizsh.finance.economics.model.Vna;
+import com.falizsh.finance.economics.model.VnaStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import org.hibernate.boot.jaxb.mapping.DiscriminatedAssociation;
 
 import java.util.List;
+import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JacksonXmlRootElement(localName = "VNA")
@@ -39,8 +43,12 @@ public record AnbimaVnaResponse(
             String price,
 
             @JacksonXmlProperty(isAttribute = true, localName = "Index_D0")
-            String indexValue
+            String indexValue,
+
+            @JacksonXmlProperty(isAttribute = true, localName = "Ref_D0")
+            String status
     ) {
+
     }
 
 }

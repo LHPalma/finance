@@ -4,6 +4,7 @@ package com.falizsh.finance.economics.service;
 import com.falizsh.finance.economics.adpater.AnbimaClient;
 import com.falizsh.finance.economics.adpater.dto.AnbimaVnaResponse;
 import com.falizsh.finance.economics.model.Vna;
+import com.falizsh.finance.economics.model.VnaStatus;
 import com.falizsh.finance.economics.repository.VnaRepository;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import feign.Response;
@@ -75,6 +76,7 @@ public class VnaService {
                         .referenceDate(vnaDate)
                         .price(parseAnbimaDecimal(data.price()))
                         .indexValue(parseAnbimaDecimal(data.indexValue()))
+                        .status(VnaStatus.fromString(data.status()))
                         .build();
 
                 savedVnas.add(vnaRepository.save(vna));
