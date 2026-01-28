@@ -19,6 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Slf4j
@@ -38,6 +39,8 @@ public class VnaService {
         String requestBody = "saida=xml&Idioma=PT&Data=" + dataParam;
 
         try {
+            log.info("Iniciando importação do VNA para data: {}", dataParam);
+
             Response response = anbimaClient.downloadVnaXml(requestBody);
 
             String responseBody = new String(
@@ -119,4 +122,20 @@ public class VnaService {
         return new BigDecimal(normalized);
     }
 
+    @Transactional
+    public List<Vna> fetchAndSaveVnaRange(LocalDate startDate, LocalDate endDate) {
+
+        List<Vna> allVna = new ArrayList<>();
+
+        startDate.datesUntil(endDate.plusDays(1)).forEach(date->{
+            try {
+                List<Vna> vnaOfTheDay = fetchAndSaveVna(date);
+                allVna.addAll(vnaOfTheDay);
+            } catch (Exception e) {
+                log.error("Erro ao importar VNA para a data {}: {}", date, e.getMessage());
+            }
+        });
+
+        return allVna;
+    }
 }
