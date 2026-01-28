@@ -19,8 +19,9 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -32,14 +33,12 @@ public class VnaService {
     private final XmlMapper xmlMapper = new XmlMapper();
 
 
-    @Transactional
-    public List<Vna> fetchAndSaveVna(LocalDate referenceDate) {
-
+    public List<Vna> fetchFromAmbima(LocalDate referenceDate) {
         String dataParam = referenceDate.format(DateTimeFormatter.ofPattern("ddMMyyyy"));
         String requestBody = "saida=xml&Idioma=PT&Data=" + dataParam;
 
         try {
-            log.info("Iniciando importação do VNA para data: {}", dataParam);
+            log.info("Iniciando consulta do VNA para data: {}", dataParam);
 
             Response response = anbimaClient.downloadVnaXml(requestBody);
 
@@ -60,18 +59,13 @@ public class VnaService {
                 return List.of();
             }
 
-            List<Vna> savedVnas = new ArrayList<>();
+            List<Vna> parsedVna = new ArrayList<>();
 
             for (AnbimaVnaResponse.AnbimaSecurity security : vnaResponse.securityList()) {
 
                 var data = security.data();
 
                 LocalDate vnaDate = parseAnbimaDate(data.referenceDate(), referenceDate);
-
-                if (vnaRepository.existsBySelicCodeAndReferenceDate(data.selicCode(), vnaDate)) {
-                    log.debug("VNA já existe para Selic {} em {}.", data.selicCode(), vnaDate);
-                    continue;
-                }
 
                 Vna vna = Vna.builder()
                         .security(security.security())
@@ -82,19 +76,20 @@ public class VnaService {
                         .status(VnaStatus.fromString(data.status()))
                         .build();
 
-                savedVnas.add(vnaRepository.save(vna));
+                parsedVna.add(vna);
 
             }
-
-            log.info("Importação concluída. {} registros salvos.", savedVnas.size());
-            return savedVnas;
-
+            return parsedVna;
 
         } catch (IOException e) {
             log.error("Erro ao processar resposta da Anbima", e);
             throw new RuntimeException("Falha ao integrar com Anbima: " + e.getMessage(), e);
         }
+    }
 
+    @Transactional
+    public List<Vna> fetchAndSaveVna(LocalDate referenceDate) {
+        return fetchAndSaveVnaRange(referenceDate, referenceDate);
     }
 
     private LocalDate parseAnbimaDate(String dateStr, LocalDate fallback) {
@@ -125,17 +120,29 @@ public class VnaService {
     @Transactional
     public List<Vna> fetchAndSaveVnaRange(LocalDate startDate, LocalDate endDate) {
 
-        List<Vna> allVna = new ArrayList<>();
+        List<Vna> fetchedVna = new ArrayList<>();
 
-        startDate.datesUntil(endDate.plusDays(1)).forEach(date->{
+        startDate.datesUntil(endDate.plusDays(1)).forEach(date -> {
             try {
-                List<Vna> vnaOfTheDay = fetchAndSaveVna(date);
-                allVna.addAll(vnaOfTheDay);
+                List<Vna> dayVnas = fetchFromAmbima(date);
+                fetchedVna.addAll(dayVnas);
             } catch (Exception e) {
                 log.error("Erro ao importar VNA para a data {}: {}", date, e.getMessage());
             }
         });
 
-        return allVna;
+        List<Object[]> existingRecords = vnaRepository.findIdentifiersByDateRange(startDate, endDate);
+        Set<String> existingKeys = existingRecords.stream()
+                .map(row -> row[0] + "|" + row[1].toString())
+                .collect(Collectors.toSet());
+
+        List<Vna> vnasToSave = fetchedVna.stream()
+                .filter(vna -> {
+                    String key = vna.getSelicCode() + "|" + vna.getReferenceDate().toString();
+                    return !existingKeys.contains(key);
+                })
+                .toList();
+
+        return vnaRepository.saveAll(vnasToSave);
     }
 }

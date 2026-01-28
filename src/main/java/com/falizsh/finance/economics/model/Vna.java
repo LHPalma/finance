@@ -1,5 +1,6 @@
 package com.falizsh.finance.economics.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 @Builder(toBuilder = true, builderClassName = "builder")
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity(name = "Vna")
 @Table(
         name = "vna",
