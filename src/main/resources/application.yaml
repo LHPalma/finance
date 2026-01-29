@@ -26,6 +26,9 @@ anbima:
   base-url: https://www.anbima.com.br
   url: https://www.anbima.com.br/feriados/arqs/feriados_nacionais.xls
 
+bcb:
+  base-url-odata: https://olinda.bcb.gov.br/olinda/servico/IFDATA/versao/v1/odata
+
 resilience4j:
   circuitbreaker:
     instances:
