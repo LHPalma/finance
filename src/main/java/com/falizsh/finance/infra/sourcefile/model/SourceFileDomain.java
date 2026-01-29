@@ -9,7 +9,9 @@ public enum SourceFileDomain {
 
     HOLIDAYS("Importação de feriados", true),
     VNA("Importação de VNA", true),
-    CDI("Importação de CDI", true);
+    CDI("Importação de CDI", true),
+    IF_DATA_SUMMARY("Relatório Resumo IFData", true);
+
 
     private final String displayName;
     private final boolean isSystem;

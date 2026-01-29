@@ -19,7 +19,7 @@ public class BacenScrapperController {
     public ResponseEntity<String> scrapeResumo(
             @RequestParam String dataBase
     ) {
-        String path = scraperService.scrapeResumo(dataBase);
+        String path = scraperService.scrapeSummary(dataBase);
         return ResponseEntity.ok("Arquivo importado com sucesso. Local: " + path);
     }
 }

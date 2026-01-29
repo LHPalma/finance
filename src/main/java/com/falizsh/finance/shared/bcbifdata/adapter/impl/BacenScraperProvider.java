@@ -1,14 +1,21 @@
 package com.falizsh.finance.shared.bcbifdata.adapter.impl;
 
+import com.falizsh.finance.infra.sourcefile.model.SourceFile;
+import com.falizsh.finance.infra.sourcefile.model.SourceFileDomain;
+import com.falizsh.finance.infra.sourcefile.model.SourceFileStatus;
+import com.falizsh.finance.infra.sourcefile.repository.SourceFileRepository;
 import com.falizsh.finance.infra.storage.FileStorageProvider;
 import com.falizsh.finance.shared.bcbifdata.adapter.BacenSrapperService;
 import com.microsoft.playwright.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -16,9 +23,10 @@ import java.nio.file.Path;
 public class BacenScraperProvider implements BacenSrapperService {
 
     private final FileStorageProvider fileStorageProvider;
+    private final SourceFileRepository sourceFileRepository;
 
     @Override
-    public String scrapeResumo(String referenceDate) {
+    public String scrapeSummary(String referenceDate) {
         log.info("Iniciando rotina de scraping do IFData para a data: {}", referenceDate);
 
         try (Playwright playwright = Playwright.create()) {
@@ -55,18 +63,44 @@ public class BacenScraperProvider implements BacenSrapperService {
             Path tempPath = download.path();
             byte[] content = Files.readAllBytes(tempPath);
 
-            String fileName = "bacen_ifdata_resumo_" + referenceDate.replace("/", "-") + ".csv";
+            String originalName = "bacen_ifdata_resumo_" + referenceDate.replace("/", "-") + ".csv";
 
-            String savedPath = fileStorageProvider.storageFile(fileName, content);
+            String checksum = DigestUtils.md5DigestAsHex(content);
 
-            log.info("Arquivo salvo em {}", savedPath);
+            String storagePath = fileStorageProvider.storageFile(originalName, content);
+
+            createAndSaveSourceFile(originalName, storagePath, content.length, checksum, referenceDate);
+
+            log.info("Arquivo salvo em {}", storagePath);
 
             browser.close();
 
-            return savedPath;
+            return storagePath;
         } catch (Exception e) {
             log.error("Erro ao realizar scraping do Bacen", e);
             throw new RuntimeException("Falha no processo de scraping: " + e.getMessage(), e);
         }
+    }
+
+    private void createAndSaveSourceFile(String fileName, String storagePath, long size, String checksum, String dataRef) {
+        Map<String, Object> metadata = new HashMap<>();
+        metadata.put("data_referencia", dataRef);
+        metadata.put("origem", "AUTOMATED_SCRAPER");
+
+        SourceFile sourceFile = SourceFile.builder()
+                .fileName(fileName)
+                .originalFileName(fileName)
+                .storagePath(storagePath)
+                .domain(SourceFileDomain.IF_DATA_SUMMARY)
+                .fileSize(size)
+                .checksum(checksum)
+                .contentType("text/csv")
+                .status(SourceFileStatus.PROCESSED)
+                .metadata(metadata)
+                .user(null)
+                .build();
+
+        sourceFileRepository.save(sourceFile);
+        log.info("Registro salvo na tabela source_file com ID: {}", sourceFile.getId());
     }
 }
