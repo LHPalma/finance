@@ -2,6 +2,7 @@ package com.falizsh.finance.shared.holiday.web;
 
 import com.falizsh.finance.shared.holiday.projection.HolidayProjection;
 import com.falizsh.finance.shared.holiday.projection.HolidayProjectionModel;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
@@ -19,10 +20,12 @@ public class HolidayAssembler implements RepresentationModelAssembler<HolidayPro
         model.add(linkTo(methodOn(HolidayController.class).getHolidays(
                 projection.getDate(),
                 projection.getDate(),
-                projection.getCountryCode()
+                projection.getCountryCode(),
+                Pageable.unpaged(),
+                null
         )).withSelfRel());
 
-        model.add(linkTo(methodOn(HolidayController.class).getHolidays(null, null, null))
+        model.add(linkTo(methodOn(HolidayController.class).getHolidays(null, null, null, null, null))
                 .withRel("holidays"));
 
         return EntityModel.of(model);

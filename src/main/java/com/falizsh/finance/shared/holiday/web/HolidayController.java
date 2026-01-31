@@ -1,10 +1,13 @@
 package com.falizsh.finance.shared.holiday.web;
 
 import com.falizsh.finance.shared.holiday.model.CountryCode;
+import com.falizsh.finance.shared.holiday.projection.HolidayProjection;
 import com.falizsh.finance.shared.holiday.projection.HolidayProjectionModel;
 import com.falizsh.finance.shared.holiday.repository.HolidayQuery;
 import com.falizsh.finance.shared.holiday.service.HolidayImportService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -12,9 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/finance/v1/routines/holidays")
@@ -35,17 +35,18 @@ public class HolidayController {
     public ResponseEntity<CollectionModel<EntityModel<HolidayProjectionModel>>> getHolidays(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
-            @RequestParam(defaultValue = "BR") CountryCode countryCode
+            @RequestParam(defaultValue = "BR") CountryCode countryCode,
+            Pageable pageable,
+            PagedResourcesAssembler<HolidayProjection> pagedAssembler
     ) {
         LocalDate targetStartDate = startDate != null ? startDate : LocalDate.now().withDayOfYear(1);
         LocalDate targetEndDate = endDate != null ? endDate : LocalDate.now().withDayOfYear(LocalDate.now().lengthOfYear());
 
         return ResponseEntity.ok(
-                assembler.toCollectionModel(holidayQuery.findByRange(targetStartDate, targetEndDate, countryCode))
-                        .add(linkTo(methodOn(HolidayController.class)
-                                .getHolidays(targetStartDate, targetEndDate, countryCode))
-                                .withSelfRel()
-                        )
+                pagedAssembler.toModel(
+                        holidayQuery.findByRangePaginated(targetStartDate, targetEndDate, countryCode, pageable),
+                        assembler
+                )
         );
     }
 }

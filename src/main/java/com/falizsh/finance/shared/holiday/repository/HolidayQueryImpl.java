@@ -4,6 +4,8 @@ import com.falizsh.finance.shared.holiday.model.CountryCode;
 import com.falizsh.finance.shared.holiday.model.Holiday;
 import com.falizsh.finance.shared.holiday.projection.HolidayProjection;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -34,5 +36,10 @@ public class HolidayQueryImpl implements HolidayQuery {
     @Override
     public List<HolidayProjection> findByRange(LocalDate startDate, LocalDate endDate, CountryCode countryCode) {
         return repository.findByCountryCodeAndDateBetween(countryCode, startDate, endDate);
+    }
+
+    @Override
+    public Page<HolidayProjection> findByRangePaginated(LocalDate startDate, LocalDate endDate, CountryCode countryCode, Pageable pageable) {
+        return repository.findByCountryCodeAndDateBetween(countryCode, startDate, endDate, pageable);
     }
 }
