@@ -1,0 +1,73 @@
+info:
+  name: Todos os Endereços
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{localhost}}/v1/finance/user/all/address"
+  headers:
+    - name: User-Agent
+      value: insomnia/12.1.0
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: "test('Status code is 200', function () {\r
+
+        \    expect(res.getStatus()).to.equal(200);\r
+
+        })\r
+
+        \r
+
+        test('Response time is less than 1000ms', function () {\r
+
+        \    expect(res.getResponseTime()).to.be.below(1000);\r
+
+        })\r
+
+        \r
+
+        test('Response is JSON', function () {\r
+
+        //     pm.response.to.be.json;\r
+
+        })\r
+
+        \r
+
+        test('Response has address fields', function () {\r
+
+        \    const jsonData = res.getBody();\r
+
+        \    expect(jsonData).to.be.an('object');\r
+
+        \    expect(jsonData).to.have.property('street');\r
+
+        \    expect(jsonData).to.have.property('city');\r
+
+        \    expect(jsonData).to.have.property('zip');\r
+
+        \    expect(jsonData).to.have.property('userId');\r
+
+        })\r
+
+        \r
+
+        test('Address field types are correct', function () {\r
+
+        \    const jsonData = res.getBody();\r
+
+        \    expect(jsonData.street).to.be.a('string');\r
+
+        \    expect(jsonData.city).to.be.a('string');\r
+
+        })"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

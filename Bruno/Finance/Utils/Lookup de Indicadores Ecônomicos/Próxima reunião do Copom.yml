@@ -1,0 +1,15 @@
+info:
+  name: Próxima reunião do Copom
+  type: http
+  seq: 3
+
+http:
+  method: GET
+  url: "{{localhost}}/v1/finance/utils/copom/next-meeting"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

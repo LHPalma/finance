@@ -1,0 +1,19 @@
+info:
+  name: Orquestrador
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{localhost}}/v1/finance/utils/stock/:ticker"
+  params:
+    - name: ticker
+      value: ITSA4
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

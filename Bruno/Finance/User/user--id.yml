@@ -1,0 +1,79 @@
+info:
+  name: /user/:id
+  type: http
+  seq: 6
+
+http:
+  method: GET
+  url: "{{localhost}}/v1/finance/user/id/:id"
+  headers:
+    - name: User-Agent
+      value: insomnia/12.1.0
+  params:
+    - name: id
+      value: "164"
+      type: path
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: "test('Status code is 200', function () {\r
+
+        \    expect(res.getStatus()).to.equal(200);\r
+
+        })\r
+
+        \r
+
+        test('Response time is less than 1000ms', function () {\r
+
+        \    expect(res.getResponseTime()).to.be.below(1000);\r
+
+        })\r
+
+        \r
+
+        test('Response is JSON', function () {\r
+
+        //     pm.response.to.be.json;\r
+
+        })\r
+
+        \r
+
+        test('Response has user properties', function () {\r
+
+        \    const jsonData = res.getBody();\r
+
+        \    expect(jsonData).to.be.an('object');\r
+
+        \    expect(jsonData).to.have.property('id');\r
+
+        \    expect(jsonData).to.have.property('name');\r
+
+        \    expect(jsonData).to.have.property('email');\r
+
+        })\r
+
+        \r
+
+        test('User field types are correct', function () {\r
+
+        \    const jsonData = res.getBody();\r
+
+        \    expect(jsonData.id).to.be.a('number');\r
+
+        \    expect(jsonData.name).to.be.a('string');\r
+
+        \    expect(jsonData.email).to.be.a('string');\r
+
+        })"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: Lista todos um usuários cadastrados a partir de um id.

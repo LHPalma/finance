@@ -1,0 +1,22 @@
+info:
+  name: Set Primary
+  type: http
+  seq: 3
+
+http:
+  method: PATCH
+  url: "{{localhost}}/v1/finance/user/:userId/user-telephones/:telephoneId/primary"
+  params:
+    - name: userId
+      value: "4"
+      type: path
+    - name: telephoneId
+      value: "4"
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

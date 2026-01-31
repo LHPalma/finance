@@ -1,0 +1,24 @@
+info:
+  name: Lookup de Moedas
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: "{{localhost}}/v1/finance/utils/currency/quote/:from/:to"
+  params:
+    - name: from
+      value: USD
+      type: path
+      description: Moeda de origem
+    - name: to
+      value: BRL
+      type: path
+      description: Moeda de destino
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

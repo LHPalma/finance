@@ -1,0 +1,22 @@
+info:
+  name: Importação de reuniões
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: "{{localhost}}/v1/finance/utils/copom/import"
+  body:
+    type: multipart-form
+    data:
+      - name: file
+        type: file
+        value:
+          - /C:/Users/luizp/Downloads/Meu banco de dados.txt
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

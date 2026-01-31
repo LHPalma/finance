@@ -1,0 +1,30 @@
+info:
+  name: Simular NTN-B
+  type: http
+  seq: 10
+
+http:
+  method: POST
+  url: "{{localhost}}/v1/finance/simulation/ntnb"
+  body:
+    type: json
+    data: "{\r
+
+      \    \"vna\": 4589.655267,\r
+
+      \    \"annualRate\": 0.0400,\r
+
+      \    \"projectedInflation\": 0.0036,\r
+
+      \    \"calculationDate\": \"2026-01-23\",\r
+
+      \    \"maturityDate\": \"2050-08-15\"\r
+
+      }"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,44 @@
+info:
+  name: Adiciona Endereço
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{localhost}}/v1/finance/user/:userId/address"
+  params:
+    - name: userId
+      value: "1"
+      type: path
+  body:
+    type: json
+    data: "{\r
+
+      \    \"type\": \"COMMERCIAL\",\r
+
+      \    \"street\": \"Estrada das Lágrimas\",\r
+
+      \    \"number\": \"252\",\r
+
+      \    \"complement\": \"\",\r
+
+      \    \"neighborhood\": \"Sacomã\",\r
+
+      \    \"city\": \"São Paulo\",\r
+
+      \    \"state\": \"SP\",\r
+
+      \    \"zipCode\": \"99999-999\",\r
+
+      \    \"country\": \"BRA\",\r
+
+      \    \"isPrimary\": true\r
+
+      }"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

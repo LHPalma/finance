@@ -1,0 +1,15 @@
+info:
+  name: Atualizar Feriados
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{LOCALHOST}}/finance/v1/routines/holidays/sync"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

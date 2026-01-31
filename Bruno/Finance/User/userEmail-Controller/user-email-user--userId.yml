@@ -1,0 +1,73 @@
+info:
+  name: /user/email/user/:userId
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{localhost}}/v1/finance/user/email/user/:userId"
+  headers:
+    - name: User-Agent
+      value: insomnia/12.1.0
+  params:
+    - name: userId
+      value: "1"
+      type: path
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: "test('Status code is 200', function () {\r
+
+        \    expect(res.getStatus()).to.equal(200);\r
+
+        })\r
+
+        \r
+
+        test('Response time is less than 1000ms', function () {\r
+
+        \    expect(res.getResponseTime()).to.be.below(1000);\r
+
+        })\r
+
+        \r
+
+        test('Response is JSON', function () {\r
+
+        //     pm.response.to.be.json;\r
+
+        })\r
+
+        \r
+
+        test('Response is an array of emails', function () {\r
+
+        \    const jsonData = res.getBody();\r
+
+        \    expect(jsonData).to.be.an('array');\r
+
+        })\r
+
+        \r
+
+        test('Each email object has required fields', function () {\r
+
+        \    const jsonData = res.getBody();\r
+
+        \    jsonData.forEach(function (item) {\r
+
+        \        expect(item).to.have.property('email');\r
+
+        \        expect(item.email).to.be.a('string');\r
+
+        \    });\r
+
+        })"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

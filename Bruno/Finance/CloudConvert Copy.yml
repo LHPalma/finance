@@ -1,0 +1,24 @@
+info:
+  name: CloudConvert Copy
+  type: http
+  seq: 9
+
+http:
+  method: GET
+  url: https://api.cloudconvert.com/v2/jobs/:jobId
+  params:
+    - name: jobId
+      value: 08f9f076-5906-4e5c-b793-068c6be3a7d6
+      type: path
+  body:
+    type: json
+    data: ""
+  auth:
+    type: bearer
+    token: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZmFjYTI1NjllNWIzZjk5ZWEwMWVhZmRhNjk4YmNhYWE5Yjg0MTNhZjdhN2Q4NWZkNWNjODRjMzE4ZGRiY2I4YmZhNGNmMDc2NTM5NGZhMjciLCJpYXQiOjE3Njg2MDg1MzcuOTU4NTE5LCJuYmYiOjE3Njg2MDg1MzcuOTU4NTIxLCJleHAiOjQ5MjQyODIxMzcuOTUxODA1LCJzdWIiOiI3Mzk2ODI5OCIsInNjb3BlcyI6WyJ1c2VyLnJlYWQiLCJ1c2VyLndyaXRlIiwidGFzay5yZWFkIiwidGFzay53cml0ZSIsIndlYmhvb2sucmVhZCIsIndlYmhvb2sud3JpdGUiLCJwcmVzZXQucmVhZCIsInByZXNldC53cml0ZSJdfQ.JM6VygLmnoXT59St9U5O8fRrawK65HkCBIcCO2I-6OtMdklSM--QCsihnS80V86MX9wXzetht-uiRjJpFNyo3Fjenxrw7h6GHeJlqi7WiOAM9x6cmf-ekuydwll1ZqDISZOB0ouQOjUveEUZ-HSaTsMDMJsnZP-YBuEtGjQXucy6Hz9KTXAKFVH5RDvnPzMULClYdZh7C85QaI_ThozA-5_vFhxA7EQapbUMGVnALEmzlWIGv3wfPq8vP8bUuwP1g_7I_E5e9T8ex9IWpJnDxgzH6v7DbeAcNAEyZPq6ntDBzN9vdtwuuRFkmTLqE8LCXKGq4ByX0O4ixOBZLnfHORa3mfepjFrK2aiAAncTZIflRGMj3xOr5lFCy3_FQe0EPxgRgF3iy14yr-YmZpVunYw9gtgs0Gl_hnD2gynka4YNWjgjNQFytpaKUsW_nD-h0IxvIPNg56JS5r8puczmdO6VQOtp9oiswV1gRAC4djiyIvOLTZOpQi17DVqxoUJxjoew8G9Xaqb6VIDtgHacWDxUbFBx3Wli9AXRu5epL3QjIn-HElabezRILauGSf4RT-_PuaW3FBaBrbD1q37bbxkF8X_3SidACZMmOTvQCdcHX27uaz8OhB_PpAVA4ZEp3KRxygZciI78sFFaQpbqGz3uGbyRg3viOZ4rLgmQbUE
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

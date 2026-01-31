@@ -1,0 +1,82 @@
+info:
+  name: /user
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: "{{localhost}}/v1/finance/user"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: User-Agent
+      value: insomnia/12.1.0
+  body:
+    type: json
+    data: |-
+      
+      {
+      	"name": "Louise Pomerode",
+      	"email": "louisepomerode@email.com",
+      	"password": "senha123",
+      	"salt": "salt123",
+      	"status": "ACTIVE"
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: "test('Status code is 201', function () {\r
+
+        \    expect(res.getStatus()).to.equal(201);\r
+
+        })\r
+
+        \r
+
+        test('Response time is less than 1000ms', function () {\r
+
+        \    expect(res.getResponseTime()).to.be.below(1000);\r
+
+        })\r
+
+        \r
+
+        test('Response is JSON', function () {\r
+
+        //     pm.response.to.be.json;\r
+
+        })\r
+
+        \r
+
+        test('Response contains created user id', function () {\r
+
+        \    const jsonData = res.getBody();\r
+
+        \    expect(jsonData).to.be.an('object');\r
+
+        \    expect(jsonData).to.have.property('id');\r
+
+        })\r
+
+        \r
+
+        test('Created user has required fields', function () {\r
+
+        \    const jsonData = res.getBody();\r
+
+        \    expect(jsonData).to.have.property('name');\r
+
+        \    expect(jsonData).to.have.property('email');\r
+
+        })"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: Cadastra um novo usuário.

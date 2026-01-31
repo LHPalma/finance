@@ -1,0 +1,22 @@
+info:
+  name: Importar VNA
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{LOCALHOST}}/v1/finance/economics/vna/import?date=2026-01-21"
+  params:
+    - name: date
+      value: 2026-01-21
+      type: query
+  body:
+    type: json
+    data: ""
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,7 @@
+info:
+  name: Lookup de Indicadores Ecônomicos
+  type: folder
+  seq: 2
+
+request:
+  auth: inherit

@@ -1,0 +1,14 @@
+opencollection: 1.0.0
+
+info:
+  name: Finance
+
+request:
+  variables:
+    - name: localhost
+      value: ""
+bundled: false
+extensions:
+  ignore:
+    - node_modules
+    - .git

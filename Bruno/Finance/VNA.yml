@@ -1,0 +1,28 @@
+info:
+  name: VNA
+  type: http
+  seq: 6
+
+http:
+  method: POST
+  url: https://www.anbima.com.br/informacoes/vna/vna.asp
+  body:
+    type: form-urlencoded
+    data:
+      - name: Data
+        value: "16012026"
+      - name: Inicio
+        value: 16/01/2026
+      - name: escolha
+        value: "1"
+      - name: Idioma
+        value: PT
+      - name: saida
+        value: xml
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

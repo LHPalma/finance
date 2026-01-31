@@ -1,0 +1,7 @@
+info:
+  name: userEmail-Controller
+  type: folder
+  seq: 1
+
+request:
+  auth: inherit

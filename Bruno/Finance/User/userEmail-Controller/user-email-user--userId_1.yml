@@ -1,0 +1,81 @@
+info:
+  name: /user/email/user/:userId_1
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: "{{localhost}}/v1/finance/user/email/user/:userId"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: User-Agent
+      value: insomnia/12.1.0
+  params:
+    - name: userId
+      value: "1"
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+          "type": "COMMERCIAL",
+          "email": "luizpalma@profissional.com",
+          "isPrimary": true
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: "test('Status code is 200 or 201', function () {\r
+
+        \    expect(res.getStatus()).to.be.oneOf([\r
+
+        \        200,\r
+
+        \        201\r
+
+        \    ]);\r
+
+        })\r
+
+        \r
+
+        test('Response time is less than 1000ms', function () {\r
+
+        \    expect(res.getResponseTime()).to.be.below(1000);\r
+
+        })\r
+
+        \r
+
+        test('Response is JSON', function () {\r
+
+        //     pm.response.to.be.json;\r
+
+        })\r
+
+        \r
+
+        test('Response indicates success', function () {\r
+
+        \    const jsonData = res.getBody();\r
+
+        \    expect(jsonData).to.be.an('object');\r
+
+        \    const hasId = jsonData.hasOwnProperty('id');\r
+
+        \    const hasEmail = jsonData.hasOwnProperty('email');\r
+
+        \    const hasMessage = jsonData.hasOwnProperty('message');\r
+
+        \    expect(hasId || hasEmail || hasMessage).to.be.true;\r
+
+        })"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

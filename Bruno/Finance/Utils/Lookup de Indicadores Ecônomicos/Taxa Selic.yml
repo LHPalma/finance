@@ -1,0 +1,15 @@
+info:
+  name: Taxa Selic
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{localhost}}/v1/finance/utils/selic-rate/current"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
