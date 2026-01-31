@@ -1,0 +1,33 @@
+info:
+  name: Lista Feriados em um Período
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{LOCALHOST}}/finance/v1/routines/holidays"
+  params:
+    - name: startDate
+      value: ""
+      type: query
+      disabled: true
+    - name: endDate
+      value: ""
+      type: query
+      disabled: true
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  # Get de Feriados
+
+  ## Params
+  ### startDate: LocalDate (AAAA-MM-DD)
+  * Se não informado, é considerado o 1º dia do ano atual.
+  ### endDate: LocalDate (AAAA-MM-DD)
+  * Se não informado, é considerado o último dia do ano atual.

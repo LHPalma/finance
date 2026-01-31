@@ -15,4 +15,6 @@ public interface HolidayQuery {
 
     Optional<Holiday> findByDate(LocalDate date, CountryCode countryCode);
 
+    List<Holiday> findByRange(LocalDate startDate, LocalDate endDate,  CountryCode countryCode);
+
 }

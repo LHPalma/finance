@@ -29,4 +29,9 @@ public class HolidayQueryImpl implements HolidayQuery {
     public Optional<Holiday> findByDate(LocalDate date, CountryCode countryCode) {
         return repository.findByDateAndCountryCode(date, countryCode);
     }
+
+    @Override
+    public List<Holiday> findByRange(LocalDate startDate, LocalDate endDate, CountryCode countryCode) {
+        return repository.findByCountryCodeAndDateBetween(countryCode, startDate, endDate);
+    }
 }
