@@ -2,6 +2,7 @@ package com.falizsh.finance.shared.holiday.repository;
 
 import com.falizsh.finance.shared.holiday.model.CountryCode;
 import com.falizsh.finance.shared.holiday.model.Holiday;
+import com.falizsh.finance.shared.holiday.projection.HolidayProjection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +32,7 @@ public class HolidayQueryImpl implements HolidayQuery {
     }
 
     @Override
-    public List<Holiday> findByRange(LocalDate startDate, LocalDate endDate, CountryCode countryCode) {
+    public List<HolidayProjection> findByRange(LocalDate startDate, LocalDate endDate, CountryCode countryCode) {
         return repository.findByCountryCodeAndDateBetween(countryCode, startDate, endDate);
     }
 }

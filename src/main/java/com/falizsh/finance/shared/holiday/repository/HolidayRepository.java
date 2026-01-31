@@ -2,6 +2,7 @@ package com.falizsh.finance.shared.holiday.repository;
 
 import com.falizsh.finance.shared.holiday.model.CountryCode;
 import com.falizsh.finance.shared.holiday.model.Holiday;
+import com.falizsh.finance.shared.holiday.projection.HolidayProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +17,6 @@ public interface HolidayRepository extends JpaRepository<Holiday, Long> {
 
     boolean existsByDateAndCountryCode(LocalDate date, CountryCode countryCode);
 
-    List<Holiday> findByCountryCodeAndDateBetween(CountryCode countryCode, LocalDate start, LocalDate end);
-    
+    List<HolidayProjection> findByCountryCodeAndDateBetween(CountryCode countryCode, LocalDate start, LocalDate end);
+
 }

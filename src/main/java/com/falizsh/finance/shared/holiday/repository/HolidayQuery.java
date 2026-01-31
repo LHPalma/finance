@@ -2,6 +2,7 @@ package com.falizsh.finance.shared.holiday.repository;
 
 import com.falizsh.finance.shared.holiday.model.CountryCode;
 import com.falizsh.finance.shared.holiday.model.Holiday;
+import com.falizsh.finance.shared.holiday.projection.HolidayProjection;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,6 +16,6 @@ public interface HolidayQuery {
 
     Optional<Holiday> findByDate(LocalDate date, CountryCode countryCode);
 
-    List<Holiday> findByRange(LocalDate startDate, LocalDate endDate,  CountryCode countryCode);
+    List<HolidayProjection> findByRange(LocalDate startDate, LocalDate endDate, CountryCode countryCode);
 
 }

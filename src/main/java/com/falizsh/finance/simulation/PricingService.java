@@ -1,7 +1,7 @@
 package com.falizsh.finance.simulation;
 
 import com.falizsh.finance.shared.holiday.model.CountryCode;
-import com.falizsh.finance.shared.holiday.model.Holiday;
+import com.falizsh.finance.shared.holiday.projection.HolidayProjection;
 import com.falizsh.finance.shared.holiday.repository.HolidayRepository;
 import com.falizsh.finance.shared.utils.FinancialCalculous;
 import lombok.RequiredArgsConstructor;
@@ -67,11 +67,10 @@ public class PricingService {
     public int countBusinessDays(LocalDate start, LocalDate end) {
         if (start.isAfter(end) || start.equals(end)) return 0;
 
-        // Busca todos os feriados no intervalo de uma vez
         Set<LocalDate> holidaysSet = holidayRepository
                 .findByCountryCodeAndDateBetween(CountryCode.BR, start, end)
                 .stream()
-                .map(Holiday::getDate)
+                .map(HolidayProjection::getDate)
                 .collect(Collectors.toSet());
 
         int businessDays = 0;
@@ -112,7 +111,7 @@ public class PricingService {
         return holidayRepository
                 .findByCountryCodeAndDateBetween(CountryCode.BR, startDate, startDate.plusDays(daysWindow))
                 .stream()
-                .map(Holiday::getDate)
+                .map(HolidayProjection::getDate)
                 .collect(Collectors.toSet());
     }
 
