@@ -14,6 +14,7 @@ import org.hibernate.annotations.*;
 import org.hibernate.type.SqlTypes;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -94,8 +95,13 @@ public class SourceFile {
         this.metadata = metadata;
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Builder.Default
     @OneToMany(mappedBy = "sourceFile", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<SourceFileError> errors;
+    private List<SourceFileError> errors = new ArrayList<>();
 
     public void addError(SourceFileError error) {
         errors.add(error);

@@ -50,7 +50,6 @@ public class SourceFileError {
     @Column(name = "error_details")
     private Map<String, Object> errorDetails;
 
-    @NotNull
     @CreationTimestamp
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at", nullable = false)

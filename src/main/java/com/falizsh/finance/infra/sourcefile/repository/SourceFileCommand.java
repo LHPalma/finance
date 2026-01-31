@@ -2,9 +2,12 @@ package com.falizsh.finance.infra.sourcefile.repository;
 
 import com.falizsh.finance.infra.sourcefile.model.SourceFile;
 import com.falizsh.finance.infra.sourcefile.model.SourceFileDomain;
+import com.falizsh.finance.infra.sourcefile.model.SourceFileError;
 import com.falizsh.finance.infra.sourcefile.model.SourceFileStatus;
 import com.falizsh.finance.infra.storage.FileStorageProvider;
+import com.falizsh.finance.infra.storage.model.StoredFileResult;
 import com.falizsh.finance.users.user.model.User;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,8 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.text.Normalizer;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+import java.util.regex.Pattern;
 
 @Slf4j
 @Service
@@ -59,33 +67,101 @@ public class SourceFileCommand {
 
     @Transactional
     public SourceFile create(
-            String filename,
+            String originalFileName,
             byte[] content,
             String contentType,
             SourceFileDomain domain,
             User user,
             Map<String, Object> metadata
     ) {
-
         validateUserDomainConsistency(domain, user);
 
-        String storagePath = storageProvider.storageFile(
-                filename,
-                content
-        );
+        String finalFilename = generateUniqueFileName(originalFileName);
+
+        StoredFileResult result = storageProvider.storageFile(finalFilename, content);
 
         SourceFile sourceFile = SourceFile.builder()
-                .fileName(filename)
-                .originalFileName(filename)
-                .storagePath(storagePath)
+                .fileName(finalFilename)
+                .originalFileName(originalFileName)
+                .storagePath(result.storagePath())
+                .checksum(result.checksum())
+                .fileSize(result.contentLength())
                 .contentType(contentType)
                 .domain(domain)
                 .user(user)
                 .metadata(metadata)
-                .fileSize((long) content.length)
+                .status(SourceFileStatus.PENDING)
                 .build();
 
         return repository.save(sourceFile);
+
+    }
+
+    private String generateUniqueFileName(String originalFileName) {
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy_MM_dd-HH_mm_ss"));
+        String uuid = UUID.randomUUID().toString();
+        String sanitizedName = sanitizeFileName(originalFileName);
+
+        return String.format("%s-%s-%s", timestamp, uuid, sanitizedName);
+    }
+
+    /**
+     *
+     * @param originalFileName
+     * @return Nome sanitizado sem caracteres especiais, espaços e acentos.
+     */
+    private String sanitizeFileName(String originalFileName) {
+        if (originalFileName == null || originalFileName.isBlank()) {
+            return "unnamed_file";
+        }
+
+        String extension = "";
+        String nameWithoutExtension = originalFileName;
+        int lastDotIndex = originalFileName.lastIndexOf(".");
+
+        if (lastDotIndex > 0) {
+            extension = originalFileName.substring(lastDotIndex); // ex: ".xml"
+            nameWithoutExtension = originalFileName.substring(0, lastDotIndex); // ex: "meu_arquivo"
+        }
+
+        String normalized = Normalizer.normalize(nameWithoutExtension, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        String noAccents = pattern.matcher(normalized).replaceAll("");
+
+        String sanitizedName = noAccents.replaceAll("\\s+", "_")
+                .replaceAll("[^a-zA-Z0-9_-]", "");
+
+        final int MAX_FILE_NAME_LENGTH = 100;
+        int maxNameLength = MAX_FILE_NAME_LENGTH - extension.length();
+        if (maxNameLength < 1) maxNameLength = 1;
+
+        if (sanitizedName.length() > maxNameLength) {
+            sanitizedName = sanitizedName.substring(0, maxNameLength);
+        }
+
+        return sanitizedName + extension;
+    }
+
+
+    @Transactional
+    public void updateStatus(SourceFile sourceFile, SourceFileStatus status) {
+        sourceFile.setStatus(status);
+        repository.save(sourceFile);
+    }
+
+    @Transactional
+    public void addError(SourceFile sourceFile, String errorMsg, String rawData) {
+        SourceFile managedSourceFile = repository.findById(sourceFile.getId())
+                .orElseThrow(() -> new EntityNotFoundException("SourceFile.not.found: " + sourceFile.getId()));
+
+        SourceFileError error = SourceFileError.builder()
+                .errorMessage(errorMsg)
+                .rawData(rawData)
+                .sourceFile(managedSourceFile)
+                .build();
+
+        managedSourceFile.addError(error);
+        repository.save(managedSourceFile);
     }
 
 

@@ -19,7 +19,6 @@ import java.util.List;
 public class VnaController {
 
     private final VnaService vnaService;
-    private final SpringDocParameterNameDiscoverer localSpringDocParameterNameDiscoverer;
 
     @PostMapping("/import")
     public ResponseEntity<List<Vna>> importVna(
