@@ -5,10 +5,10 @@ info:
 
 http:
   method: GET
-  url: "{{LOCALHOST}}/v1/finance/economics/vna?date=2026-01-21"
+  url: "{{LOCALHOST}}/v1/finance/economics/vna?date=2026-01-29"
   params:
     - name: date
-      value: 2026-01-21
+      value: 2026-01-29
       type: query
   auth: inherit
 

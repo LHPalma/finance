@@ -3,7 +3,6 @@ package com.falizsh.finance.economics;
 import com.falizsh.finance.economics.model.Vna;
 import com.falizsh.finance.economics.service.VnaService;
 import lombok.RequiredArgsConstructor;
-import org.springdoc.core.discoverer.SpringDocParameterNameDiscoverer;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +24,7 @@ public class VnaController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
     ) {
         LocalDate targetDate = (date != null) ? date : LocalDate.now();
-        List<Vna> savedVnas = vnaService.fetchAndSaveVna(targetDate);
+        List<Vna> savedVnas = vnaService.importData(targetDate);
         return ResponseEntity.ok(savedVnas);
     }
 
@@ -52,7 +51,7 @@ public class VnaController {
             );
         }
 
-        List<Vna> savedVnas = vnaService.fetchAndSaveVnaRange(startDate, targetEndDate);
+        List<Vna> savedVnas = vnaService.importRange(startDate, targetEndDate);
         return ResponseEntity.ok(savedVnas);
     }
 
@@ -61,7 +60,7 @@ public class VnaController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
     ) {
         LocalDate targetDate = (date != null) ? date : LocalDate.now();
-        return ResponseEntity.ok(vnaService.fetchFromAmbima(targetDate));
+        return ResponseEntity.ok(vnaService.fetchVna(targetDate));
     }
 
 }
