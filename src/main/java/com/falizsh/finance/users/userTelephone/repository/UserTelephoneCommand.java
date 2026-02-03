@@ -22,9 +22,7 @@ public class UserTelephoneCommand {
                 .orElseThrow(() -> new IllegalArgumentException("user.not.found"));
 
         user.addTelephone(
-                data.type(),
-                data.areaCode(),
-                data.telephone(),
+                data.telephone(), data.areaCode(), data.type(),
                 data.isPrimary()
         );
 

@@ -169,25 +169,24 @@ public class User {
         return Collections.unmodifiableCollection(telephones);
     }
 
-    private void unsetAllPrimaryTelephones() {
-        this.telephones.forEach(UserTelephone::removePrimary);
+    private void unsetPrimaryTelephonesByType(TelephoneType type) {
+        this.telephones.stream()
+                .filter(t -> t.getType() == type)
+                .forEach(UserTelephone::removePrimary);
     }
 
     public void addTelephone(
-            TelephoneType type,
-            String areaCode,
             String telephone,
+            String areaCode,
+            TelephoneType type,
             Boolean isPrimary
     ) {
 
-        if (Boolean.TRUE.equals(isPrimary)) {
-            unsetAllPrimaryTelephones();
-        } else {
+        validateTelephoneUniqueness(telephone, areaCode, type);
 
-            if (this.telephones.isEmpty()) {
-                isPrimary = true;
-            }
-
+        boolean shouldBePrimary = resolvePrimaryStatus(isPrimary, type);
+        if (shouldBePrimary) {
+            unsetPrimaryTelephonesByType(type);
         }
 
         UserTelephone newTelephone = UserTelephone.builder()
@@ -195,10 +194,30 @@ public class User {
                 .type(type)
                 .areaCode(areaCode)
                 .telephone(telephone)
-                .isPrimary(isPrimary)
+                .isPrimary(shouldBePrimary)
                 .build();
 
         this.telephones.add(newTelephone);
+    }
+
+    private void validateTelephoneUniqueness(String telephone, String areaCode, TelephoneType type) {
+        boolean alreadyExists = this.telephones.stream().anyMatch(t ->
+                t.getType() == type &&
+                        t.getAreaCode().equals(areaCode) &&
+                        t.getTelephone().equals(telephone)
+        );
+
+        if (alreadyExists) {
+            throw new IllegalArgumentException("Telephone.already.exists");
+        }
+    }
+
+    private boolean resolvePrimaryStatus(Boolean isPrimary, TelephoneType type) {
+        boolean isFirstOfThisType = this.telephones.stream()
+                .noneMatch(t -> t.getType() == type);
+
+        return Boolean.TRUE.equals(isPrimary) || isFirstOfThisType;
+
     }
 
     public void setPrimaryTelephone(Long telephoneId) {
@@ -207,7 +226,7 @@ public class User {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("telephone.not.found"));
 
-                unsetAllPrimaryTelephones();
+        unsetPrimaryTelephonesByType(targetTelephone.getType());
 
         targetTelephone.setPrimary();
     }
