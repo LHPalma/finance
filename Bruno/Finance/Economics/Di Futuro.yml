@@ -1,0 +1,303 @@
+info:
+  name: Di Futuro
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{LOCALHOST}}/v1/finance/utils/di-future/di1?maturityDate=2027-01-20"
+  params:
+    - name: maturityDate
+      value: 2027-01-20
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Ok
+    request:
+      url: "{{LOCALHOST}}/v1/finance/utils/di-future/di1"
+      method: GET
+    response:
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Mon, 09 Feb 2026 00:48:30 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          [
+            {
+              "contractCode": "DI1H26",
+              "maturityDate": "2026-03-02",
+              "rate": 14.904,
+              "unitPrice": 14.901
+            },
+            {
+              "contractCode": "DI1J26",
+              "maturityDate": "2026-04-01",
+              "rate": 14.801,
+              "unitPrice": 14.799
+            },
+            {
+              "contractCode": "DI1K26",
+              "maturityDate": "2026-05-04",
+              "rate": 14.677,
+              "unitPrice": 14.678
+            },
+            {
+              "contractCode": "DI1M26",
+              "maturityDate": "2026-06-01",
+              "rate": 14.475,
+              "unitPrice": 14.482
+            },
+            {
+              "contractCode": "DI1N26",
+              "maturityDate": "2026-07-01",
+              "rate": 14.315,
+              "unitPrice": 14.312
+            },
+            {
+              "contractCode": "DI1Q26",
+              "maturityDate": "2026-08-03",
+              "rate": 14.135,
+              "unitPrice": 14.135
+            },
+            {
+              "contractCode": "DI1U26",
+              "maturityDate": "2026-09-01",
+              "rate": 13.96,
+              "unitPrice": 13.961
+            },
+            {
+              "contractCode": "DI1V26",
+              "maturityDate": "2026-10-01",
+              "rate": 13.795,
+              "unitPrice": 13.792
+            },
+            {
+              "contractCode": "DI1X26",
+              "maturityDate": "2026-11-03",
+              "rate": 13.64,
+              "unitPrice": 13.64
+            },
+            {
+              "contractCode": "DI1Z26",
+              "maturityDate": "2026-12-01",
+              "rate": 13.515,
+              "unitPrice": 13.51
+            },
+            {
+              "contractCode": "DI1F27",
+              "maturityDate": "2027-01-04",
+              "rate": 13.365,
+              "unitPrice": 13.361
+            },
+            {
+              "contractCode": "DI1G27",
+              "maturityDate": "2027-02-01",
+              "rate": 13.255,
+              "unitPrice": 13.254
+            },
+            {
+              "contractCode": "DI1J27",
+              "maturityDate": "2027-04-01",
+              "rate": 13.07,
+              "unitPrice": 13.072
+            },
+            {
+              "contractCode": "DI1N27",
+              "maturityDate": "2027-07-01",
+              "rate": 12.85,
+              "unitPrice": 12.854
+            },
+            {
+              "contractCode": "DI1Q27",
+              "maturityDate": "2027-08-02",
+              "rate": 12.755,
+              "unitPrice": 12.804
+            },
+            {
+              "contractCode": "DI1V27",
+              "maturityDate": "2027-10-01",
+              "rate": 12.735,
+              "unitPrice": 12.736
+            },
+            {
+              "contractCode": "DI1F28",
+              "maturityDate": "2028-01-03",
+              "rate": 12.665,
+              "unitPrice": 12.67
+            },
+            {
+              "contractCode": "DI1J28",
+              "maturityDate": "2028-04-03",
+              "rate": 12.67,
+              "unitPrice": 12.665
+            },
+            {
+              "contractCode": "DI1N28",
+              "maturityDate": "2028-07-03",
+              "rate": 12.67,
+              "unitPrice": 12.672
+            },
+            {
+              "contractCode": "DI1V28",
+              "maturityDate": "2028-10-02",
+              "rate": 12.71,
+              "unitPrice": 12.707
+            },
+            {
+              "contractCode": "DI1F29",
+              "maturityDate": "2029-01-02",
+              "rate": 12.75,
+              "unitPrice": 12.749
+            },
+            {
+              "contractCode": "DI1J29",
+              "maturityDate": "2029-04-02",
+              "rate": 12.8,
+              "unitPrice": 12.812
+            },
+            {
+              "contractCode": "DI1N29",
+              "maturityDate": "2029-07-02",
+              "rate": 12.88,
+              "unitPrice": 12.879
+            },
+            {
+              "contractCode": "DI1V29",
+              "maturityDate": "2029-10-01",
+              "rate": 12.94,
+              "unitPrice": 12.938
+            },
+            {
+              "contractCode": "DI1F30",
+              "maturityDate": "2030-01-02",
+              "rate": 12.995,
+              "unitPrice": 12.997
+            },
+            {
+              "contractCode": "DI1J30",
+              "maturityDate": "2030-04-01",
+              "rate": 13.035,
+              "unitPrice": 13.038
+            },
+            {
+              "contractCode": "DI1N30",
+              "maturityDate": "2030-07-01",
+              "rate": 13.1,
+              "unitPrice": 13.096
+            },
+            {
+              "contractCode": "DI1V30",
+              "maturityDate": "2030-10-01",
+              "rate": 13.135,
+              "unitPrice": 13.137
+            },
+            {
+              "contractCode": "DI1F31",
+              "maturityDate": "2031-01-02",
+              "rate": 13.195,
+              "unitPrice": 13.192
+            },
+            {
+              "contractCode": "DI1V31",
+              "maturityDate": "2031-10-01",
+              "rate": 13.235,
+              "unitPrice": 13.304
+            },
+            {
+              "contractCode": "DI1F32",
+              "maturityDate": "2032-01-02",
+              "rate": 13.355,
+              "unitPrice": 13.348
+            },
+            {
+              "contractCode": "DI1F33",
+              "maturityDate": "2033-01-03",
+              "rate": 13.45,
+              "unitPrice": 13.436
+            },
+            {
+              "contractCode": "DI1F34",
+              "maturityDate": "2034-01-02",
+              "rate": 13.495,
+              "unitPrice": 13.484
+            },
+            {
+              "contractCode": "DI1F35",
+              "maturityDate": "2035-01-02",
+              "rate": 13.525,
+              "unitPrice": 13.507
+            },
+            {
+              "contractCode": "DI1F36",
+              "maturityDate": "2036-01-02",
+              "rate": 13.525,
+              "unitPrice": 13.513
+            },
+            {
+              "contractCode": "DI1F37",
+              "maturityDate": "2037-01-02",
+              "rate": 13.565,
+              "unitPrice": 13.548
+            },
+            {
+              "contractCode": "DI1F38",
+              "maturityDate": "2038-01-04",
+              "rate": 13.485,
+              "unitPrice": 13.53
+            }
+          ]
+  - name: 200 Ok com data
+    request:
+      url: "{{LOCALHOST}}/v1/finance/utils/di-future/di1?maturityDate=2027-01-20"
+      method: GET
+      params:
+        - name: maturityDate
+          value: 2027-01-20
+          type: query
+    response:
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Mon, 09 Feb 2026 00:51:20 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          [
+            {
+              "contractCode": "DI1F27",
+              "maturityDate": "2027-01-04",
+              "rate": 13.365,
+              "unitPrice": 13.361
+            },
+            {
+              "contractCode": "DI1G27",
+              "maturityDate": "2027-02-01",
+              "rate": 13.255,
+              "unitPrice": 13.254
+            }
+          ]

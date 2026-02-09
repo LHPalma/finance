@@ -29,6 +29,9 @@ anbima:
 bcb:
   base-url-odata: https://olinda.bcb.gov.br/olinda/servico/IFDATA/versao/v1/odata
 
+b3:
+  base-url: https://cotacao.b3.com.br
+
 resilience4j:
   circuitbreaker:
     instances:
