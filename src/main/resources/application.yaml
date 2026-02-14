@@ -14,6 +14,11 @@ spring:
       baseline-version: 2
       repair-on-migrate: true
 
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
 brapi:
   url: https://brapi.dev/api
   token: ${BRAPI_TOKEN}

@@ -5,6 +5,7 @@ import com.falizsh.finance.apis.b3.application.dto.DiFutureResult;
 import com.falizsh.finance.apis.b3.application.port.DiFutureGateway;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -22,7 +23,10 @@ public class B3DiProvider implements DiFutureGateway {
     private final B3DiClient client;
 
     @Override
+    @Cacheable(value = "di_curve", key = "'full'")
     public List<DiFutureResult> getSettlementPrices() {
+        log.info("Buscando dados reais na B3 [SEM CACHE]");
+
         try {
             B3DiResponse response = client.getDerivativeQuotation("DI1");
 
