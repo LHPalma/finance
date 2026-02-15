@@ -1,0 +1,22 @@
+info:
+  name: Índice de Basiléia
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{LOCALHOST}}/v1/finance/bacen/ifdata/baselIndex?institution=ITAU - PRUDENCIAL&referenceDate=09/2025"
+  params:
+    - name: institution
+      value: ITAU - PRUDENCIAL
+      type: query
+    - name: referenceDate
+      value: 09/2025
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,36 +1,33 @@
 package com.falizsh.finance.shared.bcbifdata.adapter;
 
+import com.falizsh.finance.config.feign.BacenFeingConfig;
 import com.falizsh.finance.config.feign.FeignNativeConfig;
 import feign.Param;
 import feign.RequestLine;
 import org.springframework.cloud.openfeign.FeignClient;
 
-// TODO: Não está funcional. A API do Bacen está retornando 500 para todas as datas no endpoint IfDataCadastro.
-//       Avaliar em outro momento
-
 @FeignClient(
         name = "bcbIfDataClient",
         url = "${bcb.base-url-odata}",
-        configuration = FeignNativeConfig.class
+        configuration = {FeignNativeConfig.class, BacenFeingConfig.class}
 )
 public interface BcbIfDataClient {
 
-    @RequestLine("GET /IfDataCadastro?$filter={filter}&$format={format}")
+    @RequestLine(value = "GET /IfDataCadastro(AnoMes=@AnoMes)?@AnoMes={yearMonth}&$format=json&$filter={filter}", decodeSlash = false)
     String fetchInstituition(
-            @Param("filter") String filter,
-            @Param("format") String format
+            @Param("yearMonth") Integer yearMonth,
+            @Param("filter") String filter
     );
 
-    @RequestLine("GET /ListaDeRelatorio?$filter={filter}&$format={format}")
-    String fetchReports(
-            @Param("filter") String filter,
-            @Param("format") String format
-    );
+    @RequestLine(value = "GET /ListaDeRelatorio()?$filter={filter}&$format=json", decodeSlash = false)
+    String fetchReports(@Param("filter") String filter);
 
-    @RequestLine("GET /IfDataValores?$filter={filter}&$format={format}")
+    @RequestLine(value = "GET /IfDataValores(AnoMes=@AnoMes,TipoInstituicao=@TipoInstituicao,Relatorio=@Relatorio)?@AnoMes={yearMonth}&@TipoInstituicao={tipoInst}&@Relatorio={idReport}&$filter={filter}&$format=json", decodeSlash = false)
     String fetchValues(
-            @Param("filter") String filter,
-            @Param("format") String format
+            @Param("yearMonth") Integer yearMonth,
+            @Param("tipoInst") Integer tipoInst,
+            @Param("idReport") String idReport,
+            @Param("filter") String filter
     );
 
 }
