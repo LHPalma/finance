@@ -2,6 +2,7 @@ package com.falizsh.finance.users.user.web;
 
 import com.falizsh.finance.users.user.assembler.UserAssembler;
 import com.falizsh.finance.users.user.dto.UserCreateDTO;
+import com.falizsh.finance.users.user.dto.response.UserResponse;
 import com.falizsh.finance.users.user.model.User;
 import com.falizsh.finance.users.user.repository.UserCommand;
 import com.falizsh.finance.users.user.repository.UserQuery;
@@ -11,9 +12,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,7 +29,7 @@ public class UserController {
 
 
     @GetMapping
-    public PagedModel<EntityModel<User>> findAll(
+    public PagedModel<EntityModel<UserResponse>> findAll(
             Pageable pageable,
             PagedResourcesAssembler<User> pagedAssembler
     ) {
@@ -35,7 +38,7 @@ public class UserController {
 
 
     @GetMapping("id/{id}")
-    public ResponseEntity<EntityModel<User>> findById(@PathVariable Long id) {
+    public ResponseEntity<EntityModel<UserResponse>> findById(@PathVariable Long id) {
         return ResponseEntity.ok(
                 assembler.toModel(
                         query.findById(id)
@@ -45,13 +48,13 @@ public class UserController {
 
 
     @PostMapping
-    public ResponseEntity<EntityModel<User>> saveUser(@Valid @RequestBody UserCreateDTO data) {
+    public ResponseEntity<EntityModel<UserResponse>> saveUser(@Valid @RequestBody UserCreateDTO data) {
 
         User savedUser = command.create(data);
 
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(assembler.toModel(savedUser));
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/id/{id}").buildAndExpand(savedUser.getId()).toUri();
+
+        return ResponseEntity.created(uri).body(assembler.toModel(savedUser));
 
     }
 

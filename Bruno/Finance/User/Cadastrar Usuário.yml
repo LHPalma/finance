@@ -1,11 +1,11 @@
 info:
-  name: /user
+  name: Cadastrar Usuário
   type: http
   seq: 4
 
 http:
   method: POST
-  url: "{{localhost}}/v1/finance/user"
+  url: "{{LOCALHOST}}/v1/finance/user"
   headers:
     - name: Content-Type
       value: application/json
@@ -14,13 +14,12 @@ http:
   body:
     type: json
     data: |-
-      
       {
-      	"name": "Louise Pomerode",
-      	"email": "louisepomerode@email.com",
-      	"password": "senha123",
-      	"salt": "salt123",
-      	"status": "ACTIVE"
+        "name": "Laranxinha",
+        "email": "laranxinha@email.com",
+        "password": "senha123",
+        "salt": "salt123",
+        "status": "ACTIVE"
       }
   auth: inherit
 

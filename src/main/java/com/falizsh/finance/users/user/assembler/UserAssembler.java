@@ -1,5 +1,6 @@
 package com.falizsh.finance.users.user.assembler;
 
+import com.falizsh.finance.users.user.dto.response.UserResponse;
 import com.falizsh.finance.users.userEmail.web.UserEmailController;
 import com.falizsh.finance.users.user.model.User;
 import com.falizsh.finance.users.user.web.UserController;
@@ -11,15 +12,23 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class UserAssembler implements RepresentationModelAssembler<User, EntityModel<User>> {
+public class UserAssembler implements RepresentationModelAssembler<User, EntityModel<UserResponse>> {
 
     @Override
-    public EntityModel<User> toModel(User entity) {
+    public EntityModel<UserResponse> toModel(User entity) {
+
+        UserResponse response = UserResponse.of(
+                entity.getId(),
+                entity.getName(),
+                entity.getEmail(),
+                entity.getStatus().name()
+        );
+
         return EntityModel.of(
-                entity,
+                response,
                 linkTo(methodOn(UserController.class).findById(entity.getId())).withSelfRel(),
                 linkTo(methodOn(UserEmailController.class).findAllByUserId(entity.getId(), null, null)).withRel("emails"),
-                linkTo(methodOn(UserController.class).findAll(null, null)).withRel("com/falizsh/finance/users")
+                linkTo(methodOn(UserController.class).findAll(null, null)).withRel("users")
         );
     }
 }
