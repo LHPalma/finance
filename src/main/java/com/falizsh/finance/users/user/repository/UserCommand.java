@@ -1,5 +1,6 @@
 package com.falizsh.finance.users.user.repository;
 
+import com.falizsh.finance.infra.exception.DuplicatedDataException;
 import com.falizsh.finance.users.user.dto.UserCreateDTO;
 import com.falizsh.finance.users.user.model.User;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ public class UserCommand {
     public User create(UserCreateDTO data) {
         //TODO: fazer um existsBy CPF
         if (repository.existsByEmail(data.email())) {
-            throw new IllegalArgumentException("Email já cadastrado.");
+            throw new DuplicatedDataException("business.user.email.already.exists");
         }
 
         String salt = "salt";

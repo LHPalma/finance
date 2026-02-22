@@ -9,17 +9,13 @@ http:
   headers:
     - name: Content-Type
       value: application/json
-    - name: User-Agent
-      value: insomnia/12.1.0
   body:
     type: json
     data: |-
       {
         "name": "Laranxinha",
         "email": "laranxinha@email.com",
-        "password": "senha123",
-        "salt": "salt123",
-        "status": "ACTIVE"
+        "password": "senha123"
       }
   auth: inherit
 
@@ -78,4 +74,149 @@ settings:
   followRedirects: true
   maxRedirects: 5
 
-docs: Cadastra um novo usuário.
+examples:
+  - name: 400 - Tamanho mínimo para a senha
+    request:
+      url: "{{LOCALHOST}}/v1/finance/user"
+      method: POST
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "name": "password length validation teste",
+            "email": "plvt@email.com",
+            "password": "<8char",
+            "salt": "salt123",
+            "status": "ACTIVE"
+          }
+    response:
+      status: 400
+      statusText: Bad Request
+      headers:
+        - name: content-type
+          value: application/problem+json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 22 Feb 2026 20:34:13 GMT
+        - name: connection
+          value: close
+      body:
+        type: text
+        data: |-
+          {
+            "type": "about:blank",
+            "title": "Validation Error",
+            "status": 400,
+            "detail": "One or more fields are invalid. Please check the request and try again.",
+            "instance": "/v1/finance/user",
+            "invalidFields": [
+              {
+                "field": "password",
+                "message": "A senha deve conter no mínimo 8 caracteres."
+              }
+            ]
+          }
+  - name: 400 - Validação de campos obrigatórios
+    request:
+      url: "{{LOCALHOST}}/v1/finance/user"
+      method: POST
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+          }
+    response:
+      status: 400
+      statusText: Bad Request
+      headers:
+        - name: content-type
+          value: application/problem+json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 22 Feb 2026 20:36:07 GMT
+        - name: connection
+          value: close
+      body:
+        type: text
+        data: |-
+          {
+            "type": "about:blank",
+            "title": "Validation Error",
+            "status": 400,
+            "detail": "One or more fields are invalid. Please check the request and try again.",
+            "instance": "/v1/finance/user",
+            "invalidFields": [
+              {
+                "field": "email",
+                "message": "Este campo é obrigatório."
+              },
+              {
+                "field": "name",
+                "message": "Este campo é obrigatório."
+              },
+              {
+                "field": "password",
+                "message": "Este campo é obrigatório."
+              }
+            ]
+          }
+  - name: 409 - E-mail já cadastrado
+    request:
+      url: "{{LOCALHOST}}/v1/finance/user"
+      method: POST
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "name": "Laranxinha",
+            "email": "laranxinha@email.com",
+            "password": "senha123"
+          }
+    response:
+      status: 409
+      statusText: Conflict
+      headers:
+        - name: content-type
+          value: application/problem+json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 22 Feb 2026 21:21:28 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: text
+        data: |-
+          {
+            "type": "about:blank",
+            "title": "Data Conflict",
+            "status": 409,
+            "detail": "Este e-mail já está cadastrado.",
+            "instance": "/v1/finance/user"
+          }
+
+docs: |-
+  # Cadastra um novo usuário.
+
+
+  ## Payload
+  ```JSON
+  {
+    "name": "",
+    "email": "",
+    "password": ""
+  }
+  ```

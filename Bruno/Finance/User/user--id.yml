@@ -2,20 +2,22 @@ info:
   name: /user/:id
   type: http
   seq: 6
+  tags:
+    - Listagem por id
 
 http:
   method: GET
-  url: "{{localhost}}/v1/finance/user/id/:id"
-  headers:
-    - name: User-Agent
-      value: insomnia/12.1.0
+  url: "{{LOCALHOST}}/v1/finance/user/id/:id"
   params:
     - name: id
-      value: "164"
+      value: "1"
       type: path
   auth: inherit
 
 runtime:
+  variables:
+    - name: LOCALHOST
+      value: http://localhost:8080
   scripts:
     - type: after-response
       code: "test('Status code is 200', function () {\r
@@ -75,5 +77,42 @@ settings:
   timeout: 0
   followRedirects: true
   maxRedirects: 5
+
+examples:
+  - name: 404 - User Not Found
+    request:
+      url: "{{LOCALHOST}}/v1/finance/user/id/:id"
+      method: GET
+      headers:
+        - name: User-Agent
+          value: insomnia/12.1.0
+      params:
+        - name: id
+          value: "777"
+          type: path
+    response:
+      status: 404
+      statusText: Not Found
+      headers:
+        - name: content-type
+          value: application/problem+json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sun, 22 Feb 2026 20:16:24 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: text
+        data: |-
+          {
+            "type": "about:blank",
+            "title": "Resource Not Found",
+            "status": 404,
+            "detail": "user.not.found",
+            "instance": "/v1/finance/user/id/777"
+          }
 
 docs: Lista todos um usuários cadastrados a partir de um id.

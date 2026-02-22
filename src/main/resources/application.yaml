@@ -19,6 +19,9 @@ spring:
       host: localhost
       port: 6379
 
+  messages:
+    encoding: UTF-8
+
 brapi:
   url: https://brapi.dev/api
   token: ${BRAPI_TOKEN}
