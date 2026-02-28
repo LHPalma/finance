@@ -1,0 +1,7 @@
+info:
+  name: System Account Types
+  type: folder
+  seq: 1
+
+request:
+  auth: inherit

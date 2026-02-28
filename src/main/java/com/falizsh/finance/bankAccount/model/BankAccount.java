@@ -1,5 +1,7 @@
 package com.falizsh.finance.bankAccount.model;
 
+import com.falizsh.finance.bankAccount.systemAccountType.model.SystemAccountType;
+import com.falizsh.finance.bankAccount.userAccountCategory.model.UserAccountCategory;
 import com.falizsh.finance.users.user.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -24,7 +26,6 @@ import java.time.LocalDateTime;
 @Table(name = "bank_account")
 public class BankAccount {
 
-    public static final AccountType DEFAULT_TYPE = AccountType.CHECKING;
     public static final BigDecimal DEFAULT_BALANCE = BigDecimal.valueOf(0.00);
     public static final String DEFAULT_CURRENCY = "BRL";
     public static final Boolean DEFAULT_IS_ACTIVE = true;
@@ -44,16 +45,30 @@ public class BankAccount {
     @Column(nullable = false, length = 100)
     private String name;
 
+    @Size(max = 255)
+    @Column(name = "description", nullable = true, length = 255)
+    private String description;
+
     @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    @Builder.Default
-    private AccountType type = DEFAULT_TYPE;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "system_type_id", nullable = false)
+    private SystemAccountType type;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_category_id", nullable = true)
+    private UserAccountCategory category;
 
     @NotNull
     @Builder.Default
     @Column(nullable = false, precision = 15, scale = 2)
     private BigDecimal balance = DEFAULT_BALANCE;
+
+    @NotNull
+    @Builder.Default
+    @Column(name = "overdraft_limit", nullable = false)
+    private BigDecimal overdraftLimit = BigDecimal.ZERO;
 
     @NotBlank
     @Size(max = 3)

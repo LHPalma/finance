@@ -1,0 +1,90 @@
+info:
+  name: Tipos de conta por id
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{LOCALHOST}}/v1/finance/bank-account/system-account-type/id/:id"
+  params:
+    - name: id
+      value: "1"
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Ok
+    request:
+      url: "{{LOCALHOST}}/v1/finance/bank-account/system-account-type/id/:id"
+      method: GET
+      params:
+        - name: id
+          value: "1"
+          type: path
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 28 Feb 2026 18:43:16 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "id": 1,
+            "name": "CHECKING",
+            "description": "Conta Corrente padrão do sistema",
+            "allowsOverdraft": true,
+            "active": true,
+            "_links": {
+              "self": {
+                "href": "http://localhost:8080/v1/finance/bank-account/system-account-type/id/1"
+              }
+            }
+          }
+  - name: 404 - Id inexistente
+    request:
+      url: "{{LOCALHOST}}/v1/finance/bank-account/system-account-type/id/:id"
+      method: GET
+      params:
+        - name: id
+          value: "777"
+          type: path
+    response:
+      status: 404
+      statusText: Not Found
+      headers:
+        - name: content-type
+          value: application/problem+json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Sat, 28 Feb 2026 18:44:15 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: text
+        data: |-
+          {
+            "type": "about:blank",
+            "title": "Resource Not Found",
+            "status": 404,
+            "detail": "Account.type.not.found",
+            "instance": "/v1/finance/bank-account/system-account-type/id/777"
+          }
