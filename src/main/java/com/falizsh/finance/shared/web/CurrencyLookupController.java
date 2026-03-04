@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("v1/finance/utils/currency")
+@RequestMapping("/utils/currency")
 public class CurrencyLookupController {
 
     private final CurrencyLookupService currencyService;

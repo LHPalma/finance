@@ -15,7 +15,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v1/finance/simulation")
+@RequestMapping("/simulation")
 public class SimulationController {
 
     private final PricingService pricingService;

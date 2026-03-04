@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("v1/finance/user/email")
+@RequestMapping("/user/email")
 public class UserEmailController {
 
     private final UserEmailQuery query;

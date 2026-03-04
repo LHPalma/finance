@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v1/finance/bacen/ifdata")
+@RequestMapping("/bacen/ifdata")
 public class BacenIfDataController {
 
     private final BacenIfDataService bacenService;

@@ -20,7 +20,7 @@ import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("v1/finance/user")
+@RequestMapping("/user")
 public class UserController {
 
     private final UserAssembler assembler;

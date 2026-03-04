@@ -22,7 +22,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/finance/utils/")
+@RequestMapping("/utils/")
 @RequiredArgsConstructor
 public class EconomicsRateLookupController {
 

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("v1/finance/user/{userId}/user-telephones")
+@RequestMapping("/user/{userId}/user-telephones")
 public class UserTelephoneController {
 
     private final UserTelephoneQuery query;

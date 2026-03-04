@@ -13,7 +13,7 @@
 
     @Slf4j
     @RestController
-    @RequestMapping("v1/finance/utils/stock")
+    @RequestMapping("/utils/stock")
     public class StockLookupController {
 
         private final StockLookupService orchestrator;

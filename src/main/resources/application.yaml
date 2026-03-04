@@ -56,3 +56,7 @@ resilience4j:
 storage:
   local:
     location: "./local-bucket"
+server:
+  servlet:
+    context-path: /v1/finance
+
