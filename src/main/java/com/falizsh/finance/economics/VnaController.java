@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/finance/economics/vna")
+@RequestMapping("/economics/vna")
 @RequiredArgsConstructor
 public class VnaController {
 

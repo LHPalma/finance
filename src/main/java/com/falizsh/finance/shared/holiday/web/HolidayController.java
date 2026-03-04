@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 
 @RestController
-@RequestMapping("/finance/v1/routines/holidays")
+@RequestMapping("/routines/holidays")
 @RequiredArgsConstructor
 public class HolidayController {
 

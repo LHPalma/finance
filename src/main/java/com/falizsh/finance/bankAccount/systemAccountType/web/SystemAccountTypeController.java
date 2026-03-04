@@ -20,7 +20,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v1/finance/bank-account/system-account-type")
+@RequestMapping("/bank-account/system-account-type")
 public class SystemAccountTypeController {
 
     private final SystemAccountTypeQuery query;
