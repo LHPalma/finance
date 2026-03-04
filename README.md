@@ -79,5 +79,7 @@ nome-do-modulo/nome-da-integracao/
 
 ## 2. Base de Dados (Migrations)
 Utilizamos o [Flyway/Liquibase] para versionamento da base de dados.
-* Os ficheiros encontram-se em `src/main/resources/db/migration/`.
+* Os ficheiros encontram-se em `src/main/resources/db/migration/` organizados por banco:
+    * `mysql/`: histórico legado MySQL
+    * `postgresql/`: migrations ativas para PostgreSQL
 * **Regra de Nomenclatura**: `V<numero>__<verbo>_<tabela>.sql`. NUNCA altere uma migration que já foi executada e fundida na *branch* principal (main/master).
