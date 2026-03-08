@@ -31,7 +31,7 @@ import java.util.List;
 @Getter
 @Builder(builderClassName = "UserBuilder", toBuilder = true)
 @Entity(name = "User")
-@Table(name = "user")
+@Table(name = "\"user\"")
 public class User {
 
     @Id

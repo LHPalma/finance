@@ -5,6 +5,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,5 +25,10 @@ public class UserQueryImpl implements UserQuery {
     @Override
     public Page<User> findAll(Pageable pageable) {
         return repository.findAll(pageable);
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return repository.findByEmail(email);
     }
 }
