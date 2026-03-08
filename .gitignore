@@ -33,3 +33,7 @@ build/
 ### VS Code ###
 .vscode/
 /.run
+
+### Databases ###
+postgres-data/
+redis-data/

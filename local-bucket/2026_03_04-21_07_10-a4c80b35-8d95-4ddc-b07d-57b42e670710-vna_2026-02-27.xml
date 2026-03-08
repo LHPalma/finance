@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<VNA>
+    <Fonte>ANBIMA</Fonte>    <Rod>(F) Índice Fechado , (P) Projeção do Comitê de Acompanhamento Macroeconômico.</Rod>    <Obs>Tendo em vista a padronização dos critérios de cálculo dos títulos públicos federais, o cálculo do VNA para NTN-B e NTN-C levará em consideração a variação mês oficial truncada com 16 casas decimais.</Obs>    <Titulo Papel='NTN-B' Obs=' '>
+        <Dados Cod_Selic='760199' DtRef_D0='27/02/2026' Valor_D0='4.608,329315' Index_D0='0,45' Ref_D0='P' Validade_D0='19/02/2026'  />    </Titulo>
+    <Titulo Papel='NTN-C' Obs=' '>
+        <Dados Cod_Selic='770100' DtRef_D0='27/02/2026' Valor_D0='6.430,824754' Index_D0='-0,73' Ref_D0='F' Validade_D0='26/02/2026'  />    </Titulo>
+    <Titulo Papel='LFT' Obs=' '>
+        <Dados Cod_Selic='210100' DtRef_D0='27/02/2026' Valor_D0='18.478,716830' Index_D0='14,90'  />    </Titulo>
+</VNA>

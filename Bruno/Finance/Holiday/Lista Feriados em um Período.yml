@@ -5,7 +5,7 @@ info:
 
 http:
   method: GET
-  url: "{{LOCALHOST}}/finance/v1/routines/holidays?startDate=2005-01-01&endDate=2005-12-31&size=5"
+  url: "{{LOCALHOST}}/v1/finance/routines/holidays?startDate=2005-01-01&endDate=2005-12-31&size=5"
   params:
     - name: startDate
       value: 2005-01-01
