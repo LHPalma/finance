@@ -18,7 +18,7 @@ import java.util.Map;
 @AllArgsConstructor
 @Builder
 @Entity(name = "SourceFileError")
-@Table(name = "source_file_error", schema = "finance", indexes = {@Index(name = "idx_error_source_file",
+@Table(name = "source_file_error", indexes = {@Index(name = "idx_error_source_file",
         columnList = "source_file_id")})
 public class SourceFileError {
 
