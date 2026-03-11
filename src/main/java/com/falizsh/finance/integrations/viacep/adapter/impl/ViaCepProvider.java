@@ -1,10 +1,10 @@
-package com.falizsh.finance.identity.users.userAddress.adapter.impl;
+package com.falizsh.finance.integrations.viacep.adapter.impl;
 
 import com.falizsh.finance.infrastructure.valueObject.CEP;
 import com.falizsh.finance.identity.users.userAddress.adapter.AddressLookupProvider;
-import com.falizsh.finance.identity.users.userAddress.adapter.ViaCepClient;
+import com.falizsh.finance.integrations.viacep.adapter.ViaCepClient;
 import com.falizsh.finance.identity.users.userAddress.adapter.dto.AddressInfoDTO;
-import com.falizsh.finance.identity.users.userAddress.adapter.dto.ViaCepResponse;
+import com.falizsh.finance.integrations.viacep.adapter.dto.ViaCepResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

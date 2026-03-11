@@ -1,4 +1,4 @@
-package com.falizsh.finance.integrations.anbima.adpater;
+package com.falizsh.finance.integrations.anbima.adapter;
 
 
 import com.falizsh.finance.infrastructure.config.feign.FeignNativeConfig;
