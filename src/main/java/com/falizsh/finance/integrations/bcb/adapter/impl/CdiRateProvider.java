@@ -1,10 +1,10 @@
-package com.falizsh.finance.integrations.b3.adapter.impl;
+package com.falizsh.finance.integrations.bcb.adapter.impl;
 
-import com.falizsh.finance.integrations.b3.adapter.BcbClient;
-import com.falizsh.finance.integrations.b3.adapter.BcbSeries;
-import com.falizsh.finance.integrations.b3.adapter.CdiRateLookupService;
-import com.falizsh.finance.integrations.b3.adapter.dto.BcbSgsResponse;
-import com.falizsh.finance.integrations.b3.adapter.dto.CdiRateInfoDTO;
+import com.falizsh.finance.integrations.bcb.adapter.BcbClient;
+import com.falizsh.finance.integrations.bcb.adapter.BcbSeries;
+import com.falizsh.finance.integrations.bcb.adapter.CdiRateLookupService;
+import com.falizsh.finance.integrations.bcb.adapter.dto.BcbSgsResponse;
+import com.falizsh.finance.integrations.bcb.adapter.dto.CdiRateInfoDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

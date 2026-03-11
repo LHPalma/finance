@@ -1,4 +1,4 @@
-package com.falizsh.finance.integrations.b3.adapter;
+package com.falizsh.finance.integrations.bcb.adapter;
 
 public enum BcbSeries {
     SELIC(11),
