@@ -1,4 +1,4 @@
-package com.falizsh.finance.integrations.b3.adapter.dto;
+package com.falizsh.finance.integrations.bcb.adapter.dto;
 
 import java.math.BigDecimal;
 

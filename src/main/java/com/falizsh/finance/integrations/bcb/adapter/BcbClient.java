@@ -1,7 +1,7 @@
-package com.falizsh.finance.integrations.b3.adapter;
+package com.falizsh.finance.integrations.bcb.adapter;
 
 
-import com.falizsh.finance.integrations.b3.adapter.dto.BcbSgsResponse;
+import com.falizsh.finance.integrations.bcb.adapter.dto.BcbSgsResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

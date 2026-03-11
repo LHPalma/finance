@@ -1,6 +1,6 @@
 package com.falizsh.finance.integrations.web.assembler;
 
-import com.falizsh.finance.integrations.b3.adapter.dto.CdiRateInfoDTO;
+import com.falizsh.finance.integrations.bcb.adapter.dto.CdiRateInfoDTO;
 import com.falizsh.finance.integrations.web.EconomicsRateLookupController;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
