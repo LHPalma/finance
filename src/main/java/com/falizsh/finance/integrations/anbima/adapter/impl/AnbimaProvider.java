@@ -1,8 +1,8 @@
-package com.falizsh.finance.integrations.anbima.adpater.impl;
+package com.falizsh.finance.integrations.anbima.adapter.impl;
 
-import com.falizsh.finance.integrations.anbima.adpater.AnbimaClient;
-import com.falizsh.finance.integrations.anbima.adpater.dto.AnbimaVnaResponse;
-import com.falizsh.finance.integrations.anbima.adpater.dto.VnaResult;
+import com.falizsh.finance.integrations.anbima.adapter.AnbimaClient;
+import com.falizsh.finance.integrations.anbima.adapter.dto.AnbimaVnaResponse;
+import com.falizsh.finance.integrations.anbima.adapter.dto.VnaResult;
 import com.falizsh.finance.marketdata.copomMeeting.model.Vna;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import feign.Response;

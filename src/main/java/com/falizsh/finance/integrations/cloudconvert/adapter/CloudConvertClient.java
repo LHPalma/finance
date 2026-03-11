@@ -1,8 +1,8 @@
-package com.falizsh.finance.marketdata.holiday.adapter;
+package com.falizsh.finance.integrations.cloudconvert.adapter;
 
 import com.falizsh.finance.infrastructure.config.feign.FeignNativeConfig;
-import com.falizsh.finance.marketdata.holiday.adapter.dto.CloudConvertJobRequest;
-import com.falizsh.finance.marketdata.holiday.adapter.dto.CloudConvertJobResponse;
+import com.falizsh.finance.integrations.cloudconvert.adapter.dto.CloudConvertJobRequest;
+import com.falizsh.finance.integrations.cloudconvert.adapter.dto.CloudConvertJobResponse;
 import feign.Headers;
 import feign.Param;
 import feign.RequestLine;

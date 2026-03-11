@@ -1,4 +1,4 @@
-package com.falizsh.finance.identity.users.userAddress.adapter.dto;
+package com.falizsh.finance.integrations.viacep.adapter.dto;
 
 public record ViaCepResponse(
         String cep,

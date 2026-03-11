@@ -1,6 +1,6 @@
-package com.falizsh.finance.identity.users.userAddress.adapter;
+package com.falizsh.finance.integrations.viacep.adapter;
 
-import com.falizsh.finance.identity.users.userAddress.adapter.dto.ViaCepResponse;
+import com.falizsh.finance.integrations.viacep.adapter.dto.ViaCepResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

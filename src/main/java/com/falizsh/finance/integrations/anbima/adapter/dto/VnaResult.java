@@ -1,4 +1,4 @@
-package com.falizsh.finance.integrations.anbima.adpater.dto;
+package com.falizsh.finance.integrations.anbima.adapter.dto;
 
 import com.falizsh.finance.marketdata.copomMeeting.model.Vna;
 import java.util.Collections;

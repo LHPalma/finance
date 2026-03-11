@@ -1,8 +1,8 @@
 package com.falizsh.finance.marketdata.vna.service;
 
 
-import com.falizsh.finance.integrations.anbima.adpater.dto.VnaResult;
-import com.falizsh.finance.integrations.anbima.adpater.impl.AnbimaProvider;
+import com.falizsh.finance.integrations.anbima.adapter.dto.VnaResult;
+import com.falizsh.finance.integrations.anbima.adapter.impl.AnbimaProvider;
 import com.falizsh.finance.marketdata.copomMeeting.model.Vna;
 import com.falizsh.finance.marketdata.copomMeeting.repository.VnaCommand;
 import com.falizsh.finance.infrastructure.sourcefile.model.SourceFile;
