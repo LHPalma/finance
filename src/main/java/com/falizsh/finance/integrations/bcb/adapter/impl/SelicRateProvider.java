@@ -25,7 +25,7 @@ public class SelicRateProvider implements SelicRateLookupService {
     public SelicRateInfoDTO findLatestDailyRate() {
         try {
 
-            List<BcbSgsResponse> response = client.getLastValue(BcbSeries.SELIC.getCode(), 1);
+            List<BcbSgsResponse> response = client.getLastValue(BcbSeries.SELIC_OVER_DAILY.getCode(), 1);
 
             if (response != null && !response.isEmpty()) {
                 BcbSgsResponse data = response.get(0);
