@@ -1,6 +1,10 @@
 package com.falizsh.finance.auth.web;
 
 import com.falizsh.finance.auth.dto.request.LoginRequest;
+import com.falizsh.finance.auth.dto.response.AuthResponse;
+import com.falizsh.finance.auth.model.UserDetailsImpl;
+import com.falizsh.finance.auth.usecase.GenerateJWTToken;
+import com.falizsh.finance.auth.usecase.GenerateJWTTokenUseCase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +23,8 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
 
+    private final GenerateJWTTokenUseCase tokenUseCase;
+
     @PostMapping
     public ResponseEntity login(@RequestBody @Valid LoginRequest request) {
 
@@ -26,7 +32,10 @@ public class AuthController {
 
         Authentication authentication = authenticationManager.authenticate(token);
 
-        return ResponseEntity.ok(authentication);
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        AuthResponse response = new AuthResponse(tokenUseCase.generate(userDetails.getUser()));
+
+        return ResponseEntity.ok(response);
     }
 
 }

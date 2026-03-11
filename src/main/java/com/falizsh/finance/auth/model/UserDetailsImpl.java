@@ -2,6 +2,7 @@ package com.falizsh.finance.auth.model;
 
 import com.falizsh.finance.users.user.model.User;
 import com.falizsh.finance.users.user.model.UserStatus;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,7 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-public class UserDetailsImpl  implements UserDetails {
+@Getter
+public class UserDetailsImpl implements UserDetails {
     private final User user;
 
     public UserDetailsImpl(User user) {
@@ -27,7 +29,7 @@ public class UserDetailsImpl  implements UserDetails {
     }
 
     /**
-    * NOTE: No sistema, o {@code Username} é o {@code Email}.
+     * NOTE: No sistema, o {@code Username} é o {@code Email}.
      */
     @Override
     public String getUsername() {

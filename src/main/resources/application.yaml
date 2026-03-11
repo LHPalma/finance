@@ -22,6 +22,9 @@ spring:
 
   messages:
     encoding: UTF-8
+  security:
+    token:
+      secret: ${JWT_SECRET:secret} # NOTE: ambiente de DEV.
 
 brapi:
   url: https://brapi.dev/api
@@ -60,4 +63,3 @@ storage:
 server:
   servlet:
     context-path: /v1/finance
-
