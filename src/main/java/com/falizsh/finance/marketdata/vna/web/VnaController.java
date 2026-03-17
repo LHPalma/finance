@@ -1,7 +1,9 @@
 package com.falizsh.finance.marketdata.vna.web;
 
-import com.falizsh.finance.marketdata.copomMeeting.model.Vna;
-import com.falizsh.finance.marketdata.vna.service.VnaService;
+import com.falizsh.finance.marketdata.vna.model.Vna;
+import com.falizsh.finance.marketdata.vna.usecase.FetchVnaDataUseCase;
+import com.falizsh.finance.marketdata.vna.usecase.ImportVnaDataRangeUseCase;
+import com.falizsh.finance.marketdata.vna.usecase.ImportVnaDataUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -17,20 +19,24 @@ import java.util.List;
 @RequiredArgsConstructor
 public class VnaController {
 
-    private final VnaService vnaService;
+    private final ImportVnaDataUseCase importVnaDataUseCase;
+    private final ImportVnaDataRangeUseCase importVnaDataRangeUseCase;
+    private final FetchVnaDataUseCase fetchVnaDataUseCase;
 
     @PostMapping("/import")
     public ResponseEntity<List<Vna>> importVna(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
     ) {
         LocalDate targetDate = (date != null) ? date : LocalDate.now();
-        List<Vna> savedVnas = vnaService.importData(targetDate);
+
+        List<Vna> savedVnas = importVnaDataUseCase.execute(targetDate);
+
         return ResponseEntity.ok(savedVnas);
     }
 
     @PostMapping("/import/range")
     public ResponseEntity<List<Vna>> importRange(
-            @RequestParam(required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam() @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
     ) {
 
@@ -40,7 +46,7 @@ public class VnaController {
         if (targetEndDate.isBefore(startDate)) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
-                    "A data final não pode ser anterior à data inícial."
+                    "A data final não pode ser anterior à data inicial."
             );
         }
 
@@ -51,7 +57,8 @@ public class VnaController {
             );
         }
 
-        List<Vna> savedVnas = vnaService.importRange(startDate, targetEndDate);
+        List<Vna> savedVnas = importVnaDataRangeUseCase.execute(startDate, targetEndDate);
+
         return ResponseEntity.ok(savedVnas);
     }
 
@@ -60,7 +67,7 @@ public class VnaController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
     ) {
         LocalDate targetDate = (date != null) ? date : LocalDate.now();
-        return ResponseEntity.ok(vnaService.fetchVna(targetDate));
-    }
 
+        return ResponseEntity.ok(fetchVnaDataUseCase.execute(targetDate));
+    }
 }

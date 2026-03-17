@@ -1,4 +1,4 @@
-package com.falizsh.finance.marketdata.copomMeeting.model;
+package com.falizsh.finance.marketdata.vna.model;
 
 public enum VnaStatus {
 

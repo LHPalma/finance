@@ -1,4 +1,4 @@
-package com.falizsh.finance.marketdata.copomMeeting.repository;
+package com.falizsh.finance.marketdata.vna.repository.query;
 
 public class VnaQueries {
 

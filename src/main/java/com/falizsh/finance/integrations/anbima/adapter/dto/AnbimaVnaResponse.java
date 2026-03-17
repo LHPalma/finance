@@ -1,7 +1,7 @@
 package com.falizsh.finance.integrations.anbima.adapter.dto;
 
-import com.falizsh.finance.marketdata.copomMeeting.model.Vna;
-import com.falizsh.finance.marketdata.copomMeeting.model.VnaStatus;
+import com.falizsh.finance.marketdata.vna.model.Vna;
+import com.falizsh.finance.marketdata.vna.model.VnaStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;

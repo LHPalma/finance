@@ -1,7 +1,7 @@
-package com.falizsh.finance.marketdata.copomMeeting.repository;
+package com.falizsh.finance.marketdata.vna.repository;
 
 
-import com.falizsh.finance.marketdata.copomMeeting.model.Vna;
+import com.falizsh.finance.marketdata.vna.model.Vna;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static com.falizsh.finance.marketdata.copomMeeting.repository.VnaQueries.FIND_IDENTIFIERS_BY_DATE_RANGE_QUERY;
+import static com.falizsh.finance.marketdata.vna.repository.query.VnaQueries.FIND_IDENTIFIERS_BY_DATE_RANGE_QUERY;
 
 @Repository
 public interface VnaRepository extends JpaRepository<Vna, Long> {
