@@ -26,7 +26,7 @@ public class AuthController {
     private final GenerateJWTTokenUseCase tokenUseCase;
 
     @PostMapping
-    public ResponseEntity login(@RequestBody @Valid LoginRequest request) {
+    public ResponseEntity<AuthResponse> login(@RequestBody @Valid LoginRequest request) {
 
         var token = new UsernamePasswordAuthenticationToken(request.email(), request.password());
 
