@@ -1,5 +1,6 @@
 package com.falizsh.finance.marketdata.vna.web;
 
+import com.falizsh.finance.marketdata.vna.model.VnaFetchStrategy;
 import com.falizsh.finance.marketdata.vna.model.Vna;
 import com.falizsh.finance.marketdata.vna.usecase.FetchVnaDataUseCase;
 import com.falizsh.finance.marketdata.vna.usecase.ImportVnaDataRangeUseCase;
@@ -64,10 +65,15 @@ public class VnaController {
 
     @GetMapping
     public ResponseEntity<List<Vna>> fetchVna(
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+            @RequestParam(required = false) VnaFetchStrategy fetchStrategy,
+            @RequestParam(required = false) Boolean ignoreCache
+
     ) {
         LocalDate targetDate = (date != null) ? date : LocalDate.now();
+        VnaFetchStrategy targetFetchStrategy = fetchStrategy != null ? fetchStrategy : VnaFetchStrategy.FALLBACK_AND_SAVE;
+        boolean targetIgnoreCache = ignoreCache != null && ignoreCache;
 
-        return ResponseEntity.ok(fetchVnaDataUseCase.execute(targetDate));
+        return ResponseEntity.ok(fetchVnaDataUseCase.execute(targetDate, targetFetchStrategy, targetIgnoreCache));
     }
 }

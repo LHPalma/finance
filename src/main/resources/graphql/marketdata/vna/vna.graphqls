@@ -1,0 +1,25 @@
+scalar BigDecimal
+scalar Date
+scalar DateTime
+
+enum FetchStrategy {
+    LOCAL_ONLY
+    REMOTE_ONLY
+    FALLBACK_NO_SAVE
+    FALLBACK_AND_SAVE
+}
+
+type Vna {
+    id: ID
+    security: String
+    selicCode: String
+    referenceDate: Date
+    price: BigDecimal
+    indexValue: BigDecimal
+    status: String
+    createdAt: DateTime
+}
+
+type Query {
+    vna(date: Date, strategy: FetchStrategy, ignoreCache: Boolean): [Vna]!
+}

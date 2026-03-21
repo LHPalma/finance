@@ -1,5 +1,6 @@
 package com.falizsh.finance.marketdata.vna.web;
 
+import com.falizsh.finance.marketdata.vna.model.VnaFetchStrategy;
 import com.falizsh.finance.marketdata.vna.usecase.FetchVnaDataUseCase;
 import com.falizsh.finance.marketdata.vna.usecase.ImportVnaDataRangeUseCase;
 import com.falizsh.finance.marketdata.vna.usecase.ImportVnaDataUseCase;
@@ -13,8 +14,7 @@ import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 
 class VnaControllerTest extends TestSupport {
@@ -81,8 +81,27 @@ class VnaControllerTest extends TestSupport {
 
     @Test
     void shouldCallFetchUseCaseUsingTodayWhenDateIsNull() {
-        vnaController.fetchVna(null);
+        vnaController.fetchVna(null, null, null);
 
-        verify(fetchVnaDataUseCase).execute(any(LocalDate.class));
+        verify(fetchVnaDataUseCase).execute(
+                any(LocalDate.class),
+                any(VnaFetchStrategy.class),
+                anyBoolean()
+        );
+    }
+
+    @Test
+    void shouldCallFetchUseCaseUsingProvidedParameters() {
+        LocalDate date = LocalDate.of(2023, 10, 10);
+        VnaFetchStrategy strategy = VnaFetchStrategy.LOCAL_ONLY;
+        Boolean ignoreCache = true;
+
+        vnaController.fetchVna(date, strategy, ignoreCache);
+
+        verify(fetchVnaDataUseCase).execute(
+                eq(date),
+                eq(VnaFetchStrategy.LOCAL_ONLY),
+                eq(true)
+        );
     }
 }

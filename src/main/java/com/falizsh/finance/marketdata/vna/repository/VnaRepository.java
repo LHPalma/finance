@@ -22,4 +22,6 @@ public interface VnaRepository extends JpaRepository<Vna, Long> {
     @Query(value = FIND_IDENTIFIERS_BY_DATE_RANGE_QUERY, nativeQuery = true)
     List<Object[]> findIdentifiersByDateRange(LocalDate startDate, LocalDate endDate);
 
+    List<Vna> findByReferenceDate(LocalDate date);
+
 }
