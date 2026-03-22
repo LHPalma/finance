@@ -14,8 +14,7 @@ public record UserCreateDTO(
 
         @NotBlank(message = "{validation.not.blank}")
         @Size(min = 8, message = "{validation.password.min.length}")
-        String password,
+        String password
 
-        String salt
 ) {
 }

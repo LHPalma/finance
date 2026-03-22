@@ -1,6 +1,5 @@
 package com.falizsh.finance.identity.users.user.model;
 
-import com.falizsh.finance.infrastructure.valueObject.CEP;
 import com.falizsh.finance.identity.users.user.dto.UserCreateDTO;
 import com.falizsh.finance.identity.users.userAddress.model.UserAddress;
 import com.falizsh.finance.identity.users.userAddress.model.UserAddressType;
@@ -8,6 +7,7 @@ import com.falizsh.finance.identity.users.userEmail.model.UserEmail;
 import com.falizsh.finance.identity.users.userEmail.model.UserEmailType;
 import com.falizsh.finance.identity.users.userTelephone.model.TelephoneType;
 import com.falizsh.finance.identity.users.userTelephone.model.UserTelephone;
+import com.falizsh.finance.infrastructure.valueObject.CEP;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -49,10 +49,6 @@ public class User {
     @NotBlank
     private String password;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @NotBlank
-    private String salt;
-
     @CreationTimestamp
     private LocalDateTime createdAt;
 
@@ -64,12 +60,11 @@ public class User {
     private UserStatus status = UserStatus.ACTIVE;
 
 
-    public static User to(UserCreateDTO data, String password, String salt) {
+    public static User to(UserCreateDTO data, String password) {
         User user = User.builder()
                 .name(data.name())
                 .email(data.email())
                 .password(password)
-                .salt(salt)
                 .status(UserStatus.ACTIVE)
                 .emails(new ArrayList<>())
                 .addresses(new ArrayList<>())

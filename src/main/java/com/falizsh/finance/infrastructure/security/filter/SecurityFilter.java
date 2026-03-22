@@ -2,7 +2,6 @@ package com.falizsh.finance.infrastructure.security.filter;
 
 import com.falizsh.finance.identity.auth.action.GetSubjectAction;
 import com.falizsh.finance.identity.auth.usecase.AuthUseCase;
-import com.falizsh.finance.identity.users.user.repository.UserQuery;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +21,6 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     private final GetSubjectAction getSubject;
 
-    private final UserQuery userQuery;
     private final AuthUseCase authUseCase;
 
     @Override
@@ -51,7 +49,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private String retrieveToken(HttpServletRequest request) throws ServletException {
+    private String retrieveToken(HttpServletRequest request) {
         String authorizationHeader = request.getHeader("Authorization");
         if (authorizationHeader != null) {
             return authorizationHeader.replace("Bearer ", "");

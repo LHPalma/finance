@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class GetSubject implements GetSubjectAction {
 
-    @Value("${spring.security.token.secret}")
+    @Value("${security.token.secret}")
     String secret;
 
     @Override

@@ -22,9 +22,20 @@ spring:
 
   messages:
     encoding: UTF-8
-  security:
-    token:
-      secret: ${JWT_SECRET:secret} # NOTE: ambiente de DEV.
+
+security:
+  token:
+    secret: ${JWT_SECRET:finance-secret-key} # valor padrão para fins de desenvolvimento, deve ser sobrescrito em produção
+    expiration-hours: 2
+
+  password:
+    pepper: ${PASSWORD_PEPPER:finance-pepper-key} # valor padrão para fins de desenvolvimento, deve ser sobrescrito em produção
+    argon2:
+      salt-length: 16
+      hash-length: 32
+      parallelism: 4
+      memory: 65536
+      iterations: 3
 
 brapi:
   url: https://brapi.dev/api

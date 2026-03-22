@@ -2,3 +2,5 @@ name: DEV
 variables:
   - name: LOCALHOST
     value: http://localhost:8080
+  - name: JWT_TOKEN
+    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlIEFQSSIsInN1YiI6Imx1aXpwYWxtYUBlbWFpbC5jb20iLCJpZCI6NywiZXhwIjoxNzc0MTQzMzEyfQ.7R5aIskmAeltnwcTD4oLCZjjolxR5Mz5lg9FZ-yvCgc

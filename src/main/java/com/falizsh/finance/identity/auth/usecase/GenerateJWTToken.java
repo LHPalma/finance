@@ -14,8 +14,11 @@ import java.time.ZoneId;
 @Service
 public class GenerateJWTToken implements GenerateJWTTokenUseCase {
 
-    @Value("${spring.security.token.secret}")
+    @Value("${security.token.secret}")
     String secret;
+
+    @Value("${security.token.expiration-hours:2}")
+    int expirationHours;
 
     @Override
     public String generate(User user) {
@@ -34,7 +37,10 @@ public class GenerateJWTToken implements GenerateJWTTokenUseCase {
     }
 
     private Instant getExpirationDate() {
-        return LocalDateTime.now().plusHours(2).atZone(ZoneId.systemDefault()).toInstant();
+        return LocalDateTime.now()
+                .plusHours(expirationHours)
+                .atZone(ZoneId.systemDefault())
+                .toInstant();
     }
 
 }
