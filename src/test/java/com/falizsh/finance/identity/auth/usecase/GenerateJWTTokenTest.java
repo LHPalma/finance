@@ -23,7 +23,7 @@ class GenerateJWTTokenTest extends TestSupport {
         this.generateJWTToken = new GenerateJWTToken();
         ReflectionTestUtils.setField(generateJWTToken, "secret", TEST_SECRET);
         ReflectionTestUtils.setField(generateJWTToken, "expirationHours", 2);
-        
+
         this.testUser = User.builder()
                 .id(1L)
                 .name("Test User")

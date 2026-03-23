@@ -6,6 +6,7 @@ import com.falizsh.finance.identity.users.user.dto.response.UserResponse;
 import com.falizsh.finance.identity.users.user.model.User;
 import com.falizsh.finance.identity.users.user.repository.UserCommand;
 import com.falizsh.finance.identity.users.user.repository.UserQuery;
+import com.falizsh.finance.infrastructure.audit.annotation.Audit;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +30,7 @@ public class UserController {
 
 
     @GetMapping
+    @Audit(action = "LIST_USERS", description = "Listagem paginada de usuários")
     public PagedModel<EntityModel<UserResponse>> findAll(
             Pageable pageable,
             PagedResourcesAssembler<User> pagedAssembler
