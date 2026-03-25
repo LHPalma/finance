@@ -4,13 +4,19 @@ import com.falizsh.finance.infrastructure.audit.action.AuditContext;
 import com.falizsh.finance.infrastructure.audit.action.ExtractAuditContextAction;
 import com.falizsh.finance.infrastructure.audit.action.SaveAuditLogAction;
 import com.falizsh.finance.infrastructure.audit.annotation.Audit;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import java.lang.reflect.Method;
 
 @Slf4j
 @Aspect
@@ -21,16 +27,36 @@ public class AuditAspect {
     private final ExtractAuditContextAction extractContext;
     private final SaveAuditLogAction saveAuditLog;
 
-    @Around("@annotation(audit)")
-    public Object auditMethod(ProceedingJoinPoint joinPoint, Audit audit) throws Throwable {
+    @Pointcut("within(@org.springframework.web.bind.annotation.RestController *)")
+    public void restControllerMethods() {}
+
+    @Around("restControllerMethods()")
+    public Object auditMethod(ProceedingJoinPoint joinPoint) throws Throwable {
 
         AuditContext context = extractContext.extract();
 
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        String methodName = signature.getMethod().getName();
+        Method method = signature.getMethod();
+        String methodName = method.getName();
+
+        String httpMethod = "UNKNOWN";
+        String requestUri = "UNKNOWN_URI";
+
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (attributes != null) {
+            HttpServletRequest request = attributes.getRequest();
+            httpMethod = request.getMethod();
+            requestUri = request.getRequestURI();
+        }
+
+        Audit auditAnnotation = method.getAnnotation(Audit.class);
+
+        String action = auditAnnotation != null ? auditAnnotation.action() : "API_REQUEST";
+        String description = auditAnnotation != null && !auditAnnotation.description().isBlank()
+                ? auditAnnotation.description()
+                : String.format("Endpoint accessed: [%s] %s", httpMethod, requestUri);
 
         long startTime = System.currentTimeMillis();
-
         String status = "SUCCESS";
         String errorMessage = null;
 
@@ -43,22 +69,17 @@ public class AuditAspect {
             throw ex;
 
         } finally {
-
-            long executionTime = calculateExecutionTime(startTime);
+            long executionTime = System.currentTimeMillis() - startTime;
 
             saveAuditLog.execute(
                     context,
-                    audit.action(),
-                    audit.description(),
+                    action,
+                    description,
                     methodName,
                     status,
                     executionTime,
                     errorMessage
             );
         }
-    }
-
-    private long calculateExecutionTime(long startTime) {
-        return System.currentTimeMillis() - startTime;
     }
 }
