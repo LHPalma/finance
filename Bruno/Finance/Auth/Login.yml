@@ -2,6 +2,8 @@ info:
   name: Login
   type: http
   seq: 1
+  tags:
+    - Autenticacao
 
 http:
   method: POST
@@ -14,8 +16,37 @@ http:
         "password" : "senha123"
       }
 
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        const body = res.getBody();
+
+        if (res.getStatus() === 200 && body.token) {
+          
+          bru.setEnvVar("JWT_TOKEN", body.token);
+          
+          console.log("Token salvo com sucesso!");
+
+        } else {
+          console.log("Não foi possível capturar o token. Verifique o retorno da API.");
+        }
+
 settings:
   encodeUrl: true
   timeout: 0
   followRedirects: true
   maxRedirects: 5
+
+docs: |-
+  const body = res.getBody();
+
+  if (res.getStatus() === 200 && body.token) {
+    
+    bru.setEnvVar("JWT_TOKEN", body.token);
+    
+    console.log("Token salvo com sucesso!");
+
+  } else {
+    console.log("Não foi possível capturar o token. Verifique o retorno da API.");
+  }

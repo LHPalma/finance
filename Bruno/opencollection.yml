@@ -2,10 +2,25 @@ opencollection: 1.0.0
 
 info:
   name: Bruno
+config:
+  proxy:
+    inherit: true
+    config:
+      protocol: http
+      hostname: ""
+      port: ""
+      auth:
+        username: ""
+        password: ""
+      bypassProxy: ""
 
-request: {}
+request:
+  auth:
+    type: bearer
+    token: "{{JWT_TOKEN}}"
 bundled: false
 extensions:
-  ignore:
-    - node_modules
-    - .git
+  bruno:
+    presets:
+      request:
+        type: http

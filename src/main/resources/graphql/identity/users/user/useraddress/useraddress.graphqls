@@ -1,0 +1,28 @@
+type UserAddress {
+    id: ID!
+    user: User!
+    street: String!
+    number: String!
+    complement: String
+    neighborhood: String
+    city: String
+    state: String
+    zipCode: String
+    country: String
+    isPrimary: Boolean!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type UserAddressPage implements Page{
+    content: [UserAddress!]!
+
+    totalPages: Int!
+    totalElements: Int!
+    size: Int!
+    number: Int!
+}
+
+extend type Query {
+    userAddress(id: ID!): UserAddress
+}

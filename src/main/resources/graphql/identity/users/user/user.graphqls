@@ -1,0 +1,15 @@
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    status: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+
+    emails(statuses: [EmailStatus!], pageRequest: PageRequestInput): EmailPage!
+    addresses(isPrimary: Boolean, pageRequest: PageRequestInput): UserAddressPage!
+}
+
+extend type Query {
+    user(id: ID!): User
+}

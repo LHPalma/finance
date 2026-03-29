@@ -1,0 +1,28 @@
+enum EmailStatus {
+    ACTIVE
+    INACTIVE
+    UNVERIFIED
+    OUTDATED
+    WRONG_PERSON
+    INVALID
+}
+
+type Email {
+    id: ID!
+    user: User!
+    type: String!
+    email: String!
+    isPrimary: Boolean!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    status: EmailStatus!
+}
+
+type EmailPage implements Page {
+    content: [Email!]!
+
+    totalPages: Int!
+    totalElements: Int!
+    size: Int!
+    number: Int!
+}

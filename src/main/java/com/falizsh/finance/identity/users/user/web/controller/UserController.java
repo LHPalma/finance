@@ -1,4 +1,4 @@
-package com.falizsh.finance.identity.users.user.web;
+package com.falizsh.finance.identity.users.user.web.controller;
 
 import com.falizsh.finance.identity.users.user.assembler.UserAssembler;
 import com.falizsh.finance.identity.users.user.dto.UserCreateDTO;

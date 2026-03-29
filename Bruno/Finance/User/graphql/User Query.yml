@@ -1,0 +1,46 @@
+info:
+  name: User Query
+  type: graphql
+  seq: 1
+
+graphql:
+  method: POST
+  url: "{{GRAPHQL_BASE_URL}}"
+  body:
+    query: |-
+      query GetUserWithAddresses {
+        user(id: 6) {
+          id
+          addresses(isPrimary: true) {
+            content {
+              id
+              street
+              number
+              neighborhood
+              city
+              state
+              isPrimary
+            }
+            ...PageInfo
+          }
+        }
+      }
+
+      fragment PageInfo on Page {
+        totalPages
+        totalElements
+        size
+        number
+      }
+  auth: inherit
+
+runtime:
+  variables:
+    - name: GRAPHQL_BASE_URL
+      value: "{{LOCALHOST}}/v1/finance/graphql"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

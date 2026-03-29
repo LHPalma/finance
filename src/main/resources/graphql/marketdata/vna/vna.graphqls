@@ -1,7 +1,3 @@
-scalar BigDecimal
-scalar Date
-scalar DateTime
-
 enum FetchStrategy {
     LOCAL_ONLY
     REMOTE_ONLY
@@ -20,6 +16,6 @@ type Vna {
     createdAt: DateTime
 }
 
-type Query {
+extend type Query {
     vna(date: Date, strategy: FetchStrategy, ignoreCache: Boolean): [Vna]!
 }

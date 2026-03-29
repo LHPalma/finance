@@ -1,0 +1,23 @@
+scalar BigDecimal
+scalar Date
+scalar DateTime
+
+type Query {
+    _ping: String
+}
+
+type Mutation {
+    _ping: String
+}
+
+interface Page {
+    totalPages: Int!
+    totalElements: Int!
+    size: Int!
+    number: Int!
+}
+
+input   PageRequestInput {
+    page: Int = 0
+    size: Int = 10
+}

@@ -3,7 +3,7 @@ package com.falizsh.finance.identity.users.user.assembler;
 import com.falizsh.finance.identity.users.user.dto.response.UserResponse;
 import com.falizsh.finance.identity.users.userEmail.web.UserEmailController;
 import com.falizsh.finance.identity.users.user.model.User;
-import com.falizsh.finance.identity.users.user.web.UserController;
+import com.falizsh.finance.identity.users.user.web.controller.UserController;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;

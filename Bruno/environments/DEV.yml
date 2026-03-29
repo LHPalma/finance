@@ -3,4 +3,4 @@ variables:
   - name: LOCALHOST
     value: http://localhost:8080
   - name: JWT_TOKEN
-    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlIEFQSSIsInN1YiI6Imx1aXoucGFsbWFAZW1haWwuY29tIiwiaWQiOjYsImV4cCI6MTc3NDIzNjU3Mn0.6teL2wLT3s09wS1bbFN0kBLYLJNS3Qn7b_Xxls6njkk
+    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlIEFQSSIsInN1YiI6Imx1aXoucGFsbWFAZW1haWwuY29tIiwiaWQiOjYsImV4cCI6MTc3NDQ5ODAzN30.Q8mQR_ZybqkFnBznwnT3NyxWLHvPUdHYAqQdEk2Ms0Q
