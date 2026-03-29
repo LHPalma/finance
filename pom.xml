@@ -200,6 +200,24 @@
             <artifactId>hypersistence-utils-hibernate-63</artifactId>
             <version>3.15.2</version>
         </dependency>
+
+        <!-- Source: https://mvnrepository.com/artifact/com.querydsl/querydsl-jpa -->
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-jpa</artifactId>
+            <version>5.1.0</version>
+            <classifier>jakarta</classifier>
+        </dependency>
+
+        <!-- Source: https://mvnrepository.com/artifact/com.querydsl/querydsl-apt -->
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-apt</artifactId>
+            <version>5.1.0</version>
+            <classifier>jakarta</classifier>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -212,6 +230,20 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+
+                        <path>
+                            <groupId>com.querydsl</groupId>
+                            <artifactId>querydsl-apt</artifactId>
+                            <version>5.1.0</version>
+                            <classifier>jakarta</classifier>
+                        </path>
+
+                        <path>
+                            <groupId>jakarta.persistence</groupId>
+                            <artifactId>jakarta.persistence-api</artifactId>
+                            <version>3.1.0</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
