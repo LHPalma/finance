@@ -1,15 +1,12 @@
-package com.falizsh.finance.marketdata.vna.repository.query;
+package com.falizsh.finance.marketdata.vna.repository;
 
-import com.falizsh.finance.marketdata.vna.model.Vna;
 import com.falizsh.finance.marketdata.vna.repository.projections.VnaIdentifierData;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public interface VnaQuery {
+public interface VnaRepositoryCustom {
 
     List<VnaIdentifierData> findIdentifiersByDateRange(LocalDate startDate, LocalDate endDate);
-
-    List<Vna> findByReferenceDate(LocalDate referenceDate);
 
 }

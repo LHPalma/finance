@@ -2,6 +2,7 @@ package com.falizsh.finance.marketdata.vna.repository.command;
 
 import com.falizsh.finance.marketdata.vna.model.Vna;
 import com.falizsh.finance.marketdata.vna.repository.VnaRepository;
+import com.falizsh.finance.marketdata.vna.repository.projections.VnaIdentifierData;
 import com.falizsh.finance.marketdata.vna.repository.query.VnaQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,10 +31,10 @@ public class VnaCommand {
         LocalDate minDate = vnas.stream().map(Vna::getReferenceDate).min(LocalDate::compareTo).orElse(LocalDate.now());
         LocalDate maxDate = vnas.stream().map(Vna::getReferenceDate).max(LocalDate::compareTo).orElse(LocalDate.now());
 
-        List<Object[]> existingRecords = query.findIdentifiersByDateRange(minDate, maxDate);
+        List<VnaIdentifierData> existingRecords = query.findIdentifiersByDateRange(minDate, maxDate);
 
         Set<String> existingKeys = existingRecords.stream()
-                .map(row -> row[0] + "|" + row[1].toString())
+                .map(record -> record.selicCode() + "|" + record.referenceDate().toString())
                 .collect(Collectors.toSet());
 
         List<Vna> toSave = vnas.stream()
@@ -47,7 +48,7 @@ public class VnaCommand {
             return Collections.emptyList();
         }
 
-        return repository.saveAll(vnas);
+        return repository.saveAll(toSave);
     }
 
 }
