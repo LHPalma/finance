@@ -1,0 +1,7 @@
+info:
+  name: Portifolio
+  type: folder
+  seq: 14
+
+request:
+  auth: inherit
