@@ -1,10 +1,10 @@
 package com.falizsh.finance.identity.auth.web;
 
 import com.falizsh.finance.identity.auth.dto.request.LoginRequest;
+import com.falizsh.finance.identity.auth.dto.request.RefreshTokenRequest;
 import com.falizsh.finance.identity.auth.dto.response.AuthResponse;
 import com.falizsh.finance.identity.auth.model.UserDetailsImpl;
-import com.falizsh.finance.identity.auth.usecase.GenerateJWTToken;
-import com.falizsh.finance.identity.auth.usecase.GenerateJWTTokenUseCase;
+import com.falizsh.finance.identity.auth.usecase.AuthSessionUseCase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,17 +23,24 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
 
-    private final GenerateJWTTokenUseCase tokenUseCase;
+    private final AuthSessionUseCase authSessionUseCase;
 
     @PostMapping
     public ResponseEntity<AuthResponse> login(@RequestBody @Valid LoginRequest request) {
 
-        var token = new UsernamePasswordAuthenticationToken(request.email(), request.password());
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(request.email(), request.password());
 
         Authentication authentication = authenticationManager.authenticate(token);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        AuthResponse response = new AuthResponse(tokenUseCase.generate(userDetails.getUser()));
+        AuthResponse response = authSessionUseCase.createSession(userDetails.getUser());
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<AuthResponse> refresh(@RequestBody @Valid RefreshTokenRequest request) {
+        AuthResponse response = authSessionUseCase.refreshSession(request.refreshToken());
 
         return ResponseEntity.ok(response);
     }

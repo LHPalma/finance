@@ -27,6 +27,7 @@ security:
   token:
     secret: ${JWT_SECRET:finance-secret-key} # valor padrão para fins de desenvolvimento, deve ser sobrescrito em produção
     expiration-hours: 2
+    refresh-expiration-days: 14
 
   password:
     pepper: ${PASSWORD_PEPPER:finance-pepper-key} # valor padrão para fins de desenvolvimento, deve ser sobrescrito em produção

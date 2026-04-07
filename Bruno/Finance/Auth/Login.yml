@@ -38,6 +38,52 @@ settings:
   followRedirects: true
   maxRedirects: 5
 
+examples:
+  - name: 200 Ok
+    request:
+      url: "{{LOCALHOST}}/v1/finance/login"
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "email" : "luiz.palma@email.com",
+            "password" : "senha123"
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: x-content-type-options
+          value: nosniff
+        - name: x-xss-protection
+          value: "0"
+        - name: cache-control
+          value: no-cache, no-store, max-age=0, must-revalidate
+        - name: pragma
+          value: no-cache
+        - name: expires
+          value: "0"
+        - name: x-frame-options
+          value: DENY
+        - name: content-type
+          value: application/json
+        - name: transfer-encoding
+          value: chunked
+        - name: date
+          value: Tue, 07 Apr 2026 01:29:40 GMT
+        - name: keep-alive
+          value: timeout=60
+        - name: connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+            "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlIEFQSSIsInN1YiI6Imx1aXoucGFsbWFAZW1haWwuY29tIiwiaWQiOjYsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NzU1MzI1ODB9.N2A0Kk-hDg6Fz2B1B3RH5kB4vpbj_zaZDtC2FwBa75U",
+            "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlIEFQSSIsInN1YiI6Imx1aXoucGFsbWFAZW1haWwuY29tIiwiaWQiOjYsInR5cGUiOiJyZWZyZXNoIiwiZXhwIjoxNzc2NzM0OTgwLCJqdGkiOiI3ZDllZDIxMi00NmJiLTQxN2YtOWJmZC1kNTRkYTc3MmMyYzIifQ.coNVf50PeFlrj7Q4t4TrJNWusidsKMp-LgBFjyL546M"
+          }
+
 docs: |-
   const body = res.getBody();
 

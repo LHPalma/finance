@@ -23,6 +23,7 @@ class GenerateJWTTokenTest extends TestSupport {
         this.generateJWTToken = new GenerateJWTToken();
         ReflectionTestUtils.setField(generateJWTToken, "secret", TEST_SECRET);
         ReflectionTestUtils.setField(generateJWTToken, "expirationHours", 2);
+        ReflectionTestUtils.setField(generateJWTToken, "refreshExpirationDays", 14);
 
         this.testUser = User.builder()
                 .id(1L)
@@ -114,5 +115,24 @@ class GenerateJWTTokenTest extends TestSupport {
 
         assertThat(decoded1.getSubject()).isEqualTo(user1.getEmail());
         assertThat(decoded2.getSubject()).isEqualTo(user2.getEmail());
+    }
+
+    @Test
+    void shouldMarkAccessTokenWithAccessType() {
+        String token = generateJWTToken.generate(testUser);
+        DecodedJWT decodedJWT = generateJWTToken.verifyAccessToken(token);
+
+        assertThat(decodedJWT).isNotNull();
+        assertThat(decodedJWT.getClaim("type").asString()).isEqualTo("access");
+    }
+
+    @Test
+    void shouldGenerateRefreshTokenWithJwtId() {
+        String token = generateJWTToken.generateRefreshToken(testUser, java.util.UUID.randomUUID());
+        DecodedJWT decodedJWT = generateJWTToken.verifyRefreshToken(token);
+
+        assertThat(decodedJWT).isNotNull();
+        assertThat(decodedJWT.getClaim("type").asString()).isEqualTo("refresh");
+        assertThat(decodedJWT.getId()).isNotBlank();
     }
 }
