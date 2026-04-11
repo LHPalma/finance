@@ -1,12 +1,13 @@
 package com.falizsh.finance.portfolio.bankAccount.web;
 
-import com.falizsh.finance.portfolio.bankAccount.dto.request.CreateBankAccountRequest;
-import com.falizsh.finance.portfolio.bankAccount.dto.response.BankAccountResponse;
-import com.falizsh.finance.portfolio.bankAccount.mapper.BankAccountMapper;
-import com.falizsh.finance.portfolio.bankAccount.model.BankAccount;
-import com.falizsh.finance.portfolio.bankAccount.systemAccountType.model.SystemAccountType;
-import com.falizsh.finance.portfolio.bankAccount.usecase.CreateBankAccountUseCase;
-import com.falizsh.finance.portfolio.bankAccount.web.assembler.BankAccountAssembler;
+import com.falizsh.finance.portfolio.bankAccount.application.dto.account.request.CreateBankAccountRequest;
+import com.falizsh.finance.portfolio.bankAccount.application.dto.account.response.BankAccountResponse;
+import com.falizsh.finance.portfolio.bankAccount.infrastructure.web.account.BankAccountController;
+import com.falizsh.finance.portfolio.bankAccount.application.mapper.account.BankAccountMapper;
+import com.falizsh.finance.portfolio.bankAccount.domain.model.account.BankAccount;
+import com.falizsh.finance.portfolio.bankAccount.domain.model.type.SystemAccountType;
+import com.falizsh.finance.portfolio.bankAccount.application.usecase.CreateBankAccountUseCase;
+import com.falizsh.finance.portfolio.bankAccount.infrastructure.web.account.assembler.BankAccountAssembler;
 import com.falizsh.finance.support.TestSupport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

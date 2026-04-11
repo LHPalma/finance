@@ -1,12 +1,13 @@
 package com.falizsh.finance.portfolio.bankAccount.usecase;
 
 import com.falizsh.finance.identity.users.user.model.User;
-import com.falizsh.finance.portfolio.bankAccount.dto.request.CreateBankAccountRequest;
-import com.falizsh.finance.portfolio.bankAccount.model.BankAccount;
-import com.falizsh.finance.portfolio.bankAccount.repository.command.CreateBankAccountCommand;
-import com.falizsh.finance.portfolio.bankAccount.repository.command.CreateBankAccountHandler;
-import com.falizsh.finance.portfolio.bankAccount.systemAccountType.model.SystemAccountType;
-import com.falizsh.finance.portfolio.bankAccount.userAccountCategory.model.UserAccountCategory;
+import com.falizsh.finance.portfolio.bankAccount.application.dto.account.request.CreateBankAccountRequest;
+import com.falizsh.finance.portfolio.bankAccount.application.usecase.CreateBankAccount;
+import com.falizsh.finance.portfolio.bankAccount.domain.model.account.BankAccount;
+import com.falizsh.finance.portfolio.bankAccount.application.command.account.CreateBankAccountCommand;
+import com.falizsh.finance.portfolio.bankAccount.application.command.account.CreateBankAccountHandler;
+import com.falizsh.finance.portfolio.bankAccount.domain.model.type.SystemAccountType;
+import com.falizsh.finance.portfolio.bankAccount.domain.model.category.UserAccountCategory;
 import com.falizsh.finance.support.TestSupport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,6 +1,7 @@
 package com.falizsh.finance.portfolio.bankAccount.web.assembler;
 
-import com.falizsh.finance.portfolio.bankAccount.dto.response.BankAccountResponse;
+import com.falizsh.finance.portfolio.bankAccount.application.dto.account.response.BankAccountResponse;
+import com.falizsh.finance.portfolio.bankAccount.infrastructure.web.account.assembler.BankAccountAssembler;
 import com.falizsh.finance.support.TestSupport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

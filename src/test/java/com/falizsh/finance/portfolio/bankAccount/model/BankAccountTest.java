@@ -1,8 +1,9 @@
 package com.falizsh.finance.portfolio.bankAccount.model;
 
 import com.falizsh.finance.identity.users.user.model.User;
-import com.falizsh.finance.portfolio.bankAccount.systemAccountType.model.SystemAccountType;
-import com.falizsh.finance.portfolio.bankAccount.userAccountCategory.model.UserAccountCategory;
+import com.falizsh.finance.portfolio.bankAccount.domain.model.account.BankAccount;
+import com.falizsh.finance.portfolio.bankAccount.domain.model.type.SystemAccountType;
+import com.falizsh.finance.portfolio.bankAccount.domain.model.category.UserAccountCategory;
 import com.falizsh.finance.support.TestSupport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
