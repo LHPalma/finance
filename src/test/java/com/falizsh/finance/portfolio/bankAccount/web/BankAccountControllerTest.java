@@ -15,6 +15,9 @@ import org.mockito.Mock;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.math.BigDecimal;
 
@@ -87,7 +90,16 @@ class BankAccountControllerTest extends TestSupport {
         when(bankAccountMapper.toResponse(account)).thenReturn(expectedResponse);
         when(bankAccountAssembler.toModel(expectedResponse)).thenReturn(expectedModel);
 
-        ResponseEntity<EntityModel<BankAccountResponse>> response = bankAccountController.create(request);
+        RequestContextHolder.setRequestAttributes(
+                new ServletRequestAttributes(new MockHttpServletRequest("POST", "/bank-accounts"))
+        );
+
+        ResponseEntity<EntityModel<BankAccountResponse>> response;
+        try {
+            response = bankAccountController.create(request);
+        } finally {
+            RequestContextHolder.resetRequestAttributes();
+        }
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(response.getBody()).isEqualTo(expectedModel);

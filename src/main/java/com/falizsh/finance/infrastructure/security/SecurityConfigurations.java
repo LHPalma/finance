@@ -1,6 +1,6 @@
 package com.falizsh.finance.infrastructure.security;
 
-import com.falizsh.finance.identity.auth.usecase.AuthUseCase;
+import com.falizsh.finance.identity.auth.application.usecase.AuthUseCase;
 import com.falizsh.finance.infrastructure.security.encoder.Argon2WithPepperEncoder;
 import com.falizsh.finance.infrastructure.security.filter.SecurityFilter;
 import lombok.RequiredArgsConstructor;

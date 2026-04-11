@@ -1,109 +1,58 @@
 package com.falizsh.finance.identity.auth.action;
 
-import com.falizsh.finance.identity.auth.usecase.GenerateJWTToken;
-import com.falizsh.finance.identity.users.user.model.User;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.falizsh.finance.identity.auth.application.port.TokenGenerator;
+import com.falizsh.finance.identity.auth.infrastructure.security.jwt.JwtTokenDecoderAdapter;
 import com.falizsh.finance.support.TestSupport;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.util.ReflectionTestUtils;
+import org.mockito.InOrder;
+import org.mockito.Mock;
 
-import java.util.UUID;
-
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 class GetSubjectTest extends TestSupport {
 
-    private GetSubject getSubject;
-    private GenerateJWTToken generateJWTToken;
+    @Mock
+    private TokenGenerator tokenGenerator;
 
-    private static final String TEST_SECRET = "test-secret-key-for-subject-extraction";
-    private static final String TEST_EMAIL = "test@email.com";
+    @Mock
+    private DecodedJWT decodedJWT;
+
+    private JwtTokenDecoderAdapter jwtTokenDecoderAdapter;
 
     @Override
     public void init() {
-        this.generateJWTToken = new GenerateJWTToken();
-        ReflectionTestUtils.setField(generateJWTToken, "secret", TEST_SECRET);
-        ReflectionTestUtils.setField(generateJWTToken, "expirationHours", 2);
-        ReflectionTestUtils.setField(generateJWTToken, "refreshExpirationDays", 14);
-        this.getSubject = new GetSubject(generateJWTToken);
+        jwtTokenDecoderAdapter = new JwtTokenDecoderAdapter(tokenGenerator);
     }
 
     @Test
-    void shouldExtractSubjectFromValidToken() {
-        String validToken = generateAccessToken(TEST_EMAIL);
-        String subject = getSubject.from(validToken);
+    void shouldExtractSubjectFromValidAccessToken() {
+        String token = "access.token";
+        when(tokenGenerator.verifyAccessToken(token)).thenReturn(decodedJWT);
+        when(decodedJWT.getSubject()).thenReturn("test@email.com");
 
-        assertThat(subject).isEqualTo(TEST_EMAIL);
+        String subject = jwtTokenDecoderAdapter.from(token);
+
+        assertThat(subject).isEqualTo("test@email.com");
+
+        InOrder inOrder = inOrder(tokenGenerator, decodedJWT);
+        inOrder.verify(tokenGenerator).verifyAccessToken(token);
+        inOrder.verify(decodedJWT).getSubject();
+        inOrder.verifyNoMoreInteractions();
     }
 
     @Test
-    void shouldReturnNullForExpiredToken() {
-        ReflectionTestUtils.setField(generateJWTToken, "expirationHours", -1);
-        String expiredToken = generateAccessToken(TEST_EMAIL);
-        String subject = getSubject.from(expiredToken);
+    void shouldReturnNullWhenTokenIsInvalid() {
+        String token = "invalid.token";
+        when(tokenGenerator.verifyAccessToken(token)).thenReturn(null);
+
+        String subject = jwtTokenDecoderAdapter.from(token);
 
         assertThat(subject).isNull();
-    }
 
-    @Test
-    void shouldReturnNullForRefreshToken() {
-        String refreshToken = generateJWTToken.generateRefreshToken(
-                valid(User.class).toBuilder().email(TEST_EMAIL).build(),
-                UUID.randomUUID()
-        );
-
-        String subject = getSubject.from(refreshToken);
-
-        assertThat(subject).isNull();
-    }
-
-    @Test
-    void shouldReturnNullForTokenWithWrongSignature() {
-        GenerateJWTToken wrongSigner = new GenerateJWTToken();
-        ReflectionTestUtils.setField(wrongSigner, "secret", "wrong-secret");
-        ReflectionTestUtils.setField(wrongSigner, "expirationHours", 2);
-        ReflectionTestUtils.setField(wrongSigner, "refreshExpirationDays", 14);
-        String tokenWithWrongSignature = wrongSigner.generate(
-                valid(User.class).toBuilder().email(TEST_EMAIL).build()
-        );
-
-        String subject = getSubject.from(tokenWithWrongSignature);
-
-        assertThat(subject).isNull();
-    }
-
-    @Test
-    void shouldReturnNullForMalformedToken() {
-        String malformedToken = "not.a.valid.jwt.token";
-        String subject = getSubject.from(malformedToken);
-
-        assertThat(subject).isNull();
-    }
-
-    @Test
-    void shouldReturnNullForNullToken() {
-        String subject = getSubject.from(null);
-
-        assertThat(subject).isNull();
-    }
-
-    @Test
-    void shouldReturnNullForEmptyToken() {
-        String subject = getSubject.from("");
-
-        assertThat(subject).isNull();
-    }
-
-    @Test
-    void shouldHandleTokenWithoutExpirationGracefully() {
-        String tokenWithoutExpiration = "not.supported.anymore";
-        String subject = getSubject.from(tokenWithoutExpiration);
-
-        assertThat(subject).isNull();
-    }
-
-    private String generateAccessToken(String email) {
-        return generateJWTToken.generate(
-                valid(User.class).toBuilder().email(email).build()
-        );
+        InOrder inOrder = inOrder(tokenGenerator);
+        inOrder.verify(tokenGenerator).verifyAccessToken(token);
+        inOrder.verifyNoMoreInteractions();
     }
 }

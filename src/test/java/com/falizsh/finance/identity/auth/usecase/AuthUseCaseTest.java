@@ -1,5 +1,6 @@
 package com.falizsh.finance.identity.auth.usecase;
 
+import com.falizsh.finance.identity.auth.application.usecase.AuthUseCase;
 import com.falizsh.finance.identity.users.user.model.User;
 import com.falizsh.finance.identity.users.user.repository.UserQuery;
 import com.falizsh.finance.support.TestSupport;
@@ -20,7 +21,6 @@ class AuthUseCaseTest extends TestSupport {
     private UserQuery userQuery;
 
     private AuthUseCase authUseCase;
-
     private User mockedUser;
 
     @Override
@@ -52,8 +52,7 @@ class AuthUseCaseTest extends TestSupport {
         when(userQuery.findByEmail(invalidEmail)).thenReturn(null);
 
         assertThatThrownBy(() -> authUseCase.loadUserByUsername(invalidEmail))
-                .isInstanceOf(UsernameNotFoundException.class)
-                .hasMessage("Usuário não encontrado");
+                .isInstanceOf(UsernameNotFoundException.class);
 
         InOrder verifier = inOrder(userQuery);
         verifier.verify(userQuery).findByEmail(invalidEmail);

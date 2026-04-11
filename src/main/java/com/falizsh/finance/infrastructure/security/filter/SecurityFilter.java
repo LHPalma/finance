@@ -1,7 +1,7 @@
 package com.falizsh.finance.infrastructure.security.filter;
 
-import com.falizsh.finance.identity.auth.action.GetSubjectAction;
-import com.falizsh.finance.identity.auth.usecase.AuthUseCase;
+import com.falizsh.finance.identity.auth.application.port.TokenDecoder;
+import com.falizsh.finance.identity.auth.application.usecase.AuthUseCase;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,7 +19,7 @@ import java.io.IOException;
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
 
-    private final GetSubjectAction getSubject;
+    private final TokenDecoder getSubject;
 
     private final AuthUseCase authUseCase;
 
