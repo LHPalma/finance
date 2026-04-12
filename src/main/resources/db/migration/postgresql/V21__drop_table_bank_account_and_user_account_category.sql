@@ -1,0 +1,2 @@
+DROP TABLE IF EXISTS bank_account CASCADE;
+DROP TABLE IF EXISTS user_account_category CASCADE;
