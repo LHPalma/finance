@@ -1,8 +1,11 @@
 package com.falizsh.finance.portfolio.bankAccount.infrastructure.web.type;
 
 import com.falizsh.finance.portfolio.bankAccount.application.dto.type.response.SystemAccountTypeResponse;
+import com.falizsh.finance.portfolio.bankAccount.application.query.type.FetchAllActiveSystemAccountTypesHandler;
+import com.falizsh.finance.portfolio.bankAccount.application.query.type.FetchAllActiveSystemAccountTypesQuery;
+import com.falizsh.finance.portfolio.bankAccount.application.query.type.FetchSystemAccountTypeByIdHandler;
+import com.falizsh.finance.portfolio.bankAccount.application.query.type.FetchSystemAccountTypeByIdQuery;
 import com.falizsh.finance.portfolio.bankAccount.domain.model.type.SystemAccountType;
-import com.falizsh.finance.portfolio.bankAccount.application.query.type.SystemAccountTypeQuery;
 import com.falizsh.finance.portfolio.bankAccount.infrastructure.web.type.assembler.SystemAccountTypeAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
@@ -23,28 +26,27 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequestMapping("/bank-account/system-account-type")
 public class SystemAccountTypeController {
 
-    private final SystemAccountTypeQuery query;
+    private final FetchSystemAccountTypeByIdHandler fetchByIdHandler;
+    private final FetchAllActiveSystemAccountTypesHandler fetchAllHandler;
     private final SystemAccountTypeAssembler assembler;
 
     @GetMapping("/id/{id}")
     public ResponseEntity<EntityModel<SystemAccountTypeResponse>> getById(@PathVariable long id) {
-        SystemAccountType type = query.findById(id);
-
-        return ResponseEntity.ok(
-                assembler.toModel(type)
-        );
+        SystemAccountType type = fetchByIdHandler.handle(new FetchSystemAccountTypeByIdQuery(id));
+        return ResponseEntity.ok(assembler.toModel(type));
     }
 
     @GetMapping
     public CollectionModel<EntityModel<SystemAccountTypeResponse>> getAllSystemAccountTypes() {
+        List<SystemAccountType> types = fetchAllHandler.handle(new FetchAllActiveSystemAccountTypesQuery());
 
-        List<SystemAccountType> types = query.findAllActiveSystemAccountTypes();
+        CollectionModel<EntityModel<SystemAccountTypeResponse>> collectionModel =
+                assembler.toCollectionModel(types);
 
-        CollectionModel<EntityModel<SystemAccountTypeResponse>> collectionModel = assembler.toCollectionModel(types);
-
-        collectionModel.add(linkTo(methodOn(SystemAccountTypeController.class).getAllSystemAccountTypes()).withSelfRel());
+        collectionModel.add(
+                linkTo(methodOn(SystemAccountTypeController.class).getAllSystemAccountTypes()).withSelfRel()
+        );
 
         return collectionModel;
     }
-
 }

@@ -1,10 +1,10 @@
 package com.falizsh.finance.portfolio.bankAccount.web;
 
+import com.falizsh.finance.identity.users.user.model.User;
 import com.falizsh.finance.portfolio.bankAccount.application.dto.account.request.CreateBankAccountRequest;
 import com.falizsh.finance.portfolio.bankAccount.application.dto.account.response.BankAccountResponse;
 import com.falizsh.finance.portfolio.bankAccount.infrastructure.web.account.BankAccountController;
-import com.falizsh.finance.portfolio.bankAccount.application.mapper.account.BankAccountMapper;
-import com.falizsh.finance.portfolio.bankAccount.domain.model.account.BankAccount;
+import com.falizsh.finance.portfolio.bankAccount.domain.model.account.BankAccountDetail;
 import com.falizsh.finance.portfolio.bankAccount.domain.model.type.SystemAccountType;
 import com.falizsh.finance.portfolio.bankAccount.application.usecase.CreateBankAccountUseCase;
 import com.falizsh.finance.portfolio.bankAccount.infrastructure.web.account.assembler.BankAccountAssembler;
@@ -24,7 +24,6 @@ import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 class BankAccountControllerTest extends TestSupport {
@@ -33,63 +32,40 @@ class BankAccountControllerTest extends TestSupport {
     private CreateBankAccountUseCase createUseCase;
 
     @Mock
-    private BankAccountMapper bankAccountMapper;
+    private BankAccountAssembler assembler;
 
-    @Mock
-    private BankAccountAssembler bankAccountAssembler;
-
-    private BankAccountController bankAccountController;
+    private BankAccountController controller;
 
     @Override
     public void init() {
-        bankAccountController = new BankAccountController(createUseCase, bankAccountMapper, bankAccountAssembler);
+        controller = new BankAccountController(createUseCase, assembler);
     }
 
     @Test
-    @DisplayName("Should delegate request to use case and return created response")
-    void shouldDelegateRequestToUseCaseAndReturnCreatedResponse() {
+    @DisplayName("Should delegate to use case, pass domain to assembler and return 201")
+    void shouldDelegateToUseCasePassDomainToAssemblerAndReturn201() {
         CreateBankAccountRequest request = new CreateBankAccountRequest(
-                1L,
-                "Conta Corrente",
-                "Conta principal",
-                2L,
-                3L,
-                BigDecimal.valueOf(150.00),
-                BigDecimal.valueOf(500.00),
-                "USD"
+                1L, "Conta Corrente", "Conta principal", 2L, 3L,
+                BigDecimal.valueOf(150.00), BigDecimal.valueOf(500.00), "USD"
         );
 
-        BankAccount account = BankAccount.create(
-                com.falizsh.finance.identity.users.user.model.User.builder()
-                        .id(1L)
-                        .name("Luiz")
-                        .email("luiz@test.com")
-                        .password("secret")
-                        .build(),
-                "Conta Corrente",
-                "Conta principal",
-                SystemAccountType.builder().id(2L).name("Checking").build(),
-                null,
-                BigDecimal.valueOf(500.00),
-                "USD"
+        BankAccountDetail account = BankAccountDetail.create(
+                User.builder().id(1L).name("Luiz").email("luiz@test.com").password("secret").build(),
+                "Conta Corrente", "Conta principal",
+                SystemAccountType.builder().id(2L).name("Checking").allowsOverdraft(true).build(),
+                BigDecimal.valueOf(150.00), BigDecimal.valueOf(500.00), "USD"
         );
 
-        BankAccountResponse expectedResponse = BankAccountResponse.builder()
-                .id(10L)
-                .name("Conta Corrente")
-                .description("Conta principal")
-                .type("Checking")
-                .category("Uso diario")
-                .overdraftLimit(BigDecimal.valueOf(500.00))
-                .balance(BigDecimal.ZERO)
-                .currency("USD")
-                .build();
-
-        EntityModel<BankAccountResponse> expectedModel = EntityModel.of(expectedResponse);
+        EntityModel<BankAccountResponse> expectedModel = EntityModel.of(
+                BankAccountResponse.of()
+                        .id(10L).name("Conta Corrente").description("Conta principal")
+                        .type("Checking").overdraftLimit(BigDecimal.valueOf(500.00))
+                        .balance(BigDecimal.ZERO).currency("USD")
+                        .build()
+        );
 
         when(createUseCase.execute(request)).thenReturn(account);
-        when(bankAccountMapper.toResponse(account)).thenReturn(expectedResponse);
-        when(bankAccountAssembler.toModel(expectedResponse)).thenReturn(expectedModel);
+        when(assembler.toModel(account)).thenReturn(expectedModel);
 
         RequestContextHolder.setRequestAttributes(
                 new ServletRequestAttributes(new MockHttpServletRequest("POST", "/bank-accounts"))
@@ -97,7 +73,7 @@ class BankAccountControllerTest extends TestSupport {
 
         ResponseEntity<EntityModel<BankAccountResponse>> response;
         try {
-            response = bankAccountController.create(request);
+            response = controller.create(request);
         } finally {
             RequestContextHolder.resetRequestAttributes();
         }
@@ -105,10 +81,9 @@ class BankAccountControllerTest extends TestSupport {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(response.getBody()).isEqualTo(expectedModel);
 
-        InOrder verifier = inOrder(createUseCase, bankAccountMapper, bankAccountAssembler);
+        InOrder verifier = inOrder(createUseCase, assembler);
         verifier.verify(createUseCase).execute(request);
-        verifier.verify(bankAccountMapper).toResponse(account);
-        verifier.verify(bankAccountAssembler).toModel(expectedResponse);
+        verifier.verify(assembler).toModel(account);
         verifier.verifyNoMoreInteractions();
     }
 
@@ -116,24 +91,16 @@ class BankAccountControllerTest extends TestSupport {
     @DisplayName("Should propagate exception raised by use case")
     void shouldPropagateExceptionRaisedByUseCase() {
         CreateBankAccountRequest request = new CreateBankAccountRequest(
-                1L,
-                "Conta Corrente",
-                null,
-                2L,
-                null,
-                null,
-                BigDecimal.TEN,
-                "BRL"
+                1L, "Conta Corrente", null, 2L, null, null, BigDecimal.TEN, "BRL"
         );
 
         IllegalArgumentException expected = new IllegalArgumentException("invalid bank account");
-
         when(createUseCase.execute(request)).thenThrow(expected);
 
-        assertThatThrownBy(() -> bankAccountController.create(request))
+        assertThatThrownBy(() -> controller.create(request))
                 .isSameAs(expected);
 
-        InOrder verifier = inOrder(createUseCase, bankAccountMapper, bankAccountAssembler);
+        InOrder verifier = inOrder(createUseCase, assembler);
         verifier.verify(createUseCase).execute(request);
         verifier.verifyNoMoreInteractions();
     }

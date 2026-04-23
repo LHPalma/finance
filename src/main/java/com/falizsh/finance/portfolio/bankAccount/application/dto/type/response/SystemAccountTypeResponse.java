@@ -15,4 +15,7 @@ public class SystemAccountTypeResponse {
     private boolean allowsOverdraft;
     private boolean isActive;
 
+    public static SystemAccountTypeResponseBuilder of() {
+        return builder();
+    }
 }

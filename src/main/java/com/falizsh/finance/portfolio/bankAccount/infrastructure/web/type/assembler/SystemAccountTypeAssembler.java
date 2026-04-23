@@ -19,7 +19,7 @@ public class SystemAccountTypeAssembler implements RepresentationModelAssembler<
             return null;
         }
 
-        SystemAccountTypeResponse response = SystemAccountTypeResponse.builder()
+        SystemAccountTypeResponse response = SystemAccountTypeResponse.of()
                 .id(entity.getId())
                 .name(entity.getName())
                 .description(entity.getDescription())

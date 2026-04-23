@@ -1,5 +1,8 @@
 package com.falizsh.finance.portfolio.bankAccount.application.command.account;
 
+import com.falizsh.finance.infrastructure.cqrs.Command;
+import com.falizsh.finance.portfolio.bankAccount.domain.model.account.BankAccountDetail;
+
 import java.math.BigDecimal;
 
 public record CreateBankAccountCommand(
@@ -8,8 +11,7 @@ public record CreateBankAccountCommand(
         String description,
         Long systemTypeId,
         Long userCategoryId,
-        BigDecimal initialBalance, // TODO: implementar via transaction futuramente
+        BigDecimal initialBalance,
         BigDecimal overdraftLimit,
         String currency
-) {
-}
+) implements Command<BankAccountDetail> {}

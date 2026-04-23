@@ -1,9 +1,9 @@
 package com.falizsh.finance.portfolio.bankAccount.application.usecase;
 
-import com.falizsh.finance.portfolio.bankAccount.application.dto.account.request.CreateBankAccountRequest;
-import com.falizsh.finance.portfolio.bankAccount.domain.model.account.BankAccount;
 import com.falizsh.finance.portfolio.bankAccount.application.command.account.CreateBankAccountCommand;
-import com.falizsh.finance.portfolio.bankAccount.application.command.account.CreateBankAccountHandler;
+import com.falizsh.finance.portfolio.bankAccount.application.command.account.CreateBankAccountDetailHandler;
+import com.falizsh.finance.portfolio.bankAccount.application.dto.account.request.CreateBankAccountRequest;
+import com.falizsh.finance.portfolio.bankAccount.domain.model.account.BankAccountDetail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,17 +11,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class CreateBankAccount implements CreateBankAccountUseCase {
 
-    private final CreateBankAccountHandler handler;
+    private final CreateBankAccountDetailHandler handler;
 
-    public BankAccount execute(CreateBankAccountRequest request) {
-
+    @Override
+    public BankAccountDetail execute(CreateBankAccountRequest request) {
         var command = new CreateBankAccountCommand(
                 request.userId(),
                 request.name(),
                 request.description(),
                 request.systemTypeId(),
                 request.userCategoryId(),
-                request.initialBalance(), // mantido mas ignorado
+                request.initialBalance(),
                 request.overdraftLimit(),
                 request.currency()
         );

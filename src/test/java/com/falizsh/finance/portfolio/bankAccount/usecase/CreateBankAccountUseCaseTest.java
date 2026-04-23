@@ -3,11 +3,10 @@ package com.falizsh.finance.portfolio.bankAccount.usecase;
 import com.falizsh.finance.identity.users.user.model.User;
 import com.falizsh.finance.portfolio.bankAccount.application.dto.account.request.CreateBankAccountRequest;
 import com.falizsh.finance.portfolio.bankAccount.application.usecase.CreateBankAccount;
-import com.falizsh.finance.portfolio.bankAccount.domain.model.account.BankAccount;
+import com.falizsh.finance.portfolio.bankAccount.domain.model.account.BankAccountDetail;
 import com.falizsh.finance.portfolio.bankAccount.application.command.account.CreateBankAccountCommand;
-import com.falizsh.finance.portfolio.bankAccount.application.command.account.CreateBankAccountHandler;
+import com.falizsh.finance.portfolio.bankAccount.application.command.account.CreateBankAccountDetailHandler;
 import com.falizsh.finance.portfolio.bankAccount.domain.model.type.SystemAccountType;
-import com.falizsh.finance.portfolio.bankAccount.domain.model.category.UserAccountCategory;
 import com.falizsh.finance.support.TestSupport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,7 +23,7 @@ import static org.mockito.Mockito.when;
 class CreateBankAccountUseCaseTest extends TestSupport {
 
     @Mock
-    private CreateBankAccountHandler handler;
+    private CreateBankAccountDetailHandler handler;
 
     private CreateBankAccount useCase;
 
@@ -60,25 +59,19 @@ class CreateBankAccountUseCaseTest extends TestSupport {
                 .allowsOverdraft(true)
                 .build();
 
-        UserAccountCategory category = UserAccountCategory.builder()
-                .id(3L)
-                .user(user)
-                .name("Uso diario")
-                .build();
-
-        BankAccount expectedAccount = BankAccount.create(
+        BankAccountDetail expectedAccount = BankAccountDetail.create(
                 user,
                 "Conta Principal",
                 "Minha conta principal",
                 type,
-                category,
+                BigDecimal.valueOf(1000.00),
                 BigDecimal.valueOf(500.00),
                 "USD"
         );
 
         when(handler.handle(any(CreateBankAccountCommand.class))).thenReturn(expectedAccount);
 
-        BankAccount result = useCase.execute(request);
+        BankAccountDetail result = useCase.execute(request);
 
         ArgumentCaptor<CreateBankAccountCommand> commandCaptor = ArgumentCaptor.forClass(CreateBankAccountCommand.class);
         verify(handler).handle(commandCaptor.capture());
@@ -122,7 +115,7 @@ class CreateBankAccountUseCaseTest extends TestSupport {
                 .name("Savings")
                 .build();
 
-        BankAccount expectedAccount = BankAccount.create(
+        BankAccountDetail expectedAccount = BankAccountDetail.create(
                 user,
                 "Conta Simples",
                 null,
@@ -134,7 +127,7 @@ class CreateBankAccountUseCaseTest extends TestSupport {
 
         when(handler.handle(any(CreateBankAccountCommand.class))).thenReturn(expectedAccount);
 
-        BankAccount result = useCase.execute(request);
+        BankAccountDetail result = useCase.execute(request);
 
         ArgumentCaptor<CreateBankAccountCommand> commandCaptor = ArgumentCaptor.forClass(CreateBankAccountCommand.class);
         verify(handler).handle(commandCaptor.capture());

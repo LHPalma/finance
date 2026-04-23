@@ -1,10 +1,9 @@
 package com.falizsh.finance.portfolio.bankAccount.infrastructure.web.account;
 
-import com.falizsh.finance.portfolio.bankAccount.application.dto.account.request.CreateBankAccountRequest;
 import com.falizsh.finance.portfolio.bankAccount.application.dto.account.response.BankAccountResponse;
-import com.falizsh.finance.portfolio.bankAccount.application.mapper.account.BankAccountMapper;
-import com.falizsh.finance.portfolio.bankAccount.domain.model.account.BankAccount;
 import com.falizsh.finance.portfolio.bankAccount.application.usecase.CreateBankAccountUseCase;
+import com.falizsh.finance.portfolio.bankAccount.application.dto.account.request.CreateBankAccountRequest;
+import com.falizsh.finance.portfolio.bankAccount.domain.model.account.BankAccountDetail;
 import com.falizsh.finance.portfolio.bankAccount.infrastructure.web.account.assembler.BankAccountAssembler;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,17 +23,18 @@ import java.net.URI;
 public class BankAccountController {
 
     private final CreateBankAccountUseCase createUseCase;
-    private final BankAccountMapper bankAccountMapper;
-    private final BankAccountAssembler bankAccountAssembler;
+    private final BankAccountAssembler assembler;
 
     @PostMapping
     public ResponseEntity<EntityModel<BankAccountResponse>> create(
             @RequestBody @Valid CreateBankAccountRequest request
     ) {
-        BankAccount account = createUseCase.execute(request);
-        BankAccountResponse response = bankAccountMapper.toResponse(account);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/id/{id}").buildAndExpand(account.getId()).toUri();
+        BankAccountDetail account = createUseCase.execute(request);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(account.getId())
+                .toUri();
 
-        return ResponseEntity.created(uri).body(bankAccountAssembler.toModel(response));
+        return ResponseEntity.created(uri).body(assembler.toModel(account));
     }
 }

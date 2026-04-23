@@ -10,9 +10,11 @@ public record BankAccountResponse(
         String name,
         String description,
         String type,
-        String category,
         BigDecimal overdraftLimit,
         BigDecimal balance,
         String currency
 ) {
+    public static BankAccountResponseBuilder of() {
+        return builder();
+    }
 }
