@@ -37,3 +37,6 @@ build/
 ### Databases ###
 postgres-data/
 redis-data/
+
+### Claudio Códigos ###
+.claude/
